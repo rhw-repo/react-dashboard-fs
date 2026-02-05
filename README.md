@@ -72,7 +72,3 @@ npm run dev
 
 [![My Skills](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/ruth-westnidge/)
 [![My Skills](https://skillicons.dev/icons?i=github)](https://github.com/rhw-repo)
-
-```
-
-```
