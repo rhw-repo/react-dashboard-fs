@@ -4,11 +4,11 @@ Dashboard to handle display, Create, Read Update for a large data set for a Fina
 
 ### Technologies
 
-- React
-- TypeScript
-- Tanstack Query
-- Tailwind CSS
-- Tailwind Variants
+- `React`
+- `TypeScript`
+- `Tanstack Query`
+- `Tailwind CSS`
+- `Tailwind Variants`
 
 ---
 
@@ -24,11 +24,11 @@ Dashboard to handle display, Create, Read Update for a large data set for a Fina
 - faster table generation whilst retaining control over all it's code, fully modifiable
 - potentially explore other components for faster templating
 
-2. Tailwind with Tailwind Variants for quicker uniform & polished UI styling
+2. `Tailwind CSS` with `Tailwind Variants` for quicker uniform & polished UI styling
 
 - Blend with modular vanilla CSS if required to retain full control over the design
 
-3. Implement Tanstack Query (React Query)
+3. Implement `Tanstack Query` (React Query)
 
 - automate data fetching, caching and error / loading state
 
