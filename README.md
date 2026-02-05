@@ -1,6 +1,7 @@
 ### React Dashboard
 
-Dashboard to handle display, Create, Read Update for a large data set for a Financial Consultancy.
+Work In Progress:
+Building a dashboard to handle display, Create, Read Update for a large data set for a Financial Consultancy.
 
 ### Technologies
 
@@ -31,6 +32,15 @@ Dashboard to handle display, Create, Read Update for a large data set for a Fina
 3. Implement `Tanstack Query` (React Query)
 
 - automate data fetching, caching and error / loading state
+
+---
+
+### Progress
+
+Installation & config:
+
+- Vite, React and TypeScript
+- libraries, frameworks and component-library toolkit (shadcn)
 
 ---
 
