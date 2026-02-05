@@ -10,6 +10,7 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 - `Tanstack Query`
 - `Tailwind CSS`
 - `Tailwind Variants`
+- `shadcn/ui`
 
 ---
 
@@ -20,7 +21,7 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 
 ### Solutions:
 
-1. Explore `shadcn` Task Dashboard
+1. Explore `shadcn/ui` Task Dashboard
 
 - faster table generation whilst retaining control over all it's code, fully modifiable
 - potentially explore other components for faster templating
