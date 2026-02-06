@@ -1,4 +1,4 @@
-"use client";
+// "use client"; - redundant not using Next.js
 
 import { type ColumnDef } from "@tanstack/react-table";
 
