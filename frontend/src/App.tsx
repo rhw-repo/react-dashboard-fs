@@ -1,4 +1,3 @@
-import { Table } from "lucide-react";
 import { Button } from "./components/ui/button";
 
 function App() {
@@ -6,7 +5,6 @@ function App() {
     <>
       <main className="bg-cyan-950 w-full h-screen flex justify-center items-center">
         <section className="flex justify-center items-center gap-8">
-          <Table />
           <Button>shadcn Button</Button>
         </section>
       </main>
