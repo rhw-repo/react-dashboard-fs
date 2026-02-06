@@ -25,14 +25,6 @@ export const person: Person[] = [
     email: "example@gmail.com",
   },
   {
-    id: "489e1d42",
-    name: "Jane Doe",
-    address: "24 Example Street, Example Town, Example Region, Example Country",
-    postcode: "35300",
-    status: "contacted",
-    email: "jane.doe@example.com",
-  },
-  {
     id: "7f3a9c10",
     name: "John Smith",
     address: "12 Sample Avenue, Sample City, Sample State, Sample Country",
