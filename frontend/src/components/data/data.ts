@@ -21,7 +21,7 @@ export const person: Person[] = [
     name: "Jane Doe",
     address: "24 Example Street, Example Town, Example Region, Example Country",
     postcode: "35300",
-    status: "contacted",
+    status: "uncontacted",
     email: "example@gmail.com",
   },
   {
@@ -45,7 +45,7 @@ export const person: Person[] = [
     name: "Alice Johnson",
     address: "5 Main Road, Smallville, Midlands, Wonderland",
     postcode: "12345",
-    status: "contacted",
+    status: "uncontacted",
     email: "alice.johnson@example.net",
   },
   {
@@ -77,7 +77,7 @@ export const person: Person[] = [
     name: "Eve Davis",
     address: "77 Forest Path, Woodsville, Green County, Treeland",
     postcode: "66666",
-    status: "contacted",
+    status: "uncontacted",
     email: "eve.davis@example.com",
   },
   {
@@ -93,7 +93,7 @@ export const person: Person[] = [
     name: "Grace Wilson",
     address: "9 Sunset Boulevard, Westside, Sunset State, Duskland",
     postcode: "88888",
-    status: "contacted",
+    status: "uncontacted",
     email: "grace.wilson@example.net",
   },
   {
@@ -117,7 +117,7 @@ export const person: Person[] = [
     name: "Jack Anderson",
     address: "18 Maple Avenue, Leaf Town, Oak Region, Arboria",
     postcode: "33333",
-    status: "contacted",
+    status: "uncontacted",
     email: "jack.anderson@example.net",
   },
   {
@@ -133,7 +133,7 @@ export const person: Person[] = [
     name: "Leo Jackson",
     address: "100 Birch Road, Spruceton, Needle State, Forestia",
     postcode: "10101",
-    status: "contacted",
+    status: "uncontacted",
     email: "leo.jackson@example.org",
   },
   {
@@ -149,7 +149,7 @@ export const person: Person[] = [
     name: "Nate Harris",
     address: "150 Oak Lane, Barksville, Woodland County, Treeburg",
     postcode: "30303",
-    status: "contacted",
+    status: "uncontacted",
     email: "nate.harris@example.com",
   },
   {
@@ -165,15 +165,15 @@ export const person: Person[] = [
     name: "Quinn Garcia",
     address: "410 Aspen Alley, Snowville, Winter Region, Coldland",
     postcode: "50505",
-    status: "contacted",
+    status: "uncontacted",
     email: "quinn.garcia@example.com",
   },
   {
     id: "abcd1234",
-    name: "Quinn Garcia",
+    name: "Pete Thompson",
     address: "520 Bamboo Street, Tropicville, Warm County, Jungleland",
     postcode: "60606",
-    status: "contacted",
+    status: "uncontacted",
     email: "pete.thompson@example.net",
   },
   {
