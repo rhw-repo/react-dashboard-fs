@@ -9,7 +9,6 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 - `TypeScript`
 - `Tanstack Query`
 - `Tailwind CSS`
-- `Tailwind Variants`
 - `shadcn/ui`
 
 ---
@@ -26,7 +25,7 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 - faster table generation whilst retaining control over all it's code, fully modifiable
 - potentially explore other components for faster templating
 
-2. `Tailwind CSS` with `Tailwind Variants` for quicker uniform & polished UI styling
+2. `Tailwind CSS` for quicker uniform & polished UI styling
 
 - Blend with modular vanilla CSS if required to retain full control over the design
 
