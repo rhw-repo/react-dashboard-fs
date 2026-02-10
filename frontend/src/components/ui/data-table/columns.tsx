@@ -22,7 +22,6 @@ type Person = {
   postcode: string;
   status: "uncontacted" | "contacted" | "success" | "failed";
   email: string;
-  date: string;
 };
 
 // Temp: no db at this time
