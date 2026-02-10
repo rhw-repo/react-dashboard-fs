@@ -1,11 +1,14 @@
 //"use client";
+import * as React from "react";
 import { Button } from "../button";
 
 import {
   type ColumnDef,
+  type SortingState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -28,6 +31,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   // Memoize inputs prevents unnecessary recalculations and re-renders in the table
   const memoColumns = useMemo(() => columns, [columns]);
   const memoData = useMemo(() => data, [data]);
@@ -37,6 +41,11 @@ export function DataTable<TData, TValue>({
     columns: memoColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   });
 
   // Stable between renders

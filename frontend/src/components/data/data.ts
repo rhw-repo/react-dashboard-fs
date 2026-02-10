@@ -5,6 +5,7 @@ type Person = {
   postcode: string;
   status: "uncontacted" | "contacted" | "success" | "failed";
   email: string;
+  date?: string;
 };
 
 export const person: Person[] = [
