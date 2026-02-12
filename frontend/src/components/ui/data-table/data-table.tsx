@@ -1,4 +1,4 @@
-//"use client";
+"use no memo";
 import * as React from "react";
 import { Button } from "../button";
 
@@ -31,9 +31,6 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  // Memoize inputs prevents unnecessary recalculations and re-renders in the table
-  // const memoColumns = useMemo(() => columns, [columns]);
-  //const memoData = useMemo(() => data, [data]);
 
   const table = useReactTable<TData>({
     columns,
