@@ -22,4 +22,8 @@ export default defineConfig([
       },
     },
   },
+{
+  files: ['src/components/ui/data-table/**/*.tsx', 'src/components/ui/data-table/*.tsx'],
+  rules: { 'react-hooks/incompatible-library': 'off' },
+}
 ])
