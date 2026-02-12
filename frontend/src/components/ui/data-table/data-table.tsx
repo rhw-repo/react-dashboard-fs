@@ -20,7 +20,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useMemo } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,19 +32,19 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   // Memoize inputs prevents unnecessary recalculations and re-renders in the table
-  const memoColumns = useMemo(() => columns, [columns]);
-  const memoData = useMemo(() => data, [data]);
+  // const memoColumns = useMemo(() => columns, [columns]);
+  //const memoData = useMemo(() => data, [data]);
 
-  const table = useReactTable({
-    data: memoData,
-    columns: memoColumns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
+  const table = useReactTable<TData>({
+    columns,
+    data,
     state: {
       sorting,
     },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   // Stable between renders
