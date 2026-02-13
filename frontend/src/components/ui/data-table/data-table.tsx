@@ -1,4 +1,10 @@
 "use no memo";
+// see https://react.dev/reference/react-compiler/directives/use-no-memo
+/* Disable optimisation prevent memoization breaking table functionality:
+"TanStack table returns a stable reference for table, so that means that
+we cannot get the freshest updates during renders, unless we opt out of memoization."
+https://github.com/facebook/react/issues/33057
+*/
 import * as React from "react";
 import { Button } from "../button";
 
