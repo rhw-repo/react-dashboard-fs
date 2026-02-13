@@ -81,11 +81,12 @@ export function DataTable<TData extends { id: string }, TValue>({
           <TableHeader>
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {/* ✓ master checkbox */}
+                {/* master checkbox */}
                 <TableHead className="w-8">
                   <Checkbox
                     checked={allSelected}
                     onCheckedChange={handleSelectAll}
+                    className="rounded-sm"
                   />
                 </TableHead>
                 {headerGroup.headers.map((header) => {
@@ -115,12 +116,14 @@ export function DataTable<TData extends { id: string }, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={isSel ? "selected" : undefined}
+                    className="data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50"
                   >
                     {/* per-row checkbox */}
                     <TableCell>
                       <Checkbox
                         checked={isSel}
                         onCheckedChange={(v) => handleSelectRow(id, v === true)}
+                        className="rounded-sm"
                       />
                     </TableCell>
                     {row.getVisibleCells().map((cell) => (
