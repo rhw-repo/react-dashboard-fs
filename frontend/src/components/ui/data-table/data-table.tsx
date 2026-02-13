@@ -7,6 +7,7 @@ https://github.com/facebook/react/issues/33057
 */
 import * as React from "react";
 import { Button } from "../button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import {
   type ColumnDef,
@@ -32,22 +33,41 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [selectedRows, setSelectedRows] = React.useState<Set<string>>(
+    new Set(),
+  );
+
+  const allSelected = selectedRows.size === data.length && data.length > 0;
+
+  const handleSelectAll = (checked: boolean) => {
+    setSelectedRows(checked ? new Set(data.map((row) => row.id)) : new Set());
+  };
+
+  const handleSelectRow = (id: string, checked: boolean) => {
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (checked) {
+        next.add(id);
+      } else {
+        next.delete(id);
+      }
+      return next;
+    });
+  };
 
   const table = useReactTable<TData>({
     columns,
     data,
-    state: {
-      sorting,
-    },
+    state: { sorting },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   // Stable between renders
@@ -61,6 +81,13 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id}>
+                {/* ✓ master checkbox */}
+                <TableHead className="w-8">
+                  <Checkbox
+                    checked={allSelected}
+                    onCheckedChange={handleSelectAll}
+                  />
+                </TableHead>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
@@ -80,29 +107,40 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {rows.length ? (
-              rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="border-x border-neutral-50"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+            {rows.length > 0 ? (
+              rows.map((row) => {
+                const id = row.original.id;
+                const isSel = selectedRows.has(id);
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={isSel ? "selected" : undefined}
+                  >
+                    {/* per-row checkbox */}
+                    <TableCell>
+                      <Checkbox
+                        checked={isSel}
+                        onCheckedChange={(v) => handleSelectRow(id, v === true)}
+                      />
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className="border-x border-neutral-50"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={columns.length + 1}
                   className="h-24 text-center"
                 >
                   No results.
