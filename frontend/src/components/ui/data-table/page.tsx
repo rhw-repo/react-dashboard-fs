@@ -1,6 +1,6 @@
 "use no memo";
 import { columns } from "./columns";
-import { person } from "@/components/data/data";
+import { person } from "../../../data/data";
 import { DataTable } from "./data-table";
 
 export default function DemoPage() {
