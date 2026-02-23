@@ -122,7 +122,6 @@ export function DataTable<TData extends { id: string }, TValue>({
                     <TableCell>
                       <Checkbox
                         checked={isSelected}
-                        //  onCheckedChange={(v) => handleSelectRow(id, v === true)}
                         onCheckedChange={(checked) =>
                           handleSelectRow(id, checked === true)
                         }

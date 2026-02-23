@@ -3,6 +3,6 @@ export type Person = {
   name: string;
   address: string;
   postcode: string;
-  status: "uncontacted" | "contacted" | "success" | "failed";
+  status: "uncontacted" | "contacted" | "in progress" | "completed";
   email: string;
 };

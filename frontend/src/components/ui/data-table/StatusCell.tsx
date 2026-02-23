@@ -16,17 +16,17 @@ import type { Person } from "../../../types/types";
 const STATUS_OPTIONS: Person["status"][] = [
   "uncontacted",
   "contacted",
-  "success",
-  "failed",
+  "in progress",
+  "completed",
 ];
 
 function statusPillClass(status: Person["status"]) {
   switch (status) {
     case "contacted":
       return "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-600/20 text-emerald-400";
-    case "success":
+    case "in progress":
       return "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-600/20 text-green-400";
-    case "failed":
+    case "completed":
       return "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-600/20 text-red-400";
     case "uncontacted":
     default:
@@ -49,11 +49,11 @@ export function StatusMenu({ name }: { name: string }) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="min-w-35">
-        <DropdownMenuLabel>Set status</DropdownMenuLabel>
+        <DropdownMenuLabel>Set Status:</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {STATUS_OPTIONS.map((opt) => (
-          <DropdownMenuItem key={opt} className="capitalize">
-            {opt}
+        {STATUS_OPTIONS.map((option) => (
+          <DropdownMenuItem key={option} className="capitalize">
+            {option}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
