@@ -111,18 +111,21 @@ export function DataTable<TData extends { id: string }, TValue>({
             {rows.length > 0 ? (
               rows.map((row) => {
                 const id = row.original.id;
-                const isSel = selectedRows.has(id);
+                const isSelected = selectedRows.has(id);
                 return (
                   <TableRow
                     key={row.id}
-                    data-state={isSel ? "selected" : undefined}
+                    data-state={isSelected ? "selected" : undefined}
                     className="data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50"
                   >
                     {/* per-row checkbox */}
                     <TableCell>
                       <Checkbox
-                        checked={isSel}
-                        onCheckedChange={(v) => handleSelectRow(id, v === true)}
+                        checked={isSelected}
+                        //  onCheckedChange={(v) => handleSelectRow(id, v === true)}
+                        onCheckedChange={(checked) =>
+                          handleSelectRow(id, checked === true)
+                        }
                         className="rounded-sm"
                       />
                     </TableCell>
