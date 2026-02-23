@@ -1,14 +1,14 @@
-"use no memo";
+'use no memo';
 // see https://react.dev/reference/react-compiler/directives/use-no-memo
 /* Disable optimisation prevent memoization breaking table functionality:
 "TanStack table returns a stable reference for table, so that means that
 we cannot get the freshest updates during renders, unless we opt out of memoization."
 https://github.com/facebook/react/issues/33057
 */
-import * as React from "react";
-import type { CheckedState } from "@radix-ui/react-checkbox";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import * as React from 'react';
+import type { CheckedState } from '@radix-ui/react-checkbox';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
 
 import {
   type ColumnDef,
@@ -18,30 +18,18 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData extends { id: string }, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends { id: string }, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [selectedRows, setSelectedRows] = React.useState<Set<string>>(
-    () => new Set(),
-  );
+  const [selectedRows, setSelectedRows] = React.useState<Set<string>>(() => new Set());
 
   const table = useReactTable<TData>({
     columns,
@@ -57,14 +45,11 @@ export function DataTable<TData extends { id: string }, TValue>({
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
 
-  // View-scoped ids
-  const viewRowIds = React.useMemo(
-    () => rows.map((row) => row.original.id),
-    [rows],
-  );
-  const viewIdSet = React.useMemo(() => new Set(viewRowIds), [viewRowIds]);
+  // Page-scoped ids
+  const pageRowIds = React.useMemo(() => rows.map((row) => row.original.id), [rows]);
+  const pageIdSet = React.useMemo(() => new Set(pageRowIds), [pageRowIds]);
 
-  // Prune selection to current view whenever view changes
+  // Prune selection to current page whenever page changes
   React.useEffect(() => {
     setSelectedRows((prev) => {
       if (prev.size === 0) return prev;
@@ -72,33 +57,34 @@ export function DataTable<TData extends { id: string }, TValue>({
       let changed = false;
       const next = new Set<string>();
       for (const id of prev) {
-        if (viewIdSet.has(id)) next.add(id);
+        if (pageIdSet.has(id)) next.add(id);
         else changed = true;
       }
       return changed ? next : prev;
     });
-  }, [viewIdSet]);
+  }, [pageIdSet]);
 
-  // Compute master checkbox state (tri-state) based on view-scoped selection.
-  const selectedInViewCount = React.useMemo(() => {
+  /* Compute 'select all rows on page' checkbox state 
+  (tri-state) based on page-scoped selection. */
+  const selectedInpageCount = React.useMemo(() => {
     let count = 0;
-    for (const id of selectedRows) if (viewIdSet.has(id)) count++;
+    for (const id of selectedRows) if (pageIdSet.has(id)) count++;
     return count;
-  }, [selectedRows, viewIdSet]);
+  }, [selectedRows, pageIdSet]);
 
-  const viewCount = viewRowIds.length;
+  const pageCount = pageRowIds.length;
 
   const selectAllState: CheckedState =
-    viewCount === 0
+    pageCount === 0
       ? false
-      : selectedInViewCount === 0
+      : selectedInpageCount === 0
         ? false
-        : selectedInViewCount === viewCount
+        : selectedInpageCount === pageCount
           ? true
-          : "indeterminate";
+          : 'indeterminate';
 
   const handleSelectAll = (checked: CheckedState) => {
-    if (checked === "indeterminate") {
+    if (checked === 'indeterminate') {
       return;
     }
 
@@ -106,9 +92,9 @@ export function DataTable<TData extends { id: string }, TValue>({
       const next = new Set(prev);
 
       if (checked === true) {
-        for (const id of viewRowIds) next.add(id);
+        for (const id of pageRowIds) next.add(id);
       } else {
-        for (const id of viewRowIds) next.delete(id);
+        for (const id of pageRowIds) next.delete(id);
       }
 
       return next;
@@ -131,7 +117,7 @@ export function DataTable<TData extends { id: string }, TValue>({
           <TableHeader>
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {/* Select-all checkbox (current view) */}
+                {/* Select-all checkbox (current page) */}
                 <TableHead className="w-8">
                   <Checkbox
                     checked={selectAllState}
@@ -142,16 +128,8 @@ export function DataTable<TData extends { id: string }, TValue>({
                 </TableHead>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead
-                      key={header.id}
-                      className="text-neutral-50 border-x border-neutral-50"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                    <TableHead key={header.id} className="border-x border-neutral-50 text-neutral-50">
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -166,29 +144,21 @@ export function DataTable<TData extends { id: string }, TValue>({
                 return (
                   <TableRow
                     key={row.id}
-                    data-state={isSelected ? "selected" : undefined}
+                    data-state={isSelected ? 'selected' : undefined}
                     className="data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50"
                   >
                     {/* Per-row checkbox */}
                     <TableCell>
                       <Checkbox
                         checked={isSelected}
-                        onCheckedChange={(checked) =>
-                          handleSelectRow(id, checked === true)
-                        }
+                        onCheckedChange={(checked) => handleSelectRow(id, checked === true)}
                         className="rounded-sm"
                         aria-label={`Select row ${id}`}
                       />
                     </TableCell>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className="border-x border-neutral-50"
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
+                      <TableCell key={cell.id} className="border-x border-neutral-50">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -196,10 +166,7 @@ export function DataTable<TData extends { id: string }, TValue>({
               })
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length + 1}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length + 1} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -209,37 +176,18 @@ export function DataTable<TData extends { id: string }, TValue>({
       </div>
       {/* Pagination */}
       <div className="flex items-center justify-center space-x-2 py-4">
-        <Button
-          variant="outline"
-          onClick={() => table.firstPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<<"}
+        <Button variant="outline" onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
+          {'<<'}
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
+        <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
           Previous
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
+        <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
           Next
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.lastPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {" "}
-          {">>"}
+        <Button variant="outline" size="sm" onClick={() => table.lastPage()} disabled={!table.getCanNextPage()}>
+          {' '}
+          {'>>'}
         </Button>
       </div>
     </div>
