@@ -6,8 +6,9 @@ we cannot get the freshest updates during renders, unless we opt out of memoizat
 https://github.com/facebook/react/issues/33057
 */
 import * as React from "react";
-import { Button } from "../button";
+import type { CheckedState } from "@radix-ui/react-checkbox";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
 import {
   type ColumnDef,
@@ -39,26 +40,8 @@ export function DataTable<TData extends { id: string }, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(
-    new Set(),
+    () => new Set(),
   );
-
-  const allSelected = selectedRows.size === data.length && data.length > 0;
-
-  const handleSelectAll = (checked: boolean) => {
-    setSelectedRows(checked ? new Set(data.map((row) => row.id)) : new Set());
-  };
-
-  const handleSelectRow = (id: string, checked: boolean) => {
-    setSelectedRows((prev) => {
-      const next = new Set(prev);
-      if (checked) {
-        next.add(id);
-      } else {
-        next.delete(id);
-      }
-      return next;
-    });
-  };
 
   const table = useReactTable<TData>({
     columns,
@@ -70,9 +53,76 @@ export function DataTable<TData extends { id: string }, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  // Stable between renders
+  // Stable between renders as per Tanstack Table docs
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
+
+  // View-scoped ids
+  const viewRowIds = React.useMemo(
+    () => rows.map((row) => row.original.id),
+    [rows],
+  );
+  const viewIdSet = React.useMemo(() => new Set(viewRowIds), [viewRowIds]);
+
+  // Prune selection to current view whenever view changes
+  React.useEffect(() => {
+    setSelectedRows((prev) => {
+      if (prev.size === 0) return prev;
+
+      let changed = false;
+      const next = new Set<string>();
+      for (const id of prev) {
+        if (viewIdSet.has(id)) next.add(id);
+        else changed = true;
+      }
+      return changed ? next : prev;
+    });
+  }, [viewIdSet]);
+
+  // Compute master checkbox state (tri-state) based on view-scoped selection.
+  const selectedInViewCount = React.useMemo(() => {
+    let count = 0;
+    for (const id of selectedRows) if (viewIdSet.has(id)) count++;
+    return count;
+  }, [selectedRows, viewIdSet]);
+
+  const viewCount = viewRowIds.length;
+
+  const selectAllState: CheckedState =
+    viewCount === 0
+      ? false
+      : selectedInViewCount === 0
+        ? false
+        : selectedInViewCount === viewCount
+          ? true
+          : "indeterminate";
+
+  const handleSelectAll = (checked: CheckedState) => {
+    if (checked === "indeterminate") {
+      return;
+    }
+
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+
+      if (checked === true) {
+        for (const id of viewRowIds) next.add(id);
+      } else {
+        for (const id of viewRowIds) next.delete(id);
+      }
+
+      return next;
+    });
+  };
+
+  const handleSelectRow = (id: string, isChecked: boolean) => {
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (isChecked) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  };
 
   return (
     <div>
@@ -81,12 +131,13 @@ export function DataTable<TData extends { id: string }, TValue>({
           <TableHeader>
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {/* master checkbox */}
+                {/* Select-all checkbox (current view) */}
                 <TableHead className="w-8">
                   <Checkbox
-                    checked={allSelected}
+                    checked={selectAllState}
                     onCheckedChange={handleSelectAll}
                     className="rounded-sm"
+                    aria-label="Select all rows on this page"
                   />
                 </TableHead>
                 {headerGroup.headers.map((header) => {
@@ -118,7 +169,7 @@ export function DataTable<TData extends { id: string }, TValue>({
                     data-state={isSelected ? "selected" : undefined}
                     className="data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50"
                   >
-                    {/* per-row checkbox */}
+                    {/* Per-row checkbox */}
                     <TableCell>
                       <Checkbox
                         checked={isSelected}
@@ -126,6 +177,7 @@ export function DataTable<TData extends { id: string }, TValue>({
                           handleSelectRow(id, checked === true)
                         }
                         className="rounded-sm"
+                        aria-label={`Select row ${id}`}
                       />
                     </TableCell>
                     {row.getVisibleCells().map((cell) => (
