@@ -158,6 +158,8 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                     </TableCell>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id} className="border-x border-neutral-50">
+                        {/* getContext() = "get the render props for this cell at this time",
+                        memory peg = everything this cell needs to know to render itself */}
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
