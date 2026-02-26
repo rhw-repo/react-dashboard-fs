@@ -4,8 +4,12 @@ import { cn } from '@/lib/utils';
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (
-    <div data-slot="table-container" className="relative m-auto w-full overflow-x-auto">
-      <table data-slot="table" className={cn('w-full caption-bottom text-sm', className)} {...props} />
+    <div data-slot="table-container" className="relative w-full overflow-x-auto">
+      <table
+        data-slot="table"
+        className={cn('w-full caption-bottom border-2 border-neutral-50 text-sm', className)}
+        {...props}
+      />
     </div>
   );
 }
@@ -15,7 +19,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
     <thead
       data-slot="table-header"
       // default for mobile is hidden (display none)
-      className={cn('hidden sm:table-header-group [&_tr]:border-b', className)}
+      className={cn('hidden p-4 sm:table-header-group [&_tr]:border-b', className)}
       {...props}
     />
   );
@@ -45,13 +49,12 @@ function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
   );
 }
 
-// sm:hidden md:block lg:block xl:block 2xl:block
 function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
   return (
     <th
       data-slot="table-head"
       className={cn(
-        'h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
+        'h-10 px-4 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:px-4 *:[[role=checkbox]]:translate-y-0.5',
         className,
       )}
       {...props}
@@ -64,7 +67,7 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
     <td
       data-slot="table-cell"
       className={cn(
-        'grid gap-1 p-2 whitespace-normal sm:table-cell sm:align-middle sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
+        'grid gap-1 p-4 whitespace-normal sm:table-cell sm:align-middle sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
         className,
       )}
       {...props}
