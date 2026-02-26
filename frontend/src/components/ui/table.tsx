@@ -19,14 +19,20 @@ function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
     <thead
       data-slot="table-header"
       // default for mobile is hidden (display none)
-      className={cn('hidden p-4 sm:table-header-group [&_tr]:border-b', className)}
+      className={cn('[&_tr]:border-b', className)}
       {...props}
     />
   );
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
-  return <tbody data-slot="table-body" className={cn('[&_tr:last-child]:border-0', className)} {...props} />;
+  return (
+    <tbody
+      data-slot="table-body"
+      className={cn('[&_tr:first-child]:border-t [&_tr:last-child]:border-0', className)}
+      {...props}
+    />
+  );
 }
 
 function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
@@ -67,7 +73,7 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
     <td
       data-slot="table-cell"
       className={cn(
-        'grid gap-1 p-4 whitespace-normal sm:table-cell sm:align-middle sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
+        'p-4 align-middle sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
         className,
       )}
       {...props}
