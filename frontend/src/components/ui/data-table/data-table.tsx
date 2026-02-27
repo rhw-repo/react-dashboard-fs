@@ -9,6 +9,7 @@ import * as React from 'react';
 import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import styles from './data-table.module.css';
 
 import {
   type ColumnDef,
@@ -103,13 +104,13 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
 
   return (
     <div>
-      <div className="m-4 overflow-hidden rounded-md border">
+      <div className={`m-4 overflow-hidden rounded-md border ${styles['table-responsive']}`}>
         {/* default: stacked grid (mobile). from `sm:` revert to semantic table */}
-        <Table className="block text-neutral-50 sm:table">
+        <Table className="block text-neutral-50">
           {/* column headers: hidden on mobile, visible from `sm:` */}
           <TableHeader className="hidden sm:table-header-group">
             {headerGroups.map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="sm:table-row">
+              <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 sm:table-row">
                 <TableHead className="hidden w-8 sm:table-cell">
                   <Checkbox
                     checked={selectAllState}
