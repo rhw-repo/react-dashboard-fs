@@ -8,8 +8,8 @@
   /* Optional: kill the outer wrapper border so only row-cards show.
      This targets the div that has styles['table-responsive'] */
   .table-responsive {
-    border: 0 !important;
-    border-radius: 0 !important;
+    border: 0;
+    border-radius: 0;
   }
 
   .table-responsive table {
@@ -39,10 +39,10 @@
 
   /* td is NOT a card anymore */
   .table-responsive table tr > td {
-    background: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
   }
 
   /* Key/value layout per field */
