@@ -17,8 +17,8 @@ function App() {
 
   return (
     <>
-      <main className="flex min-h-dvh w-full items-center justify-center bg-stone-950">
-        <section className="flex items-center justify-center gap-8"></section>
+      <main className="flex min-h-dvh w-full justify-center bg-stone-950">
+        <section className="flex items-center gap-8"></section>
         <Profiler id="DemoPage" onRender={onRender}>
           <DemoPage />
         </Profiler>
