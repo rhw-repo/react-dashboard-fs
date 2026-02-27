@@ -1,9 +1,9 @@
 'use no memo';
 // see https://react.dev/reference/react-compiler/directives/use-no-memo
 /* Disable optimisation prevent memoization breaking table functionality:
-"TanStack table returns a stable reference for table, so that means that
-we cannot get the freshest updates during renders, unless we opt out of memoization."
-https://github.com/facebook/react/issues/33057
+   TanStack table returns a stable reference for table, so that means that
+   we cannot get the freshest updates during renders, unless we opt out of memoization.
+   https://github.com/facebook/react/issues/33057
 */
 import * as React from 'react';
 import type { CheckedState } from '@radix-ui/react-checkbox';
@@ -41,15 +41,12 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  // Stable between renders as per Tanstack Table docs
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
 
-  // Page-scoped ids
   const pageRowIds = React.useMemo(() => rows.map((row) => row.original.id), [rows]);
   const pageIdSet = React.useMemo(() => new Set(pageRowIds), [pageRowIds]);
 
-  // Prune selection to current page whenever page changes
   React.useEffect(() => {
     setSelectedRows((prev) => {
       if (prev.size === 0) return prev;
@@ -64,8 +61,6 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
     });
   }, [pageIdSet]);
 
-  /* Compute 'select all rows on page' checkbox state 
-  (tri-state) based on page-scoped selection. */
   const selectedInpageCount = React.useMemo(() => {
     let count = 0;
     for (const id of selectedRows) if (pageIdSet.has(id)) count++;
@@ -84,19 +79,15 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
           : 'indeterminate';
 
   const handleSelectAll = (checked: CheckedState) => {
-    if (checked === 'indeterminate') {
-      return;
-    }
+    if (checked === 'indeterminate') return;
 
     setSelectedRows((prev) => {
       const next = new Set(prev);
-
       if (checked === true) {
         for (const id of pageRowIds) next.add(id);
       } else {
         for (const id of pageRowIds) next.delete(id);
       }
-
       return next;
     });
   };
@@ -112,13 +103,14 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
 
   return (
     <div>
-      <div className="overflow-hidden rounded-md border">
-        <Table className="text-neutral-50">
-          <TableHeader>
+      <div className="m-4 overflow-hidden rounded-md border">
+        {/* default: stacked grid (mobile). from `sm:` revert to semantic table */}
+        <Table className="block text-neutral-50 sm:table">
+          {/* column headers: hidden on mobile, visible from `sm:` */}
+          <TableHeader className="hidden sm:table-header-group">
             {headerGroups.map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {/* Select-all checkbox (current page) */}
-                <TableHead className="w-8">
+              <TableRow key={headerGroup.id} className="sm:table-row">
+                <TableHead className="hidden w-8 sm:table-cell">
                   <Checkbox
                     checked={selectAllState}
                     onCheckedChange={handleSelectAll}
@@ -126,51 +118,63 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                     aria-label="Select all rows on this page"
                   />
                 </TableHead>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id} className="border-x border-neutral-50 text-neutral-50">
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="hidden border-x border-neutral-50 text-neutral-50 sm:table-cell"
+                  >
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
             {rows.length > 0 ? (
               rows.map((row) => {
                 const id = row.original.id;
                 const isSelected = selectedRows.has(id);
+
                 return (
                   <TableRow
                     key={row.id}
                     data-state={isSelected ? 'selected' : undefined}
-                    className="data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50"
+                    className={
+                      'grid grid-cols-1 gap-2 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 sm:table-row sm:p-0'
+                    }
                   >
-                    {/* Per-row checkbox */}
-                    <TableCell>
-                      <Checkbox
-                        checked={isSelected}
-                        onCheckedChange={(checked) => handleSelectRow(id, checked === true)}
-                        className="rounded-sm"
-                        aria-label={`Select row ${id}`}
-                      />
+                    {/* per-row checkbox (always shown) */}
+                    <TableCell className="block sm:table-cell">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={(checked) => handleSelectRow(id, checked === true)}
+                          className="rounded-sm"
+                          aria-label={`Select row ${id}`}
+                        />
+                      </div>
                     </TableCell>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={`border-x border-neutral-50 ${cell.column.id === 'postcode' ? 'text-right tabular-nums' : ''}`}
-                      >
-                        {/* getContext() = "get the render props for this cell at this time",
-                        memory peg = everything this cell needs to know to render itself */}
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
+
+                    {row.getVisibleCells().map((cell) => {
+                      const colId = cell.column.id;
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className={`block sm:table-cell sm:border-x sm:border-neutral-50 ${colId === 'postcode' ? 'text-right tabular-nums' : ''}`}
+                        >
+                          {/* Stacked layout; TODO add labels in mobile  */}
+                          <div className="mt-1 sm:mt-0">
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </div>
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 );
               })
             ) : (
-              <TableRow>
+              <TableRow className="grid grid-cols-1 p-4 sm:table-row">
                 <TableCell colSpan={columns.length + 1} className="h-24 text-center">
                   No results.
                 </TableCell>
@@ -179,7 +183,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
           </TableBody>
         </Table>
       </div>
-      {/* Pagination */}
+
       <div className="flex items-center justify-center space-x-2 py-4">
         <Button variant="outline" onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
           {'<<'}
@@ -191,7 +195,6 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
           Next
         </Button>
         <Button variant="outline" size="sm" onClick={() => table.lastPage()} disabled={!table.getCanNextPage()}>
-          {' '}
           {'>>'}
         </Button>
       </div>
