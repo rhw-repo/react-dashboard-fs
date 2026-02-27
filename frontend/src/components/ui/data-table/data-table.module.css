@@ -5,18 +5,60 @@
 }
 
 @media (max-width: 639px) {
-  .table-responsive table tr {
+  /* Optional: kill the outer wrapper border so only row-cards show.
+     This targets the div that has styles['table-responsive'] */
+  .table-responsive {
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .table-responsive table {
+    width: 100%;
     display: block;
   }
 
+  /* Space BETWEEN row-cards */
+  .table-responsive table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* card-to-card spacing */
+  }
+
+  /* The CARD is the ROW */
+  .table-responsive table tr {
+    display: flex; /* stack fields */
+    flex-direction: column;
+    gap: 0.75rem; /* spacing between fields */
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+    margin: 0; /* tbody gap handles spacing */
+  }
+
+  /* td is NOT a card anymore */
+  .table-responsive table tr > td {
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  /* Key/value layout per field */
   .table-responsive table td {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 7.5rem 1fr;
     column-gap: 1rem;
-    row-gap: 1rem;
-    padding: 0.5rem 1rem;
+    row-gap: 0.25rem;
     align-items: start;
-    border-bottom: none;
+  }
+
+  /* Checkbox cell */
+  .table-responsive table td:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .table-responsive table td::before {
@@ -24,12 +66,9 @@
     font-weight: 600;
     color: #fafafa;
     font-size: 1rem;
-    /*  margin-bottom: 0.25rem;*/
-    margin-bottom: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    content: none;
   }
 
   .table-responsive table td:nth-of-type(2)::before {

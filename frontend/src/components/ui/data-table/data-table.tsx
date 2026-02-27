@@ -104,7 +104,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
 
   return (
     <div>
-      <div className={`m-4 overflow-hidden rounded-md border ${styles['table-responsive']}`}>
+      <div className={`m-4 overflow-hidden rounded-md border-0 sm:border ${styles['table-responsive']}`}>
         {/* default: stacked grid (mobile). from `sm:` revert to semantic table */}
         <Table className="block text-neutral-50">
           {/* column headers: hidden on mobile, visible from `sm:` */}
