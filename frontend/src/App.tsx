@@ -1,10 +1,10 @@
-import DemoPage from "./components/ui/data-table/page";
-import { Profiler } from "react";
+import DemoPage from './components/ui/data-table/page';
+import { Profiler } from 'react';
 
 function App() {
   function onRender(
     id: string,
-    phase: "mount" | "update" | "nested-update",
+    phase: 'mount' | 'update' | 'nested-update',
     actualDuration: number,
     baseDuration: number,
     startTime: number,
@@ -17,8 +17,8 @@ function App() {
 
   return (
     <>
-      <main className="bg-stone-950 w-full h-screen flex justify-center items-center">
-        <section className="flex justify-center items-center gap-8"></section>
+      <main className="flex min-h-dvh w-full items-center justify-center bg-stone-950">
+        <section className="flex items-center justify-center gap-8"></section>
         <Profiler id="DemoPage" onRender={onRender}>
           <DemoPage />
         </Profiler>
