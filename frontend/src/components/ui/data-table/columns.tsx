@@ -3,14 +3,15 @@ import { ArrowUpDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import type { Person } from '../../../types/types';
-import { StatusCell } from './StatusCell';
+//import { StatusCell } from './StatusCell';
 
 const columnHelper = createColumnHelper<Person>();
 
 export const columns = [
   columnHelper.accessor('status', {
     header: 'Status',
-    cell: StatusCell,
+    //cell: StatusCell,
+    cell: (info) => info.getValue(),
     enableSorting: true,
   }),
 
