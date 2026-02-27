@@ -141,7 +141,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                     key={row.id}
                     data-state={isSelected ? 'selected' : undefined}
                     className={
-                      'grid grid-cols-1 gap-2 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 sm:table-row sm:p-0'
+                      'grid grid-cols-1 gap-2 border border-neutral-50 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 sm:table-row sm:border-x sm:border-accent sm:p-0'
                     }
                   >
                     {/* per-row checkbox (always shown) */}
