@@ -4,9 +4,8 @@
   box-sizing: border-box;
 }
 
+/* MOBILE */
 @media (max-width: 639px) {
-  /* Optional: kill the outer wrapper border so only row-cards show.
-     This targets the div that has styles['table-responsive'] */
   .table-responsive {
     border: 0;
     border-radius: 0;
@@ -17,27 +16,27 @@
     display: block;
   }
 
-  /* Space BETWEEN row-cards */
+  /* Stack with a vertical gap */
   .table-responsive table tbody {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem; /* card-to-card spacing */
+    gap: 0.75rem;
   }
 
-  /* The CARD is the ROW */
+  /* Style rows as 'cards' */
   .table-responsive table tr {
-    display: flex; /* stack fields */
+    display: flex;
     flex-direction: column;
-    gap: 0.75rem; /* spacing between fields */
+    gap: 0.75rem;
     padding: 1rem;
     border-radius: 0.75rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.02);
     overflow: hidden;
-    margin: 0; /* tbody gap handles spacing */
+    margin: 0;
   }
 
-  /* td is NOT a card anymore */
+  /* Reset direct td children of each tr */
   .table-responsive table tr > td {
     background: transparent;
     border-radius: 0;
@@ -45,7 +44,7 @@
     padding: 0;
   }
 
-  /* Key/value layout per field */
+  /* Layout inside each row */
   .table-responsive table td {
     display: grid;
     grid-template-columns: 7.5rem 1fr;
@@ -89,7 +88,7 @@
   }
 }
 
-/* DESKTOP >=640px — restore table layout and ensure pseudo content removed */
+/* DESKTOP >=640px — restore table layout, remove pseudo content */
 @media (min-width: 640px) {
   .table-responsive table {
     display: table;
