@@ -1,0 +1,110 @@
+.table-responsive table td {
+  display: table-cell;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* MOBILE */
+@media (max-width: 639px) {
+  .table-responsive {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .table-responsive table {
+    width: 100%;
+    display: block;
+  }
+
+  /* Stack with a vertical gap */
+  .table-responsive table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Style rows as 'cards' */
+  .table-responsive table tr {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+    margin: 0;
+  }
+
+  /* Reset direct td children of each tr */
+  .table-responsive table tr > td {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  /* Layout inside each row */
+  .table-responsive table td {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    column-gap: 1rem;
+    row-gap: 0.25rem;
+    align-items: start;
+  }
+
+  /* Checkbox cell */
+  .table-responsive table td:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .table-responsive table td::before {
+    display: block;
+    font-weight: 600;
+    color: #fafafa;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .table-responsive table td:nth-of-type(2)::before {
+    content: 'Status';
+  }
+  .table-responsive table td:nth-of-type(3)::before {
+    content: 'Name';
+  }
+  .table-responsive table td:nth-of-type(4)::before {
+    content: 'Email';
+  }
+  .table-responsive table td:nth-of-type(5)::before {
+    content: 'Address';
+  }
+  .table-responsive table td:nth-of-type(6)::before {
+    content: 'Post Code';
+    text-align: left;
+  }
+}
+
+/* DESKTOP >=640px — restore table layout, remove pseudo content */
+@media (min-width: 640px) {
+  .table-responsive table {
+    display: table;
+    width: 100%;
+  }
+  .table-responsive table tr {
+    display: table-row;
+  }
+  .table-responsive table td {
+    display: table-cell;
+    padding: 0.5rem;
+    border-bottom: none;
+    grid-template-columns: none;
+  }
+  .table-responsive table td::before {
+    content: none;
+    display: none;
+  }
+}
