@@ -147,7 +147,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                   >
                     {/* per-row checkbox (always shown) */}
                     <TableCell className="block sm:table-cell">
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center justify-center space-x-2">
                         <Checkbox
                           checked={isSelected}
                           onCheckedChange={(checked) => handleSelectRow(id, checked === true)}
