@@ -164,7 +164,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                           key={cell.id}
                           className={`block sm:table-cell sm:border-x sm:border-neutral-50 ${colId === 'postcode' ? 'text-right tabular-nums' : ''}`}
                         >
-                          {/* Stacked layout; TODO add labels in mobile  */}
+                          {/* Stacked layout */}
                           <div className="mt-1 sm:mt-0">
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </div>
