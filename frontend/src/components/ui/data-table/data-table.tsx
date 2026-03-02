@@ -40,6 +40,8 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
   });
 
   const headerGroups = table.getHeaderGroups();
@@ -106,23 +108,32 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
     <div>
       <div className={`m-4 overflow-hidden rounded-md border-0 sm:border ${styles['table-responsive']}`}>
         {/* default: stacked grid (mobile). from `sm:` revert to semantic table */}
-        <Table className="block text-neutral-50">
+        <Table className="block text-neutral-50 sm:table sm:table-fixed">
           {/* column headers: hidden on mobile, visible from `sm:` */}
           <TableHeader className="hidden sm:table-header-group">
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 sm:table-row">
-                <TableHead className="hidden w-8 sm:table-cell">
-                  <Checkbox
-                    checked={selectAllState}
-                    onCheckedChange={handleSelectAll}
-                    className="rounded-sm"
-                    aria-label="Select all rows on this page"
-                  />
+                <TableHead className="hidden w-8 max-w-8 min-w-4 sm:table-cell [&:has([role=checkbox])]:px-0">
+                  <div className="flex h-full w-full items-center justify-center">
+                    <Checkbox
+                      checked={selectAllState}
+                      onCheckedChange={handleSelectAll}
+                      className="mx-auto translate-y-0 rounded-sm"
+                      aria-label="Select all rows on this page"
+                    />
+                  </div>
                 </TableHead>
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
                     className="hidden border-x border-neutral-50 text-neutral-50 sm:table-cell"
+                    style={{
+                      width: `${header.getSize()}px`,
+
+                      // Explicitly pass min/max to the DOM so the browser respects your limits
+                      minWidth: header.column.columnDef.minSize ? `${header.column.columnDef.minSize}px` : undefined,
+                      maxWidth: header.column.columnDef.maxSize ? `${header.column.columnDef.maxSize}px` : undefined,
+                    }}
                   >
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>

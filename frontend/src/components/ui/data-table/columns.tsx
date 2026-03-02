@@ -13,6 +13,9 @@ export const columns = [
     //cell: StatusCell,
     cell: (info) => info.getValue(),
     enableSorting: true,
+    size: 10,
+    minSize: 10,
+    maxSize: 10,
   }),
 
   columnHelper.accessor('name', {
@@ -25,23 +28,35 @@ export const columns = [
     // Ensure renders a value from cell
     cell: (info) => info.getValue(),
     enableSorting: true,
+    size: 40,
+    minSize: 40,
+    maxSize: 100,
   }),
 
   columnHelper.accessor('email', {
     header: 'Email',
     cell: (info) => info.getValue(),
     enableSorting: true,
+    size: 60,
+    minSize: 60,
+    maxSize: 80,
   }),
 
   columnHelper.accessor('address', {
     header: 'Address',
     cell: (info) => info.getValue(),
     enableSorting: true,
+    size: 140,
+    minSize: 140,
+    maxSize: 180,
   }),
 
   columnHelper.accessor('postcode', {
     header: 'Postcode',
     cell: (info) => info.getValue(),
     enableSorting: true,
+    size: 30,
+    minSize: 30,
+    maxSize: 30,
   }),
 ];
