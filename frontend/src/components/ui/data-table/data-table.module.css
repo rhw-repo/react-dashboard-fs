@@ -4,8 +4,8 @@
   box-sizing: border-box;
 }
 
-/* MOBILE */
-@media (max-width: 639px) {
+/* MOBILE, TABLETS */
+@media (max-width: 1023px) {
   .table-responsive {
     border: 0;
     border-radius: 0;
@@ -97,8 +97,8 @@
   }
 }
 
-/* DESKTOP >=640px — restore table layout, remove pseudo content */
-@media (min-width: 640px) {
+/* DESKTOP — restore table layout, remove pseudo content */
+@media (min-width: 1024px) {
   .table-responsive table {
     display: table;
     width: 100%;

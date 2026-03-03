@@ -106,14 +106,14 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
 
   return (
     <div>
-      <div className={`m-4 overflow-hidden rounded-md border-0 sm:border ${styles['table-responsive']}`}>
-        {/* default: stacked grid (mobile). from `sm:` revert to semantic table */}
-        <Table className="block text-neutral-50 sm:table sm:table-fixed">
-          {/* column headers: hidden on mobile, visible from `sm:` */}
-          <TableHeader className="hidden sm:table-header-group">
+      <div className={`m-4 overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>
+        {/* Default: stacked grid (mobile). from `lg:` revert to semantic table */}
+        <Table className="block text-neutral-50 lg:table lg:table-fixed">
+          {/* Column headers: hidden on mobile, visible from `lg:` */}
+          <TableHeader className="hidden lg:table-header-group">
             {headerGroups.map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 sm:table-row">
-                <TableHead className="hidden w-4 max-w-8 min-w-4 sm:table-cell [&:has([role=checkbox])]:px-0">
+              <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 lg:table-row">
+                <TableHead className="hidden w-4 max-w-8 min-w-4 lg:table-cell [&:has([role=checkbox])]:px-0">
                   <div className="flex h-full w-full items-center justify-center">
                     <Checkbox
                       checked={selectAllState}
@@ -126,7 +126,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="hidden border-x border-neutral-50 text-neutral-50 sm:table-cell"
+                    className="hidden border-x border-neutral-50 text-neutral-50 lg:table-cell"
                     style={{
                       width: `${header.getSize()}px`,
                       minWidth: header.column.columnDef.minSize ? `${header.column.columnDef.minSize}px` : undefined,
@@ -151,11 +151,11 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                     key={row.id}
                     data-state={isSelected ? 'selected' : undefined}
                     className={
-                      'grid grid-cols-1 gap-2 border border-neutral-50 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 sm:table-row sm:border-x sm:border-accent sm:p-0'
+                      'grid grid-cols-1 gap-2 border border-neutral-50 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 lg:table-row lg:border-x lg:border-accent lg:p-0'
                     }
                   >
                     {/* per-row checkbox (always shown) */}
-                    <TableCell className="block sm:table-cell">
+                    <TableCell className="block lg:table-cell">
                       <div className="flex items-center justify-center space-x-2">
                         <Checkbox
                           checked={isSelected}
@@ -171,9 +171,9 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                       return (
                         <TableCell
                           key={cell.id}
-                          className={`block sm:table-cell sm:border-x sm:border-neutral-50 ${colId === 'postcode' ? 'text-right tabular-nums' : ''}`}
+                          className={`block lg:table-cell lg:border-x lg:border-neutral-50 ${colId === 'postcode' ? 'text-right tabular-nums' : ''}`}
                         >
-                          <div className="mt-1 truncate sm:mt-0">
+                          <div className="mt-1 truncate lg:mt-0">
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </div>
                         </TableCell>
@@ -183,7 +183,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                 );
               })
             ) : (
-              <TableRow className="grid grid-cols-1 p-4 sm:table-row">
+              <TableRow className="grid grid-cols-1 p-4 lg:table-row">
                 <TableCell colSpan={columns.length + 1} className="h-24 text-center">
                   No results.
                 </TableCell>
