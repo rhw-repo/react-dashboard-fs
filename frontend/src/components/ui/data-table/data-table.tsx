@@ -113,7 +113,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
           <TableHeader className="hidden sm:table-header-group">
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 sm:table-row">
-                <TableHead className="hidden w-8 max-w-8 min-w-4 sm:table-cell [&:has([role=checkbox])]:px-0">
+                <TableHead className="hidden w-4 max-w-8 min-w-4 sm:table-cell [&:has([role=checkbox])]:px-0">
                   <div className="flex h-full w-full items-center justify-center">
                     <Checkbox
                       checked={selectAllState}
@@ -129,8 +129,6 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                     className="hidden border-x border-neutral-50 text-neutral-50 sm:table-cell"
                     style={{
                       width: `${header.getSize()}px`,
-
-                      // Explicitly pass min/max to the DOM so the browser respects your limits
                       minWidth: header.column.columnDef.minSize ? `${header.column.columnDef.minSize}px` : undefined,
                       maxWidth: header.column.columnDef.maxSize ? `${header.column.columnDef.maxSize}px` : undefined,
                     }}
