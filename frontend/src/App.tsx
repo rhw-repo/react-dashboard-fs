@@ -1,30 +1,40 @@
 import DemoPage from './components/ui/data-table/page';
-import { Profiler } from 'react';
+import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'react-router';
+import Navbar from './components/ui/navbar/navbar';
+import type React from 'react';
 
-function App() {
-  function onRender(
-    id: string,
-    phase: 'mount' | 'update' | 'nested-update',
-    actualDuration: number,
-    baseDuration: number,
-    startTime: number,
-    commitTime: number,
-  ) {
-    console.log(
-      `[Profiler:${id}] phase=${phase} actual=${actualDuration.toFixed(2)}ms base=${baseDuration.toFixed(2)}ms start=${startTime.toFixed(2)} commit=${commitTime.toFixed(2)}`,
-    );
-  }
-
+// Layout is going to be the parent of all routes rendering at '/'
+const Layout = (): React.JSX.Element => {
   return (
     <>
-      <main className="flex min-h-dvh w-full justify-center bg-stone-950 sm:items-center">
-        <section className="flex items-center gap-8"></section>
-        <Profiler id="DemoPage" onRender={onRender}>
-          <DemoPage />
-        </Profiler>
+      <Navbar />
+      <main>
+        <Outlet />
       </main>
     </>
   );
-}
+};
 
-export default App;
+const TestComponent = (): React.JSX.Element => {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-neutral-900">
+      <span className="text-2xl text-neutral-50">Test</span>
+    </main>
+  );
+};
+
+const routes: RouteObject[] = [
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { index: true, element: <DemoPage /> },
+      { path: 'test', element: <TestComponent /> },
+    ],
+  },
+];
+
+export default function App() {
+  const router = createBrowserRouter(routes);
+  return <RouterProvider router={router} />;
+}
