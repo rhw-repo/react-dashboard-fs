@@ -30,7 +30,10 @@ function NavigationMenuList({ className, ...props }: React.ComponentProps<typeof
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
-      className={cn('group flex w-full max-w-5xl flex-1 list-none items-center justify-center gap-4', className)}
+      className={cn(
+        'group flex w-full max-w-5xl flex-1 list-none items-center justify-center gap-2 sm:gap-4',
+        className,
+      )}
       {...props}
     />
   );
@@ -99,7 +102,7 @@ function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "flex flex-col gap-1 rounded-sm px-2 pt-8 pb-4 transition-all outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground data-[active=true]:hover:bg-accent data-[active=true]:focus:bg-accent sm:text-2xl [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+        "flex flex-col gap-1 rounded-sm px-2 pt-8 pb-4 text-sm transition-all outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground data-[active=true]:hover:bg-accent data-[active=true]:focus:bg-accent max-[364px]:items-center max-[364px]:text-center sm:text-base [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
         className,
       )}
       {...props}
