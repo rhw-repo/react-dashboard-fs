@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;*/
+  align-items: center;
+  gap: 10rem;
+}
+
+.sphere {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: clamp(15rem, 25vw, 20rem);
+  width: clamp(15rem, 25vw, 20rem);
+  padding: 1.5rem;
+  border: none;
+  border-radius: 50%;
+  /* Create the 'domed surface' */
+  background: radial-gradient(circle at 30% 30%, oklch(64.6% 0.222 41.116), oklch(36% 0.1 41.116));
+  color: oklch(98.5% 0 0);
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  /* TODO: temporary sample linked in HTML pending client font-family choice */
+  font-family: 'Special Elite', system-ui;
+  font-weight: 400;
+  font-style: normal;
+  text-shadow: 0 3px 6px rgb(0 0 0 / 0.45);
+  /* Create bottom 'rim' for buzzer button 'base' */
+  box-shadow:
+    inset 0 0.35rem 0.75rem oklch(100% 0 0 / 0.2),
+    inset 0 -0.5rem 1rem oklch(0% 0 0 / 0.22),
+    0 1rem 0 oklch(24% 0.018 70),
+    0 1.14rem 0 0.12rem oklch(52% 0.17 45),
+    0 1.5rem 1.5rem oklch(0% 0 0 / 0.28);
+  cursor: pointer;
+  transform: translateY(0);
+  /* Control speed of animations */
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sphere:hover {
+  /* Move very slightly upwards */
+  transform: translateY(-0.2rem);
+  box-shadow:
+    inset 0 0.35rem 0.75rem oklch(100% 0 0 / 0.2),
+    inset 0 -0.5rem 1rem oklch(0% 0 0 / 0.22),
+    0 1.2rem 0 oklch(24% 0.018 70),
+    0 1.34rem 0 0.12rem oklch(52% 0.17 45),
+    0 1.8rem 1.7rem oklch(0% 0 0 / 0.28);
+}
+
+.sphere:active {
+  /* Move very slightly downwards simulate 
+  a physical button press */
+  transform: translateY(0.35rem);
+  box-shadow:
+    inset 0 0.2rem 0.5rem oklch(100% 0 0 / 0.16),
+    inset 0 -0.35rem 0.7rem oklch(0% 0 0 / 0.2),
+    0 0.45rem 0 oklch(24% 0.018 70),
+    0 0.56rem 0 0.1rem oklch(52% 0.17 45),
+    0 0.75rem 0.9rem oklch(0% 0 0 / 0.22);
+}
+
+/* Second button: ring on active state */
+.fxSphere,
+.fxSphere--fire {
+  position: relative;
+  overflow: visible;
+}
+
+.fxSphere::before,
+.fxSphere--fire::before {
+  /* Create pseudo-element without text */
+  content: '';
+  /* Positioning relative to nearest parent with 
+  position: relative i.e. fxSphere /sphere button */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Pseudo-element same size & shape as button */
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* Ensure it stays centered, 
+  establish base scale for later transformations  */
+  transform: translate(-50%, -50%) scale(1);
+  /* Visible ring stroke */
+  border: 0.5rem solid oklch(82% 0.27 55 / 0.98);
+  /* Orange neon ring line */
+  box-shadow:
+    0 0 1rem oklch(82% 0.27 55 / 0.8),
+    0 0 2rem oklch(82% 0.27 55 / 0.5),
+    0 0 3rem oklch(82% 0.27 55 / 0.3);
+  /* Ring effect hidden until opacity changes with active state */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Declare the animation for the pseudo-element */
+.sphere.fxSphere:active::before {
+  animation: buzzer-ring 1300ms ease-out;
+}
+
+/* Set how property rules change over time */
+@keyframes buzzer-ring {
+  /* Starting state: centered, original size */
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  /* End state: centered, twice original size */
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Fiery ring effect animation in active state */
+.fxSphere--fire::before {
+  border: 0.65rem solid oklch(80% 0.24 58 / 0.98);
+  box-shadow:
+    0 0 0.75rem oklch(88% 0.2 85 / 0.95),
+    0 0 1.4rem oklch(80% 0.24 58 / 0.82),
+    0 0 2.2rem oklch(72% 0.23 42 / 0.58),
+    0 0 3.2rem oklch(62% 0.18 30 / 0.34);
+}
+
+/* Declare the animation for the pseudo-element */
+.sphere.fxSphere--fire:active::before {
+  animation:
+    buzzer-ring-fire 1300ms ease-out,
+    fire-flicker 220ms linear 0s 5;
+}
+
+/* Set how property rules change over time */
+/* Starting state: centered, original size */
+@keyframes buzzer-ring-fire {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  /* End state: centered, twice original size */
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+/* Create a more uneven flickering effect for the ring */
+/* Set how property rules change over time */
+@keyframes fire-flicker {
+  /* Starting state - less distorted ring */
+  0% {
+    box-shadow:
+      0 0 0.7rem oklch(90% 0.2 85 / 0.95),
+      0 0 1.2rem oklch(82% 0.24 58 / 0.82),
+      0 0 2rem oklch(72% 0.23 42 / 0.56),
+      0 0 2.8rem oklch(62% 0.18 30 / 0.3);
+  }
+  /* Middle state - more distorted ring */
+  50% {
+    box-shadow:
+      0 0 0.95rem oklch(92% 0.19 90 / 0.98),
+      0 0 1.7rem oklch(84% 0.25 60 / 0.88),
+      0 0 2.6rem oklch(74% 0.24 44 / 0.64),
+      0 0 3.8rem oklch(64% 0.19 32 / 0.38);
+  }
+  /* ENd state - even more distorted ring */
+  100% {
+    box-shadow:
+      0 0 0.75rem oklch(88% 0.2 85 / 0.95),
+      0 0 1.4rem oklch(80% 0.24 58 / 0.82),
+      0 0 2.2rem oklch(72% 0.23 42 / 0.58),
+      0 0 3.2rem oklch(62% 0.18 30 / 0.34);
+  }
+}
