@@ -123,23 +123,6 @@
   }
 }
 
-/* Declare the animation for the pseudo-element */
-.sphere.fxSphere:active::before {
-  animation: buzzer-ring 1300ms ease-out;
-}
-
-/* Set how property rules change over time */
-@keyframes buzzer-ring {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(3);
-    opacity: 0;
-  }
-}
-
 /* Fiery ring effect animation in active state */
 .fxSphere--fire::before {
   border: 0.65rem solid oklch(80% 0.24 58 / 0.98);
@@ -150,24 +133,31 @@
     0 0 3.2rem oklch(62% 0.18 30 / 0.34);
 }
 
+/* Declare the animation for the pseudo-element */
 .sphere.fxSphere--fire:active::before {
   animation:
     buzzer-ring-fire 1300ms ease-out,
     fire-flicker 220ms linear 0s 5;
 }
 
+/* Set how property rules change over time */
+/* Starting state: centered, original size */
 @keyframes buzzer-ring-fire {
   0% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
+  /* End state: centered, twice original size */
   100% {
     transform: translate(-50%, -50%) scale(3);
     opacity: 0;
   }
 }
 
+/* Create a more uneven flickering effect for the ring */
+/* Set how property rules change over time */
 @keyframes fire-flicker {
+  /* Starting state - less distorted ring */
   0% {
     box-shadow:
       0 0 0.7rem oklch(90% 0.2 85 / 0.95),
@@ -175,6 +165,7 @@
       0 0 2rem oklch(72% 0.23 42 / 0.56),
       0 0 2.8rem oklch(62% 0.18 30 / 0.3);
   }
+  /* Middle state - more distorted ring */
   50% {
     box-shadow:
       0 0 0.95rem oklch(92% 0.19 90 / 0.98),
@@ -182,6 +173,7 @@
       0 0 2.6rem oklch(74% 0.24 44 / 0.64),
       0 0 3.8rem oklch(64% 0.19 32 / 0.38);
   }
+  /* ENd state - even more distorted ring */
   100% {
     box-shadow:
       0 0 0.75rem oklch(88% 0.2 85 / 0.95),
