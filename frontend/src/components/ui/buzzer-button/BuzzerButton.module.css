@@ -9,8 +9,7 @@
 }
 
 .sphere {
-  display: grid;
-  place-items: center;
+  text-wrap: balanced;
   height: clamp(15rem, 25vw, 50rem);
   width: clamp(15rem, 25vw, 50rem);
   border-radius: 50%;
@@ -18,5 +17,9 @@
   background: radial-gradient(circle at 30% 30%, oklch(64.6% 0.222 41.116), oklch(36% 0.1 41.116));
   color: oklch(98.5% 0 0);
   font-size: clamp(1rem, 25vw, 2rem);
-  font-weight: 700;
+  font-family: 'Major Mono Display', monospace;
+  font-family: 'Special Elite', system-ui;
+  font-weight: 400;
+  font-style: normal;
+  text-shadow: 0 3px 6px rgb(0 0 0 / 0.45);
 }

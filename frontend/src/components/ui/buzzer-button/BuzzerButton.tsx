@@ -3,7 +3,11 @@ import styles from './BuzzerButton.module.css';
 const BuzzerButton = () => {
   return (
     <section className={styles.wrapper}>
-      <div className={styles.sphere}>SEND IT</div>
+      <button className={styles.sphere}>
+        PRESS THE BIG
+        <br />
+        ORANGE BUTTON
+      </button>
     </section>
   );
 };
