@@ -3,6 +3,7 @@ import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'r
 import Navbar from './components/ui/navbar/navbar';
 import type React from 'react';
 import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';
+import { LoginCard } from './components/login-card/LoginCard';
 
 // Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {
@@ -23,6 +24,7 @@ const routes: RouteObject[] = [
     children: [
       { index: true, element: <DemoPage /> },
       { path: 'test', element: <BuzzerButton /> },
+      { path: 'login', element: <LoginCard /> },
     ],
   },
 ];

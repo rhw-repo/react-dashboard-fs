@@ -10,7 +10,7 @@ import { NavLink } from 'react-router';
 const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/test', label: 'Test', end: true },
-  { to: '/link-three', label: 'Link Three', end: false },
+  { to: '/login', label: 'Login Test', end: false },
   { to: '/link-four', label: 'Link Four', end: false },
 ] as const;
 
