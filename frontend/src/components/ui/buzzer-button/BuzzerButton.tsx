@@ -21,7 +21,7 @@ const BuzzerButton = () => {
           ORANGE BUTTON
         </span>
       </button>
-      {/* Fiery ring animation on active */}
+      {/* WINNER! Fiery ring animation on active */}
       <button className={`${styles.sphere} ${styles['fxSphere--fire']}`}>
         <span>
           {' '}
