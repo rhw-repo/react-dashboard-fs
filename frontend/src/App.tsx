@@ -16,14 +16,6 @@ const Layout = (): React.JSX.Element => {
   );
 };
 
-/*const TestComponent = (): React.JSX.Element => {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-neutral-900">
-      <span className="text-2xl text-neutral-50">Test</span>
-    </main>
-  );
-};*/
-
 const routes: RouteObject[] = [
   {
     path: '/',
