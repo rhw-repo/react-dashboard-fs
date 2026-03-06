@@ -9,9 +9,9 @@ import { NavLink } from 'react-router';
 
 const LINKS = [
   { to: '/', label: 'Home', end: true },
-  { to: '/test', label: 'Test', end: true },
+  { to: '/test', label: 'Buttons Test', end: true },
   { to: '/login', label: 'Login Test', end: false },
-  { to: '/link-four', label: 'Link Four', end: false },
+  { to: '/signup', label: 'Signup Test', end: false },
 ] as const;
 
 function Navbar() {

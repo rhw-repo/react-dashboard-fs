@@ -10,6 +10,7 @@ import {
 
 //import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { NavLink } from 'react-router';
 
 export function LoginCard() {
   return (
@@ -18,7 +19,9 @@ export function LoginCard() {
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>Login with Google to access your account</CardDescription>
         <CardAction>
-          <Button variant="link">Sign Up</Button>
+          <NavLink to="/signup">
+            <Button variant="link">Sign Up</Button>
+          </NavLink>
         </CardAction>
       </CardHeader>
       <CardContent>
