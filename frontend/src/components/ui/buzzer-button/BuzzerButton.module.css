@@ -2,8 +2,7 @@
   box-sizing: border-box;
 }
 
-.wrapper {
-  /*background-color: #fafafa;*/
+.buttonWrapper {
   width: 100%;
   min-height: 90dvh;
   display: grid;
@@ -19,7 +18,7 @@
   isolation: isolate;
 }
 
-.sphere {
+.buttonTop {
   position: relative;
   display: grid;
   place-items: center;
@@ -53,7 +52,7 @@
     box-shadow 0.15s ease;
 }
 
-.sphere:hover {
+.buttonTop:hover {
   /* Move very slightly upwards */
   transform: translateY(-0.2rem);
   box-shadow:
@@ -62,7 +61,7 @@
     0 1.8rem 1.7rem oklch(0% 0 0 / 0.28);
 }
 
-.sphere:active {
+.buttonTop:active {
   /* Move very slightly downwards simulate 
   a physical button press */
   transform: translateY(0.35rem);
@@ -71,7 +70,8 @@
     inset 0 -0.35rem 0.7rem oklch(0% 0 0 / 0.2),
     0 0.75rem 0.9rem oklch(0% 0 0 / 0.22);
 }
-.rim {
+
+.buttonRim {
   position: absolute;
   left: 50%;
   top: 0;
@@ -99,14 +99,12 @@
   filter: drop-shadow(0 0.9rem 1rem oklch(0% 0 0 / 0.28));
 }
 
-.rim::before {
+.buttonRim::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 50%;
   z-index: 1;
-  opacity: 0.7;
-  filter: blur(6px);
   pointer-events: none;
   background: radial-gradient(
     ellipse 72% 100% at 50% 50%,
@@ -115,13 +113,12 @@
     oklch(78% 0 0 / 0.08) 52%,
     oklch(0% 0 0 / 0) 76%
   );
-
   transform: rotate(-18deg);
   filter: blur(5px);
   opacity: 0.95;
 }
 
-.rim::after {
+.buttonRim::after {
   content: '';
   position: absolute;
   left: 31%;
@@ -131,7 +128,7 @@
   border-radius: 50%;
   z-index: 2;
   pointer-events: none;
-  /* tight lower specular streak */
+  /* Shine effect */
   background: linear-gradient(
     96deg,
     oklch(100% 0 0 / 0) 0%,
@@ -140,13 +137,12 @@
     oklch(98% 0 0 / 0.07) 78%,
     oklch(100% 0 0 / 0) 100%
   );
-
   transform: rotate(-8deg);
   filter: blur(2.4px);
   opacity: 0.92;
 }
 
-.rimShadow {
+.buttonRimShadow {
   position: absolute;
   inset: 0;
   border-radius: 50%;
@@ -158,19 +154,15 @@
     radial-gradient(ellipse at 50% 52%, oklch(100% 0 0 / 0.12), oklch(100% 0 0 / 0) 24%);
 }
 
-/* Second button: ring on active state */
-.fxSphere,
-.fxSphere--fire {
-  position: relative;
+.buttonTop--fire {
   overflow: visible;
 }
 
-.fxSphere::before,
-.fxSphere--fire::before {
+.buttonTop--fire::before {
   /* Create pseudo-element without text */
   content: '';
   /* Positioning relative to nearest parent with 
-  position: relative i.e. fxSphere /sphere button */
+  position: relative i.e. buttonTop */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -181,49 +173,20 @@
   /* Ensure it stays centered, 
   establish base scale for later transformations  */
   transform: translate(-50%, -50%) scale(1);
-  /* Visible ring stroke */
-  border: 0.5rem solid oklch(82% 0.27 55 / 0.98);
   /* Orange neon ring line */
-  box-shadow:
-    0 0 1rem oklch(82% 0.27 55 / 0.8),
-    0 0 2rem oklch(82% 0.27 55 / 0.5),
-    0 0 3rem oklch(82% 0.27 55 / 0.3);
-  /* Ring effect hidden until opacity changes with active state */
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Declare the animation for the pseudo-element */
-.sphere.fxSphere:active::before {
-  animation: buzzer-ring 1300ms ease-out;
-}
-
-/* Set how property rules change over time */
-@keyframes buzzer-ring {
-  /* Starting state: centered, original size */
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  /* End state: centered, twice original size */
-  100% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
-  }
-}
-
-/* Fiery ring effect animation in active state */
-.fxSphere--fire::before {
   border: 0.65rem solid oklch(80% 0.24 58 / 0.98);
   box-shadow:
     0 0 0.75rem oklch(88% 0.2 85 / 0.95),
     0 0 1.4rem oklch(80% 0.24 58 / 0.82),
     0 0 2.2rem oklch(72% 0.23 42 / 0.58),
     0 0 3.2rem oklch(62% 0.18 30 / 0.34);
+  /* Ring effect hidden until opacity changes with active state */
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Declare the animation for the pseudo-element */
-.sphere.fxSphere--fire:active::before {
+.buttonTop.buttonTop--fire:active::before {
   animation:
     buzzer-ring-fire 1300ms ease-out,
     fire-flicker 220ms linear 0s 5;
@@ -262,7 +225,7 @@
       0 0 2.6rem oklch(74% 0.24 44 / 0.64),
       0 0 3.8rem oklch(64% 0.19 32 / 0.38);
   }
-  /* ENd state - even more distorted ring */
+  /* End state - even more distorted ring */
   100% {
     box-shadow:
       0 0 0.75rem oklch(88% 0.2 85 / 0.95),
