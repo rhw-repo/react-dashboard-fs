@@ -3,19 +3,29 @@
 }
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  /*justify-content: center;*/
-  align-items: center;
-  gap: 10rem;
+  background-color: pink;
+  width: 100%;
+  min-height: 90dvh;
+  display: grid;
+  place-items: center;
+}
+
+.buttonShell {
+  --size: clamp(15rem, 25vw, 20rem);
+
+  position: relative;
+  width: calc(var(--size) * 1.1);
+  height: calc(var(--size) + 2.5rem);
+  isolation: isolate;
 }
 
 .sphere {
   position: relative;
   display: grid;
   place-items: center;
-  height: clamp(15rem, 25vw, 20rem);
-  width: clamp(15rem, 25vw, 20rem);
+  z-index: 2;
+  width: var(--size);
+  height: var(--size);
   padding: 1.5rem;
   border: none;
   border-radius: 50%;
@@ -25,7 +35,6 @@
   font-size: clamp(1rem, 2.5vw, 2rem);
   line-height: 1.1;
   text-align: center;
-  text-transform: uppercase;
   /* TODO: temporary sample linked in HTML pending client font-family choice */
   font-family: 'Special Elite', system-ui;
   font-weight: 400;
@@ -35,8 +44,6 @@
   box-shadow:
     inset 0 0.35rem 0.75rem oklch(100% 0 0 / 0.2),
     inset 0 -0.5rem 1rem oklch(0% 0 0 / 0.22),
-    0 1rem 0 oklch(24% 0.018 70),
-    0 1.14rem 0 0.12rem oklch(52% 0.17 45),
     0 1.5rem 1.5rem oklch(0% 0 0 / 0.28);
   cursor: pointer;
   transform: translateY(0);
@@ -52,8 +59,6 @@
   box-shadow:
     inset 0 0.35rem 0.75rem oklch(100% 0 0 / 0.2),
     inset 0 -0.5rem 1rem oklch(0% 0 0 / 0.22),
-    0 1.2rem 0 oklch(24% 0.018 70),
-    0 1.34rem 0 0.12rem oklch(52% 0.17 45),
     0 1.8rem 1.7rem oklch(0% 0 0 / 0.28);
 }
 
@@ -64,9 +69,61 @@
   box-shadow:
     inset 0 0.2rem 0.5rem oklch(100% 0 0 / 0.16),
     inset 0 -0.35rem 0.7rem oklch(0% 0 0 / 0.2),
-    0 0.45rem 0 oklch(24% 0.018 70),
-    0 0.56rem 0 0.1rem oklch(52% 0.17 45),
     0 0.75rem 0.9rem oklch(0% 0 0 / 0.22);
+}
+.rim {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--size);
+  height: var(--size);
+  transform: translateY(1rem) translateX(-55%);
+  transform-origin: center;
+  border-radius: 50%;
+  overflow: hidden;
+  clip-path: inset(48% 0 0 0);
+  z-index: 1;
+  pointer-events: none;
+
+  background: radial-gradient(circle at 50% 120%, #323232, #0a0a0a 80%, #000 100%);
+  filter: drop-shadow(0 0.9rem 1rem rgb(0 0 0 / 0.28));
+}
+
+.rim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 120%, rgb(255 255 255 / 0.42), rgb(255 255 255 / 0) 72%);
+  opacity: 0.55;
+  filter: blur(5px);
+  z-index: 1;
+}
+
+.rim::after {
+  content: '';
+  position: absolute;
+  width: 64%;
+  height: 34%;
+  left: 18%;
+  bottom: 8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(255 255 255 / 0.82) 0 14%,
+    rgb(255 255 255 / 0.35) 20%,
+    rgb(255 255 255 / 0) 45%
+  );
+  transform: skewX(-18deg);
+  filter: blur(10px);
+  z-index: 2;
+}
+
+.rimShadow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 78%, rgb(0 0 0 / 0.68), rgb(0 0 0 / 0) 52%);
 }
 
 /* Second button: ring on active state */
