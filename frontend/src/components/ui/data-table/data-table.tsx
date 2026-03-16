@@ -28,6 +28,12 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+function getSelectAllState(pageCount: number, selectedInPageCount: number): CheckedState {
+  if (pageCount === 0 || selectedInPageCount === 0) return false;
+  if (selectedInPageCount === pageCount) return true;
+  return 'indeterminate';
+}
+
 export function DataTable<TData extends { id: string }, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(() => new Set());
@@ -64,7 +70,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
     });
   }, [pageIdSet]);
 
-  const selectedInpageCount = React.useMemo(() => {
+  const selectedInPageCount = React.useMemo(() => {
     let count = 0;
     for (const id of selectedRows) if (pageIdSet.has(id)) count++;
     return count;
@@ -72,14 +78,7 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
 
   const pageCount = pageRowIds.length;
 
-  const selectAllState: CheckedState =
-    pageCount === 0
-      ? false
-      : selectedInpageCount === 0
-        ? false
-        : selectedInpageCount === pageCount
-          ? true
-          : 'indeterminate';
+  const selectAllState = getSelectAllState(pageCount, selectedInPageCount);
 
   const handleSelectAll = (checked: CheckedState) => {
     if (checked === 'indeterminate') return;
