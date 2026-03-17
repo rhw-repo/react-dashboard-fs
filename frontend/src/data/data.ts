@@ -1,16 +1,6 @@
-export type Person = {
-  id: string;
-  name: string;
-  nextTask: string;
-  address: string;
-  email: string;
-  postcode: string;
-  taskDeadline: string;
-  status: 'uncontacted' | 'contacted' | 'in progress' | 'completed';
-  status2: 'bronze' | 'silver' | 'gold' | 'do not contact';
-};
+import type { FullPerson } from '../types/types';
 
-export const person: Person[] = [
+export const person: FullPerson[] = [
   {
     id: '728ed52f',
     name: 'John Doe',

@@ -1,4 +1,4 @@
-'use no memo';
+//'use no memo';
 // see https://react.dev/reference/react-compiler/directives/use-no-memo
 /* Disable optimisation prevent memoization breaking table functionality:
    TanStack table returns a stable reference for table, so that means that
@@ -23,8 +23,13 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-interface DataTableProps<TData, TValue> {
+/*interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}*/
+
+interface DataTableProps<TData extends { id: string }> {
+  columns: ColumnDef<TData>[];
   data: TData[];
 }
 
@@ -34,7 +39,8 @@ function getSelectAllState(pageCount: number, selectedInPageCount: number): Chec
   return 'indeterminate';
 }
 
-export function DataTable<TData extends { id: string }, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+// export function DataTable<TData extends { id: string }, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends { id: string }>({ columns, data }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(() => new Set());
 
@@ -166,12 +172,8 @@ export function DataTable<TData extends { id: string }, TValue>({ columns, data 
                     </TableCell>
 
                     {row.getVisibleCells().map((cell) => {
-                      const colId = cell.column.id;
                       return (
-                        <TableCell
-                          key={cell.id}
-                          className={`block lg:table-cell lg:border-x lg:border-neutral-50 ${colId === 'postcode' ? 'text-right tabular-nums' : ''}`}
-                        >
+                        <TableCell key={cell.id} className={`block lg:table-cell lg:border-x lg:border-neutral-50`}>
                           <div className="mt-1 truncate lg:mt-0">
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </div>

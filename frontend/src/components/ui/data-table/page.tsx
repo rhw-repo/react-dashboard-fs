@@ -1,5 +1,6 @@
 'use no memo';
 import { columns } from './columns';
+import type { Person } from '../../../types/types';
 import { person } from '../../../data/data';
 import { DataTable } from './data-table';
 import Navbar from '../navbar/navbar';
@@ -12,8 +13,10 @@ export default function DemoPage() {
         <Navbar />{' '}
       </aside>
       <main className="col-start-2">
-        <article>
-          <DataTable columns={columns} data={person} />
+        <article className="grid grid-cols-3">
+          <DataTable<Person> columns={columns} data={person as Person[]} />
+          <DataTable<Person> columns={columns} data={person as Person[]} />
+          <DataTable<Person> columns={columns} data={person as Person[]} />
         </article>
       </main>
     </div>
