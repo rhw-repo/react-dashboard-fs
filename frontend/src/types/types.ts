@@ -1,8 +1,8 @@
-export type Person = {
+/*export type Person = {
   id: string;
   name: string;
-  address: string;
-  postcode: string;
-  status: "uncontacted" | "contacted" | "in progress" | "completed";
-  email: string;
-};
+  nextTask: string;
+  taskDeadline: string;
+  status: 'uncontacted' | 'contacted' | 'in progress' | 'completed';
+  status2: 'bronze' | 'silver' | 'gold' | 'do not contact';
+};*/
