@@ -1,6 +1,5 @@
 import DemoPage from './components/ui/data-table/page';
 import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'react-router';
-import Navbar from './components/ui/navbar/navbar';
 import type React from 'react';
 import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';
 import { LoginCard } from './components/login-card/LoginCard';
@@ -10,7 +9,6 @@ import SignUpCard from './components/signup-card/SignUpCard';
 const Layout = (): React.JSX.Element => {
   return (
     <>
-      <Navbar />
       <main className="flex min-h-screen items-center justify-center">
         <Outlet />
       </main>
