@@ -7,12 +7,12 @@
 */
 import * as React from 'react';
 import type { CheckedState } from '@radix-ui/react-checkbox';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import styles from './data-table.module.css';
+import { getColumns } from './columns';
+import type { Person } from '../../../types/types';
 
 import {
-  type ColumnDef,
   type SortingState,
   flexRender,
   getCoreRowModel,
@@ -23,14 +23,18 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
+// Type-safe column visibility configuration
+type ColumnId = 'select' | 'status' | 'name' | 'nextTask' | 'taskDeadline' | 'status2';
+type SafeColumnVisibility = Partial<Record<ColumnId, boolean>>;
+
 /*interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }*/
 
-interface DataTableProps<TData extends { id: string }> {
-  columns: ColumnDef<TData>[];
-  data: TData[];
+interface DataTableProps {
+  data: Person[];
+  initialColumnVisibility?: SafeColumnVisibility;
 }
 
 function getSelectAllState(pageCount: number, selectedInPageCount: number): CheckedState {
@@ -40,26 +44,11 @@ function getSelectAllState(pageCount: number, selectedInPageCount: number): Chec
 }
 
 // export function DataTable<TData extends { id: string }, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-export function DataTable<TData extends { id: string }>({ columns, data }: DataTableProps<TData>) {
+export function DataTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [selectedRows, setSelectedRows] = React.useState<Set<string>>(() => new Set());
+  const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set());
 
-  const table = useReactTable<TData>({
-    columns,
-    data,
-    state: { sorting },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    enableColumnResizing: true,
-    columnResizeMode: 'onChange',
-  });
-
-  const headerGroups = table.getHeaderGroups();
-  const rows = table.getRowModel().rows;
-
-  const pageRowIds = React.useMemo(() => rows.map((row) => row.original.id), [rows]);
+  const pageRowIds = React.useMemo(() => data.map((row) => row.id), [data]);
   const pageIdSet = React.useMemo(() => new Set(pageRowIds), [pageRowIds]);
 
   React.useEffect(() => {
@@ -109,6 +98,33 @@ export function DataTable<TData extends { id: string }>({ columns, data }: DataT
     });
   };
 
+  const columns = getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow);
+
+  const table = useReactTable<Person>({
+    columns,
+    data,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      columnVisibility: initialColumnVisibility || {
+        select: false,
+        status: true,
+        name: true,
+        nextTask: true,
+        taskDeadline: true,
+        status2: true,
+      },
+    },
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
+  });
+
+  const headerGroups = table.getHeaderGroups();
+  const rows = table.getRowModel().rows;
+
   return (
     <div>
       <div className={`overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>
@@ -118,20 +134,10 @@ export function DataTable<TData extends { id: string }>({ columns, data }: DataT
           <TableHeader className="hidden lg:table-header-group">
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 lg:table-row">
-                <TableHead className="hidden w-4 max-w-8 min-w-4 lg:table-cell [&:has([role=checkbox])]:px-0">
-                  <div className="flex h-full w-full items-center justify-center">
-                    <Checkbox
-                      checked={selectAllState}
-                      onCheckedChange={handleSelectAll}
-                      className="mx-auto translate-y-0 rounded-sm"
-                      aria-label="Select all rows on this page"
-                    />
-                  </div>
-                </TableHead>
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="hidden border-x border-neutral-50 text-neutral-50 lg:table-cell"
+                    className="hidden border-x border-neutral-50 text-neutral-50 lg:table-cell [&:has([role=checkbox])]:px-0"
                     style={{
                       width: `${header.getSize()}px`,
                       minWidth: header.column.columnDef.minSize ? `${header.column.columnDef.minSize}px` : undefined,
@@ -159,18 +165,6 @@ export function DataTable<TData extends { id: string }>({ columns, data }: DataT
                       'grid grid-cols-1 gap-2 border border-neutral-50 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 lg:table-row lg:border-x lg:border-accent lg:p-0'
                     }
                   >
-                    {/* per-row checkbox (always shown) */}
-                    <TableCell className="block lg:table-cell">
-                      <div className="flex items-center justify-center space-x-2">
-                        <Checkbox
-                          checked={isSelected}
-                          onCheckedChange={(checked) => handleSelectRow(id, checked === true)}
-                          className="rounded-sm"
-                          aria-label={`Select row ${id}`}
-                        />
-                      </div>
-                    </TableCell>
-
                     {row.getVisibleCells().map((cell) => {
                       return (
                         <TableCell key={cell.id} className={`block lg:table-cell lg:border-x lg:border-neutral-50`}>
@@ -185,7 +179,7 @@ export function DataTable<TData extends { id: string }>({ columns, data }: DataT
               })
             ) : (
               <TableRow className="grid grid-cols-1 p-4 lg:table-row">
-                <TableCell colSpan={columns.length + 1} className="h-24 text-center">
+                <TableCell colSpan={table.getVisibleLeafColumns().length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
