@@ -11,10 +11,8 @@ import { StatusCell } from './StatusCell';
 
 export const columns: ColumnDef<Person>[] = [
   {
-    //accessorKey: 'status',
-    accessorFn: (row) => row.status,
+    accessorKey: 'status',
     header: 'Status',
-    //cell: ({ row }) => row.original.status,
     cell: StatusCell,
     enableSorting: true,
     size: 10,
@@ -56,7 +54,7 @@ export const columns: ColumnDef<Person>[] = [
   {
     accessorKey: 'status2',
     header: 'Status 2',
-    cell: ({ row }) => row.original.status2,
+    cell: StatusCell,
     enableSorting: true,
     size: 60,
     minSize: 60,

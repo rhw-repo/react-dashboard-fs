@@ -15,20 +15,17 @@ import type { Person } from '../../../types/types';
 
 const STATUS_OPTIONS: Person['status'][] = ['bronze', 'silver', 'gold', 'do not contact'];
 
-function statusPillClass(status: Person['status']) {
+function statusPillClass(status: unknown): string {
+  if (typeof status !== 'string') return 'p-4 rounded-sm bg-slate-600/10 text-slate-200';
   switch (status) {
     case 'bronze':
       return 'p-4 rounded-sm bg-yellow-950';
-      break;
     case 'silver':
       return 'p-4 rounded-sm bg-mist-500';
-      break;
     case 'gold':
       return 'p-4 rounded-sm bg-amber-400';
-      break;
     case 'do not contact':
       return 'p-4 rounded-sm bg-red-600/20 text-purple-400';
-      break;
     default:
       return 'p-4 rounded-sm bg-slate-600/10 text-slate-200';
   }
@@ -56,7 +53,7 @@ export function StatusMenu({ name }: { name: string }) {
   );
 }
 
-export function StatusCell(info: CellContext<Person, Person['status']>) {
+export function StatusCell(info: CellContext<Person, unknown>) {
   const status = info.getValue();
   //const name = info.row.original.name;
 
