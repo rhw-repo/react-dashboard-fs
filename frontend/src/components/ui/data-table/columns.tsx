@@ -2,6 +2,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Person } from '../../../types/types';
+import { StatusCell } from './StatusCell';
 
 /* Refactored: now use plain `ColumnDef<Person>[]` instead of `createColumnHelper`.
  `DataTable` expects one consistent column value type across the `columns`
@@ -10,9 +11,11 @@ import type { Person } from '../../../types/types';
 
 export const columns: ColumnDef<Person>[] = [
   {
-    accessorKey: 'status',
+    //accessorKey: 'status',
+    accessorFn: (row) => row.status,
     header: 'Status',
-    cell: ({ row }) => row.original.status,
+    //cell: ({ row }) => row.original.status,
+    cell: StatusCell,
     enableSorting: true,
     size: 10,
     minSize: 10,

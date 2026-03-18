@@ -13,25 +13,24 @@ import {
 
 import type { Person } from '../../../types/types';
 
-const STATUS_OPTIONS: Person['status'][] = ['uncontacted', 'contacted', 'in progress', 'completed', 'do not contact'];
+const STATUS_OPTIONS: Person['status'][] = ['bronze', 'silver', 'gold', 'do not contact'];
 
 function statusPillClass(status: Person['status']) {
   switch (status) {
-    case 'contacted':
-      return 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-600/20 text-emerald-400';
+    case 'bronze':
+      return 'p-4 rounded-sm bg-yellow-950';
       break;
-    case 'in progress':
-      return 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-600/20 text-green-400';
+    case 'silver':
+      return 'p-4 rounded-sm bg-mist-500';
       break;
-    case 'completed':
-      return 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-600/20 text-red-400';
+    case 'gold':
+      return 'p-4 rounded-sm bg-amber-400';
       break;
     case 'do not contact':
-      return 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-600/20 text-purple-400';
+      return 'p-4 rounded-sm bg-red-600/20 text-purple-400';
       break;
-    case 'uncontacted':
     default:
-      return 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-600/10 text-slate-200';
+      return 'p-4 rounded-sm bg-slate-600/10 text-slate-200';
   }
 }
 
@@ -59,12 +58,12 @@ export function StatusMenu({ name }: { name: string }) {
 
 export function StatusCell(info: CellContext<Person, Person['status']>) {
   const status = info.getValue();
-  const name = info.row.original.name;
+  //const name = info.row.original.name;
 
   return (
-    <div className="flex items-center justify-between gap-2">
-      <span className={statusPillClass(status)}>{status}</span>
-      <StatusMenu name={name} />
+    <div className="flex items-center justify-center gap-2">
+      <span className={statusPillClass(status)}></span>
+      {/* <StatusMenu name={name} /> */}
     </div>
   );
 }

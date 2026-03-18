@@ -3,7 +3,7 @@ export type Person = {
   name: string;
   nextTask: string;
   taskDeadline: string;
-  status: 'uncontacted' | 'contacted' | 'in progress' | 'completed' | 'do not contact';
+  status: 'bronze' | 'silver' | 'gold' | 'do not contact';
   status2: 'bronze' | 'silver' | 'gold' | 'do not contact';
 };
 
