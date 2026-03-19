@@ -1,4 +1,4 @@
-import DemoPage from './components/ui/task-timeline-table/page';
+import TaskTimelinePage from './components/ui/task-timeline-table/task-timeline-page';
 import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'react-router';
 import type React from 'react';
 import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';
@@ -22,7 +22,7 @@ const routes: RouteObject[] = [
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <DemoPage /> },
+      { index: true, element: <TaskTimelinePage /> },
       { path: 'test', element: <BuzzerButton /> },
       { path: 'login', element: <LoginCard /> },
       { path: 'signup', element: <SignUpCard /> },

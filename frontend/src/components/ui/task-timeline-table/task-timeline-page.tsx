@@ -4,7 +4,7 @@ import { person } from '../../../data/data';
 import { TaskTimelineTable } from './task-timeline-table';
 import Navbar from '../navbar/navbar';
 
-export default function DemoPage() {
+export default function TaskTimeLinePage() {
   'use no memo';
   // Single data fetch - reused for all three tables
   const data = person as Person[];
