@@ -24,8 +24,8 @@ export default defineConfig([
   },
   {
     files: [
-      'src/components/ui/data-table/**/*.tsx',
-      'src/components/ui/data-table/*.tsx',
+      'src/components/ui/task-timeline-table/**/*.tsx',
+      'src/components/ui/task-timeline-table/*.tsx',
       'src/components/ui/records-list-table/**/*.tsx',
       'src/components/ui/records-list-table/*.tsx',
     ],
