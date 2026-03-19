@@ -1,10 +1,10 @@
-import TaskTimelinePage from './components/ui/task-timeline-table/task-timeline-page';
+import TaskTimelinePage from './components/ui/task-timeline-table/TaskTimelinePage';
 import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'react-router';
 import type React from 'react';
 import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';
 import { LoginCard } from './components/ui/login-card/LoginCard';
 import SignUpCard from './components/ui/signup-card/SignUpCard';
-import RecordsListTablePage from './components/ui/records-list-table/records-list-page';
+import RecordsListTablePage from './components/ui/records-list-table/RecordsListPage';
 
 // Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {

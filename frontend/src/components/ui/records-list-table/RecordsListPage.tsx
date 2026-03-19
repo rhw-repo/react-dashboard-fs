@@ -1,8 +1,8 @@
 'use no memo';
 import type { Person } from '../../../types/types';
 import { person } from '../../../data/data';
-import { RecordsListTable } from './records-list-table';
-import Navbar from '../navbar/navbar';
+import { RecordsListTable } from './RecordsListTable';
+import Navbar from '../navbar/Navbar';
 
 export default function RecordsListTablePage() {
   'use no memo';

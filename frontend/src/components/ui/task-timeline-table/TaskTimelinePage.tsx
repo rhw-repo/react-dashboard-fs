@@ -1,8 +1,8 @@
 'use no memo';
 import type { Person } from '../../../types/types';
 import { person } from '../../../data/data';
-import { TaskTimelineTable } from './task-timeline-table';
-import Navbar from '../navbar/navbar';
+import { TaskTimelineTable } from './TaskTimelineTable';
+import Navbar from '../navbar/Navbar';
 
 export default function TaskTimeLinePage() {
   'use no memo';

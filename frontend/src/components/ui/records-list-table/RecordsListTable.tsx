@@ -6,9 +6,10 @@
    https://github.com/facebook/react/issues/33057
 */
 import * as React from 'react';
-import { Button } from '@/components/ui/button';
-import styles from './task-timeline-table.module.css';
-import { getColumns } from './task-timeline-columns';
+import type { CheckedState } from '@radix-ui/react-checkbox';
+import { Button } from '@/components/ui/Button';
+import styles from '../task-timeline-table/task-timeline-table.module.css';
+import { getColumns } from './RecordsListColumns';
 import type { Person } from '../../../types/types';
 
 import {
@@ -20,20 +21,84 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
 // Type-safe column visibility configuration
 type ColumnId = 'select' | 'status' | 'name' | 'nextTask' | 'taskDeadline' | 'status2';
 type SafeColumnVisibility = Partial<Record<ColumnId, boolean>>;
+
+/*interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}*/
 
 interface DataTableProps {
   data: Person[];
   initialColumnVisibility?: SafeColumnVisibility;
 }
 
-export function TaskTimelineTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
+function getSelectAllState(pageCount: number, selectedInPageCount: number): CheckedState {
+  if (pageCount === 0 || selectedInPageCount === 0) return false;
+  if (selectedInPageCount === pageCount) return true;
+  return 'indeterminate';
+}
+
+// export function DataTable<TData extends { id: string }, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function RecordsListTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const columns = getColumns();
+  const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set());
+
+  const pageRowIds = React.useMemo(() => data.map((row) => row.id), [data]);
+  const pageIdSet = React.useMemo(() => new Set(pageRowIds), [pageRowIds]);
+
+  React.useEffect(() => {
+    setSelectedRows((prev) => {
+      if (prev.size === 0) return prev;
+
+      let changed = false;
+      const next = new Set<string>();
+      for (const id of prev) {
+        if (pageIdSet.has(id)) next.add(id);
+        else changed = true;
+      }
+      return changed ? next : prev;
+    });
+  }, [pageIdSet]);
+
+  const selectedInPageCount = React.useMemo(() => {
+    let count = 0;
+    for (const id of selectedRows) if (pageIdSet.has(id)) count++;
+    return count;
+  }, [selectedRows, pageIdSet]);
+
+  const pageCount = pageRowIds.length;
+
+  const selectAllState = getSelectAllState(pageCount, selectedInPageCount);
+
+  const handleSelectAll = (checked: CheckedState) => {
+    if (checked === 'indeterminate') return;
+
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (checked === true) {
+        for (const id of pageRowIds) next.add(id);
+      } else {
+        for (const id of pageRowIds) next.delete(id);
+      }
+      return next;
+    });
+  };
+
+  const handleSelectRow = (id: string, isChecked: boolean) => {
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (isChecked) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  };
+
+  const columns = getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow);
 
   const table = useReactTable<Person>({
     columns,
@@ -89,9 +154,13 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
           <TableBody>
             {rows.length > 0 ? (
               rows.map((row) => {
+                const id = row.original.id;
+                const isSelected = selectedRows.has(id);
+
                 return (
                   <TableRow
                     key={row.id}
+                    data-state={isSelected ? 'selected' : undefined}
                     className={
                       'grid grid-cols-1 gap-2 border border-neutral-50 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 lg:table-row lg:border-x lg:border-accent lg:p-0'
                     }

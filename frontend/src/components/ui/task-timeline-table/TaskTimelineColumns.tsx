@@ -1,6 +1,6 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 import type { Person } from '../../../types/types';
 import { StatusCell } from './StatusCell';
 

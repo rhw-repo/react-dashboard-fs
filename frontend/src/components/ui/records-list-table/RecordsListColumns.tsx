@@ -1,8 +1,8 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import type { CheckedState } from '@radix-ui/react-checkbox';
 import { ArrowUpDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/Button';
+import { Checkbox } from '@/components/ui/Checkbox';
 import type { Person } from '../../../types/types';
 import { StatusCell } from '../task-timeline-table/StatusCell';
 
