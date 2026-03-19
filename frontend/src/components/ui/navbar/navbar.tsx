@@ -12,6 +12,7 @@ const LINKS = [
   { to: '/test', label: 'Buttons Test', end: true },
   { to: '/login', label: 'Login Test', end: false },
   { to: '/signup', label: 'Signup Test', end: false },
+  { to: '/records-list-table', label: 'Records List', end: false },
 ] as const;
 
 function Navbar() {

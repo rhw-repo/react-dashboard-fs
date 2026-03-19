@@ -1,16 +1,45 @@
 import type { ColumnDef } from '@tanstack/react-table';
+import type { CheckedState } from '@radix-ui/react-checkbox';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import type { Person } from '../../../types/types';
-import { StatusCell } from './StatusCell';
+import { StatusCell } from '../data-table/StatusCell';
 
-/* Refactored: now use plain `ColumnDef<Person>[]` instead of `createColumnHelper`.
- `DataTable` expects one consistent column value type across the `columns`
- prop, but `createColumnHelper` infers a different `TValue` per column.
- That mismatch causes a generic assignment error.*/
-
-export function getColumns(): ColumnDef<Person>[] {
+export function getColumns(
+  selectedRows: Set<string>,
+  selectAllState: CheckedState,
+  onSelectAll: (checked: CheckedState) => void,
+  onSelectRow: (id: string, isChecked: boolean) => void,
+): ColumnDef<Person>[] {
   return [
+    {
+      id: 'select',
+      header: () => (
+        <div className="flex h-full w-full items-center justify-center">
+          <Checkbox
+            checked={selectAllState}
+            onCheckedChange={onSelectAll}
+            className="mx-auto translate-y-0 rounded-sm"
+            aria-label="Select all rows on this page"
+          />
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center">
+          <Checkbox
+            checked={selectedRows.has(row.original.id)}
+            onCheckedChange={(checked) => onSelectRow(row.original.id, checked === true)}
+            className="rounded-sm"
+            aria-label={`Select row ${row.original.id}`}
+          />
+        </div>
+      ),
+      enableSorting: false,
+      size: 10,
+      minSize: 10,
+      maxSize: 10,
+    },
     {
       accessorKey: 'status',
       header: 'Status',

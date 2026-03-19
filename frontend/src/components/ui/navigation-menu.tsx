@@ -34,7 +34,7 @@ function NavigationMenuList({ className, ...props }: React.ComponentProps<typeof
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
       className={cn(
-        'group flex h-[calc(100dvh-6rem)] w-full max-w-5xl list-none flex-col items-center justify-between gap-2 sm:gap-4',
+        'group flex h-[calc(100dvh-6rem)] w-full max-w-5xl list-none flex-col items-center justify-start gap-2 sm:gap-4',
         className,
       )}
       {...props}
