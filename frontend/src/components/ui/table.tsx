@@ -2,12 +2,16 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-function Table({ className, ...props }: React.ComponentProps<'table'>) {
+interface TableProps extends React.ComponentProps<'table'> {
+  responsiveWidth?: boolean;
+}
+
+function Table({ className, responsiveWidth = true, ...props }: TableProps) {
   return (
     <div data-slot="table-container" className="relative overflow-x-auto">
       <table
         data-slot="table"
-        className={cn('caption-bottom border-0 border-neutral-50 text-sm sm:w-full sm:rounded sm:border-2', className)}
+        className={cn('caption-bottom border-0 border-neutral-50 text-sm sm:rounded sm:border-2', responsiveWidth && 'sm:w-full', className)}
         style={{ tableLayout: 'fixed' }}
         {...props}
       />

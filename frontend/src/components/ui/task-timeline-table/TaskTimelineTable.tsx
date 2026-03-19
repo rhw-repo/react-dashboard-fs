@@ -80,7 +80,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
     <div>
       <div className={`overflow-hidden rounded-md border-0 lg:border`}>
         {/* Default: stacked grid (mobile). from `lg:` revert to semantic table */}
-        <Table className="block !w-max text-neutral-50 lg:table lg:table-fixed">
+        <Table responsiveWidth={false} className="block w-max text-neutral-50 lg:table lg:table-fixed">
           {/* Column headers: hidden on mobile, visible from `lg:` */}
           <TableHeader className="hidden lg:table-header-group">
             {headerGroups.map((headerGroup) => (
