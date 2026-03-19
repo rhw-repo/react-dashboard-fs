@@ -1,4 +1,4 @@
-import DemoPage from './components/ui/data-table/page';
+import DemoPage from './components/ui/task-timeline-table/page';
 import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'react-router';
 import type React from 'react';
 import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';

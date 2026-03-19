@@ -4,7 +4,7 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import type { Person } from '../../../types/types';
-import { StatusCell } from '../data-table/StatusCell';
+import { StatusCell } from '../task-timeline-table/StatusCell';
 
 export function getColumns(
   selectedRows: Set<string>,

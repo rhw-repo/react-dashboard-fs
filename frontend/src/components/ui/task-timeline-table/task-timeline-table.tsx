@@ -7,8 +7,8 @@
 */
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
-import styles from './data-table.module.css';
-import { getColumns } from './columns';
+import styles from './task-timeline-table.module.css';
+import { getColumns } from './task-timeline-columns';
 import type { Person } from '../../../types/types';
 
 import {
@@ -31,7 +31,7 @@ interface DataTableProps {
   initialColumnVisibility?: SafeColumnVisibility;
 }
 
-export function DataTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
+export function TaskTimelineTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const columns = getColumns();
 

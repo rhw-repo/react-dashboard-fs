@@ -1,7 +1,7 @@
 'use no memo';
 import type { Person } from '../../../types/types';
 import { person } from '../../../data/data';
-import { DataTable } from './data-table';
+import { TaskTimelineTable } from './task-timeline-table';
 import Navbar from '../navbar/navbar';
 
 export default function DemoPage() {
@@ -46,9 +46,9 @@ export default function DemoPage() {
       </aside>
       <main className="col-start-2">
         <article className="grid grid-cols-3 gap-4">
-          <DataTable data={data} initialColumnVisibility={visibility1} />
-          <DataTable data={data} initialColumnVisibility={visibility2} />
-          <DataTable data={data} initialColumnVisibility={visibility3} />
+          <TaskTimelineTable data={data} initialColumnVisibility={visibility1} />
+          <TaskTimelineTable data={data} initialColumnVisibility={visibility2} />
+          <TaskTimelineTable data={data} initialColumnVisibility={visibility3} />
         </article>
       </main>
     </div>
