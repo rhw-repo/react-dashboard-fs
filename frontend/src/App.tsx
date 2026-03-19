@@ -2,8 +2,8 @@ import DemoPage from './components/ui/data-table/page';
 import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'react-router';
 import type React from 'react';
 import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';
-import { LoginCard } from './components/login-card/LoginCard';
-import SignUpCard from './components/signup-card/SignUpCard';
+import { LoginCard } from './components/ui/login-card/LoginCard';
+import SignUpCard from './components/ui/signup-card/SignUpCard';
 
 // Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {
