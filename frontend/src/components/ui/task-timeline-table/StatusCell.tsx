@@ -16,18 +16,19 @@ import type { Person } from '../../../types/types';
 const STATUS_OPTIONS: Person['status'][] = ['bronze', 'silver', 'gold', 'do not contact'];
 
 function statusPillClass(status: unknown): string {
-  if (typeof status !== 'string') return 'rounded-sm bg-slate-600/10 text-slate-200';
+  if (typeof status !== 'string')
+    return 'flex items-center justify-center text-center rounded-sm bg-slate-600/10 text-slate-200';
   switch (status) {
     case 'bronze':
-      return 'p-4 rounded-sm bg-yellow-950';
+      return 'flex items-center justify-center text-center p-4 max-w-16 rounded-sm bg-yellow-950';
     case 'silver':
-      return 'p-4 rounded-sm bg-mist-500';
+      return 'flex items-center justify-center text-center p-4 max-w-16 rounded-sm bg-mist-500';
     case 'gold':
-      return 'p-4 rounded-sm bg-amber-400';
+      return 'flex items-center justify-center text-center p-4 max-w-16 rounded-sm bg-amber-400';
     case 'do not contact':
-      return 'p-4 rounded-sm bg-red-600/20 text-purple-400';
+      return 'flex items-center justify-center text-center p-4 max-w-16 rounded-sm bg-red-600/20 text-purple-400';
     default:
-      return 'p-4 rounded-sm bg-slate-600/10 text-slate-200';
+      return 'flex items-center justify-center text-center p-4 max-w-16 rounded-sm bg-slate-600/10 text-slate-200';
   }
 }
 
