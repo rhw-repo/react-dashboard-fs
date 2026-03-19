@@ -31,8 +31,6 @@ const routes: RouteObject[] = [
   },
 ];
 
-// DataTable data={data} initialColumnVisibility={visibility3}
-
 export default function App() {
   const router = createBrowserRouter(routes);
   return <RouterProvider router={router} />;
