@@ -75,8 +75,6 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
                     className="hidden border-x border-neutral-50 text-neutral-50 lg:table-cell [&:has([role=checkbox])]:px-0"
                     style={{
                       width: `${header.getSize()}px`,
-                      minWidth: header.column.columnDef.minSize ? `${header.column.columnDef.minSize}px` : undefined,
-                      maxWidth: header.column.columnDef.maxSize ? `${header.column.columnDef.maxSize}px` : undefined,
                     }}
                   >
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -98,7 +96,13 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
                   >
                     {row.getVisibleCells().map((cell) => {
                       return (
-                        <TableCell key={cell.id} className={`block lg:table-cell lg:border-x lg:border-neutral-50`}>
+                        <TableCell 
+                          key={cell.id} 
+                          className={`block lg:table-cell lg:border-x lg:border-neutral-50`}
+                          style={{
+                            width: cell.column.columnDef.size ? `${cell.column.columnDef.size}px` : undefined,
+                          }}
+                        >
                           <div className="mt-1 truncate lg:mt-0">
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </div>

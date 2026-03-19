@@ -16,7 +16,7 @@ import type { Person } from '../../../types/types';
 const STATUS_OPTIONS: Person['status'][] = ['bronze', 'silver', 'gold', 'do not contact'];
 
 function statusPillClass(status: unknown): string {
-  if (typeof status !== 'string') return 'p-4 rounded-sm bg-slate-600/10 text-slate-200';
+  if (typeof status !== 'string') return 'rounded-sm bg-slate-600/10 text-slate-200';
   switch (status) {
     case 'bronze':
       return 'p-4 rounded-sm bg-yellow-950';
@@ -60,6 +60,18 @@ export function StatusCell(info: CellContext<Person, unknown>) {
   return (
     <div className="flex items-center justify-center gap-2">
       <span className={statusPillClass(status)}></span>
+      {/* <StatusMenu name={name} /> */}
+    </div>
+  );
+}
+
+export function StatusCellWithText(info: CellContext<Person, unknown>) {
+  const status = info.getValue();
+  //const name = info.row.original.name;
+
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <span className={statusPillClass(status)}>{String(status)}</span>
       {/* <StatusMenu name={name} /> */}
     </div>
   );

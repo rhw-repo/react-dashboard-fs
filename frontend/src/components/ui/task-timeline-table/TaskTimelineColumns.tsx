@@ -2,7 +2,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import type { Person } from '../../../types/types';
-import { StatusCell } from './StatusCell';
+import { StatusCell, StatusCellWithText } from './StatusCell';
 
 /* Refactored: now use plain `ColumnDef<Person>[]` instead of `createColumnHelper`.
  `DataTable` expects one consistent column value type across the `columns`
@@ -14,11 +14,11 @@ export function getColumns(): ColumnDef<Person>[] {
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: StatusCell,
+      cell: StatusCellWithText,
       enableSorting: true,
-      size: 10,
-      minSize: 10,
-      maxSize: 10,
+      size: 50,
+      minSize: 50,
+      maxSize: 50,
     },
     {
       accessorKey: 'name',
@@ -30,36 +30,36 @@ export function getColumns(): ColumnDef<Person>[] {
       ),
       cell: ({ row }) => row.original.name,
       enableSorting: true,
-      size: 40,
-      minSize: 40,
-      maxSize: 100,
+      size: 120,
+      minSize: 80,
+      maxSize: 150,
     },
     {
       accessorKey: 'nextTask',
       header: 'Next Task',
       cell: ({ row }) => row.original.nextTask,
       enableSorting: true,
-      size: 50,
-      minSize: 50,
-      maxSize: 100,
+      size: 180,
+      minSize: 120,
+      maxSize: 250,
     },
     {
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
       cell: ({ row }) => row.original.taskDeadline,
       enableSorting: true,
-      size: 20,
-      minSize: 20,
-      maxSize: 20,
+      size: 60,
+      minSize: 60,
+      maxSize: 60,
     },
     {
       accessorKey: 'status2',
       header: 'Status 2',
       cell: StatusCell,
       enableSorting: true,
-      size: 10,
-      minSize: 10,
-      maxSize: 10,
+      size: 50,
+      minSize: 50,
+      maxSize: 50,
     },
   ];
 }
