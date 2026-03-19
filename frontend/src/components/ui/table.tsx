@@ -8,6 +8,7 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
       <table
         data-slot="table"
         className={cn('caption-bottom border-0 border-neutral-50 text-sm sm:w-full sm:rounded sm:border-2', className)}
+        style={{ tableLayout: 'fixed' }}
         {...props}
       />
     </div>

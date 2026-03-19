@@ -7,7 +7,7 @@
 */
 import * as React from 'react';
 import { Button } from '@/components/ui/Button';
-import styles from './TaskTimelineTable.module.css';
+// import styles from './TaskTimelineTable.module.css';
 import { getColumns } from './TaskTimelineColumns';
 import type { Person } from '../../../types/types';
 
@@ -44,6 +44,13 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
+      columnSizing: {
+        status: 50,
+        name: 120,
+        nextTask: 180,
+        taskDeadline: 60,
+        status2: 50,
+      },
       columnVisibility: initialColumnVisibility || {
         select: false,
         status: true,
@@ -53,18 +60,27 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
         status2: true,
       },
     },
-    enableColumnResizing: true,
-    columnResizeMode: 'onChange',
   });
 
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
 
+  // Debug: log column info
+  React.useEffect(() => {
+    const totalSize = table.getTotalSize();
+    headerGroups.forEach((headerGroup) => {
+      headerGroup.headers.forEach((header) => {
+        console.log(`Column ID: ${header.column.id}, Size: ${header.getSize()}px`);
+      });
+    });
+    console.log(`Total Table Size: ${totalSize}px`);
+  }, [headerGroups, table]);
+
   return (
     <div>
-      <div className={`overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>
+      <div className={`overflow-hidden rounded-md border-0 lg:border`}>
         {/* Default: stacked grid (mobile). from `lg:` revert to semantic table */}
-        <Table className="block text-neutral-50 lg:table lg:table-fixed">
+        <Table className="block !w-max text-neutral-50 lg:table lg:table-fixed">
           {/* Column headers: hidden on mobile, visible from `lg:` */}
           <TableHeader className="hidden lg:table-header-group">
             {headerGroups.map((headerGroup) => (
@@ -96,11 +112,11 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
                   >
                     {row.getVisibleCells().map((cell) => {
                       return (
-                        <TableCell 
-                          key={cell.id} 
+                        <TableCell
+                          key={cell.id}
                           className={`block lg:table-cell lg:border-x lg:border-neutral-50`}
                           style={{
-                            width: cell.column.columnDef.size ? `${cell.column.columnDef.size}px` : undefined,
+                            width: `${cell.column.getSize()}px`,
                           }}
                         >
                           <div className="mt-1 truncate lg:mt-0">
