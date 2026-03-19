@@ -8,7 +8,7 @@
 import * as React from 'react';
 import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Button } from '@/components/ui/Button';
-import styles from '../task-timeline-table/task-timeline-table.module.css';
+import styles from './RecordsListTable.module.css';
 import { getColumns } from './RecordsListColumns';
 import type { Person } from '../../../types/types';
 

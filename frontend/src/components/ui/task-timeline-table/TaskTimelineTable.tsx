@@ -7,7 +7,7 @@
 */
 import * as React from 'react';
 import { Button } from '@/components/ui/Button';
-import styles from './task-timeline-table.module.css';
+import styles from './TaskTimelineTable.module.css';
 import { getColumns } from './TaskTimelineColumns';
 import type { Person } from '../../../types/types';
 
