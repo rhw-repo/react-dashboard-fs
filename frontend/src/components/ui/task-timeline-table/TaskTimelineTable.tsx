@@ -83,7 +83,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
           {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
           <TableHeader className="hidden lg:table-header-group">
             {headerGroups.map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 lg:table-row">
+              <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] px-2 py-4 lg:table-row">
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}

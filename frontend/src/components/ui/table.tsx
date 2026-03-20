@@ -11,7 +11,11 @@ function Table({ className, responsiveWidth = true, ...props }: TableProps) {
     <div data-slot="table-container" className="relative overflow-x-auto">
       <table
         data-slot="table"
-        className={cn('caption-bottom border-0 border-neutral-50 text-sm sm:rounded sm:border-2', responsiveWidth && 'sm:w-full', className)}
+        className={cn(
+          'caption-bottom border-0 border-neutral-50 text-sm sm:rounded sm:border-2',
+          responsiveWidth && 'sm:w-full',
+          className,
+        )}
         style={{ tableLayout: 'fixed' }}
         {...props}
       />
@@ -76,7 +80,7 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
   return (
     <td
       data-slot="table-cell"
-      className={cn('p-0 align-middle sm:p-4 sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0', className)}
+      className={cn('p-0 align-middle sm:p-1 sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0', className)}
       {...props}
     />
   );
