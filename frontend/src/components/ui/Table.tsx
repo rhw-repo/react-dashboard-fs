@@ -2,12 +2,21 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-function Table({ className, ...props }: React.ComponentProps<'table'>) {
+interface TableProps extends React.ComponentProps<'table'> {
+  responsiveWidth?: boolean;
+}
+
+function Table({ className, responsiveWidth = true, ...props }: TableProps) {
   return (
-    <div data-slot="table-container" className="relative w-full overflow-x-auto">
+    <div data-slot="table-container" className="relative overflow-x-auto">
       <table
         data-slot="table"
-        className={cn('caption-bottom border-0 border-neutral-50 text-sm sm:w-full sm:rounded sm:border-2', className)}
+        className={cn(
+          'caption-bottom border-0 border-neutral-50 text-sm sm:rounded sm:border-2',
+          responsiveWidth && 'sm:w-full',
+          className,
+        )}
+        style={{ tableLayout: 'fixed' }}
         {...props}
       />
     </div>
@@ -15,7 +24,13 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
-  return <thead data-slot="table-header" className={cn('[&_tr]:border-b', className)} {...props} />;
+  return (
+    <thead
+      data-slot="table-header"
+      className={cn('overflow-auto text-center text-wrap text-[pretty] [&_tr]:border-b', className)}
+      {...props}
+    />
+  );
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
@@ -53,7 +68,7 @@ function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
     <th
       data-slot="table-head"
       className={cn(
-        '*:[[role=checkbox]]: h-10 px-4 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0',
+        '*:[[role=checkbox]]: h-10 px-2 text-center align-middle font-medium text-wrap text-foreground [&:has([role=checkbox])]:pr-0',
         className,
       )}
       {...props}
@@ -65,7 +80,7 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
   return (
     <td
       data-slot="table-cell"
-      className={cn('p-0 align-middle sm:p-4 sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0', className)}
+      className={cn('p-0 align-middle sm:p-2 sm:whitespace-nowrap [&:has([role=checkbox])]:pr-0', className)}
       {...props}
     />
   );
