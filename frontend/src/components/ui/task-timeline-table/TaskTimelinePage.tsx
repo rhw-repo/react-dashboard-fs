@@ -24,7 +24,7 @@ export default function TaskTimeLinePage() {
     name: true,
     nextTask: true,
     taskDeadline: true,
-    status2: false,
+    status2: true,
   };
 
   // Table 3

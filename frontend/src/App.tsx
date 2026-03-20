@@ -10,7 +10,7 @@ import RecordsListTablePage from './components/ui/records-list-table/RecordsList
 const Layout = (): React.JSX.Element => {
   return (
     <>
-      <main className="flex min-h-screen items-center justify-center">
+      <main className="mx-auto flex min-h-screen w-full max-w-550 items-center justify-center">
         <Outlet />
       </main>
     </>
