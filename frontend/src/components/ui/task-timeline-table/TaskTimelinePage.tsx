@@ -37,7 +37,7 @@ export default function TaskTimeLinePage() {
   };
 
   return (
-    <div className="grid-cols-[1fr 12fr] container grid min-w-screen py-10">
+    <div className="grid-cols-[5% 95%] grid py-10">
       <aside>
         <Navbar />{' '}
       </aside>

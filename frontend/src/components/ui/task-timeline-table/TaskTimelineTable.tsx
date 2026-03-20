@@ -52,7 +52,6 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
         status2: 50,
       },
       columnVisibility: initialColumnVisibility || {
-        select: false,
         status: true,
         name: true,
         nextTask: true,
@@ -65,7 +64,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
 
-  // Debug: log column info
+  // Debug: log column info, id is derived from the accessorKey
   React.useEffect(() => {
     const totalSize = table.getTotalSize();
     headerGroups.forEach((headerGroup) => {
@@ -79,9 +78,9 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
   return (
     <div>
       <div className={`overflow-hidden rounded-md border-0 lg:border`}>
-        {/* Default: stacked grid (mobile). from `lg:` revert to semantic table */}
+        {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
         <Table responsiveWidth={false} className="block w-max text-neutral-50 lg:table lg:table-fixed">
-          {/* Column headers: hidden on mobile, visible from `lg:` */}
+          {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
           <TableHeader className="hidden lg:table-header-group">
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 lg:table-row">

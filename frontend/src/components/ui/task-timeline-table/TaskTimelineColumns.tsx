@@ -57,9 +57,9 @@ export function getColumns(): ColumnDef<Person>[] {
       header: 'Status 2',
       cell: StatusCell,
       enableSorting: true,
-      size: 50,
-      minSize: 50,
-      maxSize: 50,
+      size: 30,
+      minSize: 30,
+      maxSize: 30,
     },
   ];
 }
