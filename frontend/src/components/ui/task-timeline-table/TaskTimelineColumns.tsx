@@ -39,9 +39,9 @@ export function getColumns(): ColumnDef<Person>[] {
       header: 'Next Task',
       cell: ({ row }) => row.original.nextTask,
       enableSorting: true,
-      size: 180,
-      minSize: 120,
-      maxSize: 250,
+      size: 341,
+      minSize: 341,
+      maxSize: 341,
     },
     {
       accessorKey: 'taskDeadline',

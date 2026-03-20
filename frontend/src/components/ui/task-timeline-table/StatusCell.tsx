@@ -4,18 +4,18 @@ import type { Person } from '../../../types/types';
 
 function statusPillClass(status: unknown): string {
   if (typeof status !== 'string')
-    return 'flex items-center justify-center text-center px-4 py-2 max-w-16 rounded-sm bg-slate-600/10 text-slate-200';
+    return 'flex items-center justify-center text-center text-xs px-4 py-2 max-w-14 rounded-sm bg-slate-600/10 text-slate-200 font-black';
   switch (status) {
     case 'bronze':
-      return 'flex items-center justify-center text-center px-4 py-2 max-w-16 rounded-md bg-yellow-950';
+      return 'flex items-center justify-center text-center text-xs px-4 py-2 max-w-14 rounded-md bg-yellow-950 font-black';
     case 'silver':
-      return 'flex items-center justify-center text-center px-4 py-2 max-w-16 rounded-md bg-mist-500';
+      return 'flex items-center justify-center text-center text-xs px-4 py-2 max-w-14 rounded-md bg-mist-500 font-black';
     case 'gold':
-      return 'flex items-center justify-center text-center px-4 py-2 max-w-16 rounded-md bg-amber-400';
+      return 'flex items-center justify-center text-center text-xs px-4 py-2 max-w-14 rounded-md bg-amber-400 font-black';
     case 'do not contact':
-      return 'flex items-center justify-center text-center px-4 py-2 max-w-16 rounded-sm bg-red-600/20 text-purple-400';
+      return 'flex items-center justify-center text-center text-xs px-4 py-2 max-w-14 rounded-sm bg-red-600/20 text-purple-400 font-black';
     default:
-      return 'flex items-center justify-center text-center px-4 py-2 max-w-16 rounded-sm bg-slate-600/10 text-slate-200';
+      return 'flex items-center justify-center text-center text-xs px-4 py-2 max-w-14 rounded-sm bg-slate-600/10 text-slate-200 font-black';
   }
 }
 
@@ -49,5 +49,5 @@ export function StatusCell(info: CellContext<Person, unknown>) {
 export function StatusCellWithText(info: CellContext<Person, unknown>) {
   const status = info.getValue();
 
-  return <span className={statusPillClass(status)}>{String(status)}</span>;
+  return <span className={statusPillClass(status)}>{String(status).toUpperCase()}</span>;
 }
