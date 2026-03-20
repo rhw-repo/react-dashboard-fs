@@ -9,9 +9,8 @@ export default function TaskTimeLinePage() {
   // Single data fetch - reused for all three tables
   const data = person as Person[];
 
-  // Table 1: All columns including select
+  // Table 1
   const visibility1 = {
-    select: true,
     status: true,
     name: true,
     nextTask: true,
@@ -19,9 +18,8 @@ export default function TaskTimeLinePage() {
     status2: true,
   };
 
-  // Table 2: Hide select, focus on tasks
+  // Table 2
   const visibility2 = {
-    select: false,
     status: true,
     name: true,
     nextTask: true,
@@ -29,13 +27,12 @@ export default function TaskTimeLinePage() {
     status2: false,
   };
 
-  // Table 3: Hide select, focus on status
+  // Table 3
   const visibility3 = {
-    select: false,
     status: true,
     name: true,
-    nextTask: false,
-    taskDeadline: false,
+    nextTask: true,
+    taskDeadline: true,
     status2: true,
   };
 
