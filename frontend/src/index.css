@@ -1,10 +1,52 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@font-face {
+  font-family: 'Karla';
+  src:
+    url('/fonts/Karla-Regular.woff2') format('woff2'),
+    url('/fonts/Karla-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src:
+    url('/fonts/NotoSans-Regular.woff2') format('woff2'),
+    url('/fonts/NotoSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Corrected as per docs */
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  /* Apply Karla to general text, excluding tables, status pills, and navbar */
+  body {
+    font-weight: 200;
+  }
+
+  /* Override for table elements - use default sans-serif */
+  th,
+  thead,
+  li {
+    font-family: var(--font-family-noto-sans);
+    font-weight: 900;
+  }
+
+  td,
+  p {
+    font-family: var(--font-family-karla);
+  }
+}
+
 @theme inline {
+  --font-family-karla: 'Karla', sans-serif;
+  --font-family-noto-sans: 'Noto Sans', sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
