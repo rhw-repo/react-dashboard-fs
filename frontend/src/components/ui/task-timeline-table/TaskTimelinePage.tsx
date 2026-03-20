@@ -37,12 +37,12 @@ export default function TaskTimeLinePage() {
   };
 
   return (
-    <div className="grid-cols-[5% 95%] grid py-10">
+    <div className="grid-cols-[5% 95%] grid h-screen overflow-auto">
       <aside>
         <Navbar />{' '}
       </aside>
-      <main className="col-start-2">
-        <article className="grid grid-cols-3 gap-4">
+      <main className="col-start-2 h-full overflow-x-auto py-10">
+        <article className="grid h-full min-w-max grid-cols-3 gap-4">
           <TaskTimelineTable data={data} initialColumnVisibility={visibility1} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility2} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility3} />
