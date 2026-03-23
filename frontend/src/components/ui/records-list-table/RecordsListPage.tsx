@@ -19,7 +19,7 @@ export default function RecordsListTablePage() {
 
   return (
     <div className="grid-cols-[1fr 9fr] container grid min-w-screen py-10">
-      <aside>
+      <aside className="justify-self-end">
         <Navbar />
       </aside>
       <main className="col-start-2">

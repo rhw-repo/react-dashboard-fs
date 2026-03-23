@@ -38,7 +38,7 @@ export default function TaskTimeLinePage() {
 
   return (
     <div className="grid-cols-[5% 95%] grid h-screen overflow-auto">
-      <aside>
+      <aside className="justify-self-end">
         <Navbar />{' '}
       </aside>
       <main className="col-start-2 h-full overflow-x-auto py-10">
