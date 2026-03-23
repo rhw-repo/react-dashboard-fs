@@ -33,19 +33,16 @@ interface DataTableProps {
 
 export function TaskTimelineTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnSizing, setColumnSizing] = React.useState({});
   const columns = getColumns();
 
   const table = useReactTable<Person>({
     columns,
     data,
-    state: { sorting, columnSizing },
+    state: { sorting },
     onSortingChange: setSorting,
-    onColumnSizingChange: setColumnSizing,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    columnSizeMode: 'onChange',
     initialState: {
       columnVisibility: initialColumnVisibility || {
         status: true,
