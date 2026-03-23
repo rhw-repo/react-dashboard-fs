@@ -44,13 +44,6 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
-      columnSizing: {
-        status: 50,
-        name: 120,
-        nextTask: 180,
-        taskDeadline: 60,
-        status2: 50,
-      },
       columnVisibility: initialColumnVisibility || {
         status: true,
         name: true,
@@ -81,7 +74,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
         {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
         <Table responsiveWidth={false} className="block w-max text-neutral-50 lg:table lg:table-fixed">
           {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
-          <TableHeader className="hidden lg:table-header-group">
+          <TableHeader className="table-header-group">
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] px-1 py-2 lg:table-row">
                 {headerGroup.headers.map((header) => (

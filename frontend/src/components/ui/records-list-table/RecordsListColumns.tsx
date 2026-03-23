@@ -39,7 +39,7 @@ export function getColumns(
         </div>
       ),
       cell: ({ row }) => (
-        <div className="flex items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center">
           <Checkbox
             checked={selectedRows.has(row.original.id)}
             onCheckedChange={(checked) => onSelectRow(row.original.id, checked === true)}
@@ -49,9 +49,9 @@ export function getColumns(
         </div>
       ),
       enableSorting: false,
-      size: 10,
-      minSize: 10,
-      maxSize: 10,
+      size: 40,
+      minSize: 40,
+      maxSize: 40,
     },
     {
       accessorKey: 'status',
