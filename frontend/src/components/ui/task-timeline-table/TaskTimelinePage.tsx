@@ -37,7 +37,7 @@ export default function TaskTimeLinePage() {
   };
 
   return (
-    <div className="grid-cols-[5% 95%] grid h-screen overflow-auto">
+    <div className="mx-auto grid h-screen max-w-[2200px] grid-cols-[5%_95%] overflow-auto">
       <aside className="justify-self-end">
         <Navbar />{' '}
       </aside>

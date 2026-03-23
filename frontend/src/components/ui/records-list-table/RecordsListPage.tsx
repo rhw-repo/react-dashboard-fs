@@ -18,7 +18,7 @@ export default function RecordsListTablePage() {
   };
 
   return (
-    <div className="grid-cols-[1fr 9fr] container grid min-w-screen py-10">
+    <div className="container mx-auto grid max-w-550 grid-cols-[1fr_9fr] py-10">
       <aside className="justify-self-end">
         <Navbar />
       </aside>
