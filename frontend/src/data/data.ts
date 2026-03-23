@@ -3,7 +3,7 @@ import type { FullPerson } from '../types/types';
 export const person: FullPerson[] = [
   {
     id: '728ed52f',
-    name: 'John Doe',
+    name: 'John Doe aaaaaabbbbbbbbcccccddddddeeeeeeefffffffffffffffffffffffffffffffffffffffff',
     status: 'bronze',
     nextTask: 'email',
     taskDeadline: 'date',

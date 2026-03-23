@@ -159,9 +159,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                   <TableRow
                     key={row.id}
                     data-state={isSelected ? 'selected' : undefined}
-                    className={
-                      'border border-neutral-50 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50'
-                    }
+                    className={'border-accent data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50'}
                   >
                     {row.getVisibleCells().map((cell) => {
                       return (
