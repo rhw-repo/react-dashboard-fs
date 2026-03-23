@@ -8,7 +8,7 @@
 import * as React from 'react';
 import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Button } from '@/components/ui/Button';
-import styles from './RecordsListTable.module.css';
+//import styles from './RecordsListTable.module.css';
 import { getColumns } from './RecordsListColumns';
 import type { Person } from '../../../types/types';
 
@@ -125,9 +125,12 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
 
+  {
+    /*<div className={`overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>*/
+  }
   return (
     <div>
-      <div className={`overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>
+      <div className="overflow-hidden rounded-md border-0 lg:border">
         {/* Default: stacked grid (mobile). from `lg:` revert to semantic table */}
         <Table className="block text-neutral-50 lg:table lg:table-fixed">
           {/* Column headers: hidden on mobile, visible from `lg:` */}
