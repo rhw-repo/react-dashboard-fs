@@ -10,9 +10,9 @@ import RecordsListTablePage from './components/ui/records-list-table/RecordsList
 const Layout = (): React.JSX.Element => {
   return (
     <>
-      <main className="mx-auto flex min-h-screen w-full max-w-550 items-center justify-center">
+      <div className="w-full">
         <Outlet />
-      </main>
+      </div>
     </>
   );
 };

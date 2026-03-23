@@ -3,15 +3,28 @@ import type { CheckedState } from '@radix-ui/react-checkbox';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
-import type { Person } from '../../../types/types';
-import { StatusCell } from '../task-timeline-table/StatusCell';
+import type { FullPerson } from '../../../types/types';
+import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
+
+/* 
+APproved columns:
+checkbox
+Status
+status 2
+name
+Address (but only excerpt of the first line)
+Postcode
+Notes (but only excerpt of the first line)
+next task
+date of next task
+*/
 
 export function getColumns(
   selectedRows: Set<string>,
   selectAllState: CheckedState,
   onSelectAll: (checked: CheckedState) => void,
   onSelectRow: (id: string, isChecked: boolean) => void,
-): ColumnDef<Person>[] {
+): ColumnDef<FullPerson>[] {
   return [
     {
       id: 'select',
@@ -26,7 +39,7 @@ export function getColumns(
         </div>
       ),
       cell: ({ row }) => (
-        <div className="flex items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center">
           <Checkbox
             checked={selectedRows.has(row.original.id)}
             onCheckedChange={(checked) => onSelectRow(row.original.id, checked === true)}
@@ -36,18 +49,18 @@ export function getColumns(
         </div>
       ),
       enableSorting: false,
-      size: 10,
-      minSize: 10,
-      maxSize: 10,
+      size: 40,
+      minSize: 40,
+      maxSize: 40,
     },
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: StatusCell,
+      cell: StatusCellWithText,
       enableSorting: true,
-      size: 10,
-      minSize: 10,
-      maxSize: 10,
+      size: 80,
+      minSize: 80,
+      maxSize: 80,
     },
     {
       accessorKey: 'name',
@@ -59,36 +72,63 @@ export function getColumns(
       ),
       cell: ({ row }) => row.original.name,
       enableSorting: true,
-      size: 40,
-      minSize: 40,
-      maxSize: 100,
+      size: 200,
+      minSize: 200,
+      maxSize: 200,
+    },
+    {
+      accessorKey: 'address',
+      header: 'Address',
+      cell: ({ row }) => row.original.address,
+      enableSorting: true,
+      size: 200,
+      minSize: 200,
+      maxSize: 200,
+    },
+    {
+      accessorKey: 'postcode',
+      header: 'Postcode',
+      cell: ({ row }) => row.original.postcode,
+      enableSorting: true,
+      size: 80,
+      minSize: 80,
+      maxSize: 80,
+    },
+    {
+      accessorKey: 'notes',
+      header: 'Notes',
+      cell: ({ row }) => row.original.notes,
+      enableSorting: true,
+      size: 900,
+      minSize: 900,
+      maxSize: 900,
     },
     {
       accessorKey: 'nextTask',
       header: 'Next Task',
       cell: ({ row }) => row.original.nextTask,
       enableSorting: true,
-      size: 50,
-      minSize: 50,
-      maxSize: 100,
+      size: 300,
+      minSize: 300,
+      maxSize: 300,
     },
     {
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
       cell: ({ row }) => row.original.taskDeadline,
       enableSorting: true,
-      size: 20,
-      minSize: 20,
-      maxSize: 20,
+      size: 80,
+      minSize: 80,
+      maxSize: 80,
     },
     {
       accessorKey: 'status2',
       header: 'Status 2',
       cell: StatusCell,
       enableSorting: true,
-      size: 10,
-      minSize: 10,
-      maxSize: 10,
+      size: 60,
+      minSize: 60,
+      maxSize: 60,
     },
   ];
 }

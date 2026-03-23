@@ -8,7 +8,7 @@
 import * as React from 'react';
 import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Button } from '@/components/ui/Button';
-import styles from './RecordsListTable.module.css';
+//import styles from './RecordsListTable.module.css';
 import { getColumns } from './RecordsListColumns';
 import type { Person } from '../../../types/types';
 
@@ -27,11 +27,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 type ColumnId = 'select' | 'status' | 'name' | 'nextTask' | 'taskDeadline' | 'status2';
 type SafeColumnVisibility = Partial<Record<ColumnId, boolean>>;
 
-/*interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}*/
-
 interface DataTableProps {
   data: Person[];
   initialColumnVisibility?: SafeColumnVisibility;
@@ -43,7 +38,6 @@ function getSelectAllState(pageCount: number, selectedInPageCount: number): Chec
   return 'indeterminate';
 }
 
-// export function DataTable<TData extends { id: string }, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
 export function RecordsListTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set());
@@ -118,30 +112,34 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
         status2: true,
       },
     },
-    enableColumnResizing: true,
-    columnResizeMode: 'onChange',
   });
 
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
+  const totalWidth = table.getTotalSize();
 
+  {
+    /*<div className={`overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>*/
+  }
   return (
     <div>
-      <div className={`overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>
-        {/* Default: stacked grid (mobile). from `lg:` revert to semantic table */}
-        <Table className="block text-neutral-50 lg:table lg:table-fixed">
-          {/* Column headers: hidden on mobile, visible from `lg:` */}
-          <TableHeader className="hidden lg:table-header-group">
+      <div className="w-fit overflow-hidden rounded-md border-0 lg:border">
+        {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
+        <Table
+          responsiveWidth={false}
+          className="table table-fixed text-neutral-50"
+          style={{ width: `${totalWidth}px` }}
+        >
+          {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
+          <TableHeader className="table-header-group">
             {headerGroups.map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="grid grid-cols-[1fr_2fr] p-4 lg:table-row">
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="hidden border-x border-neutral-50 text-neutral-50 lg:table-cell [&:has([role=checkbox])]:px-0"
+                    className="border-x border-neutral-50 text-neutral-50 [&:has([role=checkbox])]:px-0"
                     style={{
-                      width: `${header.getSize()}px`,
-                      minWidth: header.column.columnDef.minSize ? `${header.column.columnDef.minSize}px` : undefined,
-                      maxWidth: header.column.columnDef.maxSize ? `${header.column.columnDef.maxSize}px` : undefined,
+                      width: `${header.column.columnDef.size}px`,
                     }}
                   >
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -161,16 +159,18 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                   <TableRow
                     key={row.id}
                     data-state={isSelected ? 'selected' : undefined}
-                    className={
-                      'grid grid-cols-1 gap-2 border border-neutral-50 p-3 data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50 lg:table-row lg:border-x lg:border-accent lg:p-0'
-                    }
+                    className={'border-accent data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50'}
                   >
                     {row.getVisibleCells().map((cell) => {
                       return (
-                        <TableCell key={cell.id} className={`block lg:table-cell lg:border-x lg:border-neutral-50`}>
-                          <div className="mt-1 truncate lg:mt-0">
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </div>
+                        <TableCell
+                          key={cell.id}
+                          className={`border-x border-neutral-50`}
+                          style={{
+                            width: `${cell.column.columnDef.size}px`,
+                          }}
+                        >
+                          <div className="truncate">{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
                         </TableCell>
                       );
                     })}
@@ -178,7 +178,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                 );
               })
             ) : (
-              <TableRow className="grid grid-cols-1 p-4 lg:table-row">
+              <TableRow>
                 <TableCell colSpan={table.getVisibleLeafColumns().length} className="h-24 text-center">
                   No results.
                 </TableCell>

@@ -16,4 +16,5 @@ export type FullPerson = Person & {
   address?: string;
   email?: string;
   postcode?: string;
+  notes?: string;
 };
