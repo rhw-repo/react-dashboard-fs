@@ -42,67 +42,69 @@ function createOption(_rawData: RawData): EChartsOption {
         source: _rawData,
       },
       {
-        id: 'dataset_since_1950_of_germany',
+        id: 'dataset_calls_completed',
         fromDatasetId: 'dataset_raw',
         transform: {
           type: 'filter',
           config: {
-            and: [
-              { dimension: 'Year', gte: 1800 },
-              { dimension: 'Country', '=': 'Germany' },
-            ],
+            and: [{ dimension: 'Metric', '=': 'Calls Completed' }],
           },
         },
       },
       {
-        id: 'dataset_since_1950_of_france',
+        id: 'dataset_people_contacted',
         fromDatasetId: 'dataset_raw',
         transform: {
           type: 'filter',
           config: {
-            and: [
-              { dimension: 'Year', gte: 1800 },
-              { dimension: 'Country', '=': 'France' },
-            ],
+            and: [{ dimension: 'Metric', '=': 'People Contacted' }],
           },
         },
       },
     ],
     title: {
-      text: 'SB Burn Up Chart',
+      text: 'Sprint Burnup Chart - Task Completion Progress',
     },
     tooltip: {
       trigger: 'axis',
     },
     xAxis: {
       type: 'category',
+      name: 'Sprint Day',
       nameLocation: 'middle',
+      nameGap: 25,
     },
     yAxis: {
-      name: 'Income',
+      name: 'Cumulative Tasks',
+      nameLocation: 'middle',
+      nameGap: 50,
     },
     series: [
       {
         type: 'line',
-        datasetId: 'dataset_since_1950_of_germany',
-        showSymbol: false,
+        datasetId: 'dataset_calls_completed',
+        showSymbol: true,
+        smooth: true,
         encode: {
-          x: 'Year',
-          y: 'Income',
-          itemName: 'Year',
-          tooltip: ['Income'],
+          x: 'Day',
+          y: 'Count',
+          itemName: 'Day',
+          tooltip: ['Count'],
         },
+        name: 'Calls Completed',
       },
       {
         type: 'line',
-        datasetId: 'dataset_since_1950_of_france',
-        showSymbol: false,
+        datasetId: 'dataset_people_contacted',
+        showSymbol: true,
+        smooth: true,
         encode: {
-          x: 'Year',
-          y: 'Income',
-          itemName: 'Year',
-          tooltip: ['Income'],
+          x: 'Day',
+          y: 'Count',
+          itemName: 'Day',
+          tooltip: ['Count'],
         },
+        name: 'People Contacted',
       },
     ],
   };
@@ -115,7 +117,7 @@ export function BurnUpChart() {
     data: _rawData,
   } = useQuery<RawData>({
     queryKey: ['burnupChartData'],
-    queryFn: () => fetch('/data/asset/data/life-expectancy-table.json').then((res) => res.json()),
+    queryFn: () => fetch('/data/asset/data/sprint-burnup-data.json').then((res) => res.json()),
   });
 
   const option = useMemo(() => {
