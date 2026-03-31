@@ -38,9 +38,9 @@ const chartDom = document.getElementById('main')!;
 const myChart = echarts.init(chartDom);
 let option: EChartsOption;
 
-fetch(ROOT_PATH + '/data/asset/data/life-expectancy-table.json')
-  .then(response => response.json())
-  .then(_rawData => run(_rawData));
+$.get(ROOT_PATH + '/data/asset/data/life-expectancy-table.json', function (_rawData) {
+  run(_rawData);
+});
 
 function run(_rawData: any) {
   option = {
