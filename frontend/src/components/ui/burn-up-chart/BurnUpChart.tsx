@@ -32,12 +32,6 @@ echarts.use([
   UniversalTransition,
 ]);
 
-/*type EChartsOption = echarts.ComposeOption<
-  DatasetComponentOption | TitleComponentOption | TooltipComponentOption | GridComponentOption | LineSeriesOption
->;*/
-
-// Data format: array of arrays where first row is headers
-// [["Income", "Life Expectancy", "Population", "Country", "Year"], [815, 34.05, 351014, "Australia", 1800], ...]
 type RawData = (string | number)[][];
 
 function createOption(_rawData: RawData): EChartsOption {
@@ -75,7 +69,7 @@ function createOption(_rawData: RawData): EChartsOption {
       },
     ],
     title: {
-      text: 'Income of Germany and France since 1950',
+      text: 'SB Burn Up Chart',
     },
     tooltip: {
       trigger: 'axis',
@@ -129,14 +123,9 @@ export function BurnUpChart() {
     return createOption(_rawData);
   }, [_rawData]);
 
-  const chartStyle: React.CSSProperties = {
-    width: '100%',
-    height: '100%',
-  };
-
   if (isPending) return <div>Loading chart...</div>;
 
   if (error) return <div>An error has occurred: {error.message}</div>;
 
-  return <EChart option={option} style={chartStyle} />;
+  return <EChart option={option} />;
 }

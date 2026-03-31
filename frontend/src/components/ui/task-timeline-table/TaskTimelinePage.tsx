@@ -48,7 +48,7 @@ export default function TaskTimeLinePage() {
           <TaskTimelineTable data={data} initialColumnVisibility={visibility2} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility3} />
         </article>
-        <article className="mt-4 grid h-96 grid-cols-2 gap-4">
+        <article className="mt-8 grid h-1/2 grid-cols-2 gap-4">
           <BurnUpChart />
         </article>
       </main>
