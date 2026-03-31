@@ -129,9 +129,14 @@ export function BurnUpChart() {
     return createOption(_rawData);
   }, [_rawData]);
 
+  const chartStyle: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
+  };
+
   if (isPending) return <div>Loading chart...</div>;
 
   if (error) return <div>An error has occurred: {error.message}</div>;
 
-  return <EChart option={option} />;
+  return <EChart option={option} style={chartStyle} />;
 }

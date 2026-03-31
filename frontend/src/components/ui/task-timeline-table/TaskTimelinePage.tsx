@@ -43,12 +43,12 @@ export default function TaskTimeLinePage() {
         <Navbar />{' '}
       </aside>
       <main className="col-start-2 h-full overflow-x-auto py-10">
-        <article className="grid h-full min-w-max grid-cols-3 gap-4">
+        <article className="grid min-w-max grid-cols-3 gap-4">
           <TaskTimelineTable data={data} initialColumnVisibility={visibility1} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility2} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility3} />
         </article>
-        <article>
+        <article className="mt-4 grid h-96 grid-cols-2 gap-4">
           <BurnUpChart />
         </article>
       </main>
