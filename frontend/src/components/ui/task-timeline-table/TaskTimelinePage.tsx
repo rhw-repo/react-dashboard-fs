@@ -3,6 +3,7 @@ import type { Person } from '../../../types/types';
 import { person } from '../../../data/data';
 import { TaskTimelineTable } from './TaskTimelineTable';
 import Navbar from '../navbar/Navbar';
+import { BurnUpChart } from '../burn-up-chart/BurnUpChart';
 
 export default function TaskTimeLinePage() {
   'use no memo';
@@ -46,6 +47,9 @@ export default function TaskTimeLinePage() {
           <TaskTimelineTable data={data} initialColumnVisibility={visibility1} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility2} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility3} />
+        </article>
+        <article>
+          <BurnUpChart />
         </article>
       </main>
     </div>
