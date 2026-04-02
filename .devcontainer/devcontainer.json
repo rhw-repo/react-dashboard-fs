@@ -1,0 +1,30 @@
+{
+    "name": "React Dashboard Frontend",
+    "build": {
+        "dockerfile": "./frontend/Dockerfile",
+        "context": "."
+    },
+    "workspaceFolder": "/usr/src/app",
+    "forwardPorts": [
+        5173
+    ],
+    "portsAttributes": {
+        "5173": {
+            "label": "Vite Dev Server",
+            "onAutoForward": "notify"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ],
+            "settings": {
+                "editor.formatOnSave": true
+            }
+        }
+    },
+    "remoteUser": "node",
+    "postStartCommand": "npm install"
+}
