@@ -1,10 +1,10 @@
 {
     "name": "React Dashboard Frontend",
     "build": {
-        "dockerfile": "./frontend/Dockerfile",
-        "context": "."
+        "dockerfile": "../frontend/Dockerfile",
+        "context": "../frontend"
     },
-    "workspaceFolder": "/usr/src/app",
+    "workspaceFolder": "/workspaces/react-dashboard-fs/frontend",
     "forwardPorts": [
         5173
     ],
@@ -26,5 +26,6 @@
         }
     },
     "remoteUser": "node",
-    "postStartCommand": "npm install"
+    "postStartCommand": "npm install",
+    "postAttachCommand": "npm run dev"
 }
