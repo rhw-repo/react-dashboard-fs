@@ -1,5 +1,4 @@
 import * as echarts from 'echarts/core';
-import type { EChartsOption } from 'echarts';
 import {
   DatasetComponent,
   TitleComponent,
@@ -20,6 +19,8 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { EChart } from '../EChart';
+import { createOption, type RawData } from './burn-up-chart-options';
+import type { EChartsOption } from 'echarts';
 
 echarts.use([
   DatasetComponent,
@@ -31,84 +32,6 @@ echarts.use([
   CanvasRenderer,
   UniversalTransition,
 ]);
-
-type RawData = (string | number)[][];
-
-function createOption(_rawData: RawData): EChartsOption {
-  return {
-    dataset: [
-      {
-        id: 'dataset_raw',
-        source: _rawData,
-      },
-      {
-        id: 'dataset_calls_completed',
-        fromDatasetId: 'dataset_raw',
-        transform: {
-          type: 'filter',
-          config: {
-            and: [{ dimension: 'Metric', '=': 'Calls Completed' }],
-          },
-        },
-      },
-      {
-        id: 'dataset_people_contacted',
-        fromDatasetId: 'dataset_raw',
-        transform: {
-          type: 'filter',
-          config: {
-            and: [{ dimension: 'Metric', '=': 'People Contacted' }],
-          },
-        },
-      },
-    ],
-    title: {
-      text: 'Sprint Burnup Chart - Task Completion Progress',
-    },
-    tooltip: {
-      trigger: 'axis',
-    },
-    xAxis: {
-      type: 'category',
-      name: 'Sprint Day',
-      nameLocation: 'middle',
-      nameGap: 25,
-    },
-    yAxis: {
-      name: 'Cumulative Tasks',
-      nameLocation: 'middle',
-      nameGap: 50,
-    },
-    series: [
-      {
-        type: 'line',
-        datasetId: 'dataset_calls_completed',
-        showSymbol: true,
-        smooth: true,
-        encode: {
-          x: 'Day',
-          y: 'Count',
-          itemName: 'Day',
-          tooltip: ['Count'],
-        },
-        name: 'Calls Completed',
-      },
-      {
-        type: 'line',
-        datasetId: 'dataset_people_contacted',
-        showSymbol: true,
-        smooth: true,
-        encode: {
-          x: 'Day',
-          y: 'Count',
-          itemName: 'Day',
-          tooltip: ['Count'],
-        },
-        name: 'People Contacted',
-      },
-    ],
-  };
-}
 
 export function BurnUpChart() {
   const {
@@ -122,7 +45,7 @@ export function BurnUpChart() {
 
   const option = useMemo(() => {
     if (!_rawData) return null;
-    return createOption(_rawData);
+    return createOption(_rawData) as unknown as EChartsOption;
   }, [_rawData]);
 
   if (isPending) return <div>Loading chart...</div>;

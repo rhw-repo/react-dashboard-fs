@@ -1,0 +1,92 @@
+import { describe, it, expect } from 'vitest';
+import { createOption, type RawData } from '@/components/ui/burn-up-chart/burn-up-chart-options';
+
+const validData: RawData = [
+  ['Day', 'Metric', 'Count'],
+  [1, 'Calls Completed', 12],
+  [2, 'Calls Completed', 28],
+  [1, 'People Contacted', 8],
+  [2, 'People Contacted', 18],
+];
+
+describe('createOption', () => {
+  it('returns a valid ECharts option with 3 datasets', () => {
+    const option = createOption(validData);
+
+    expect(option.dataset).toHaveLength(3);
+  });
+
+  it('sets the raw dataset source to the input data', () => {
+    const option = createOption(validData);
+    const datasets = option.dataset as { id: string; source?: RawData }[];
+
+    expect(datasets[0].id).toBe('dataset_raw');
+    expect(datasets[0].source).toBe(validData);
+  });
+
+  it('creates filter transforms for each metric', () => {
+    const option = createOption(validData);
+    const datasets = option.dataset as { id: string; fromDatasetId?: string; transform?: { config: { and: { dimension: string; '=': string }[] } } }[];
+
+    expect(datasets[1].id).toBe('dataset_calls_completed');
+    expect(datasets[1].fromDatasetId).toBe('dataset_raw');
+    expect(datasets[1].transform?.config.and[0]['=']).toBe('Calls Completed');
+
+    expect(datasets[2].id).toBe('dataset_people_contacted');
+    expect(datasets[2].fromDatasetId).toBe('dataset_raw');
+    expect(datasets[2].transform?.config.and[0]['=']).toBe('People Contacted');
+  });
+
+  it('configures two line series with correct dataset references', () => {
+    const option = createOption(validData);
+    const series = option.series as { type: string; datasetId: string; name: string }[];
+
+    expect(series).toHaveLength(2);
+    expect(series[0]).toMatchObject({ type: 'line', datasetId: 'dataset_calls_completed', name: 'Calls Completed' });
+    expect(series[1]).toMatchObject({ type: 'line', datasetId: 'dataset_people_contacted', name: 'People Contacted' });
+  });
+
+  it('sets chart title', () => {
+    const option = createOption(validData);
+    const title = option.title as { text: string };
+
+    expect(title.text).toBe('Sprint Burnup Chart - Task Completion Progress');
+  });
+
+  it('handles empty array without throwing', () => {
+    const option = createOption([]);
+
+    expect(option.dataset).toHaveLength(3);
+    const datasets = option.dataset as { id: string; source?: RawData }[];
+    expect(datasets[0].source).toEqual([]);
+  });
+
+  it('handles header-only data without throwing', () => {
+    const headerOnly: RawData = [['Day', 'Metric', 'Count']];
+    const option = createOption(headerOnly);
+
+    expect(option.dataset).toHaveLength(3);
+  });
+
+  it('handles data with a single metric', () => {
+    const singleMetric: RawData = [
+      ['Day', 'Metric', 'Count'],
+      [1, 'Calls Completed', 12],
+    ];
+    const option = createOption(singleMetric);
+
+    expect(option.dataset).toHaveLength(3);
+    expect(option.series).toHaveLength(2);
+  });
+
+  it('handles data with zero counts', () => {
+    const zeroData: RawData = [
+      ['Day', 'Metric', 'Count'],
+      [1, 'Calls Completed', 0],
+      [1, 'People Contacted', 0],
+    ];
+    const option = createOption(zeroData);
+
+    expect(option.dataset).toHaveLength(3);
+  });
+});
