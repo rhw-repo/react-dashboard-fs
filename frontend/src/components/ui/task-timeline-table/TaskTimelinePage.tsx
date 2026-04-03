@@ -3,6 +3,7 @@ import type { Person } from '../../../types/types';
 import { person } from '../../../data/data';
 import { TaskTimelineTable } from './TaskTimelineTable';
 import Navbar from '../navbar/Navbar';
+import { BurnUpChart } from '../burn-up-chart/BurnUpChart';
 
 export default function TaskTimeLinePage() {
   'use no memo';
@@ -42,10 +43,13 @@ export default function TaskTimeLinePage() {
         <Navbar />{' '}
       </aside>
       <main className="col-start-2 h-full overflow-x-auto py-10">
-        <article className="grid h-full min-w-max grid-cols-3 gap-4">
+        <article className="grid min-w-max grid-cols-3 gap-4">
           <TaskTimelineTable data={data} initialColumnVisibility={visibility1} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility2} />
           <TaskTimelineTable data={data} initialColumnVisibility={visibility3} />
+        </article>
+        <article className="mt-8 grid h-1/2 grid-cols-2 gap-4">
+          <BurnUpChart />
         </article>
       </main>
     </div>
