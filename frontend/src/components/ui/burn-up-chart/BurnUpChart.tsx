@@ -40,7 +40,7 @@ export function BurnUpChart() {
     data: fetchedMockData,
   } = useQuery<RawData>({
     queryKey: ['burnupChartData'],
-    queryFn: () => fetch('/data/asset/data/sprint-burnup-data.json').then((res) => res.json()),
+    queryFn: () => fetch('/data/asset/data/mock-burnup-chart-data.json').then((res) => res.json()),
   });
 
   const option = useMemo(() => {
