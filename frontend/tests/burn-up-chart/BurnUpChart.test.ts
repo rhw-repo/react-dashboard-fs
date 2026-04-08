@@ -37,7 +37,8 @@ describe('createOption', () => {
     expect(datasets[2].transform?.config.and[0]['=']).toBe('People Contacted');
   });
 
-  it('configures two line series with correct dataset references', () => {
+  // A "series" in ECharts = one visual line/bar/element on the chart
+  it('creates 2 visual lines on the chart (one for Calls Completed, referencing dataset_calls_completed and one for People Contacted referencing dataset_people_contacted)', () => {
     const option = createOption(validData);
     const series = option.series as { type: string; datasetId: string; name: string }[];
 
@@ -53,7 +54,7 @@ describe('createOption', () => {
     expect(title.text).toBe('Sprint Burnup Chart - Task Completion Progress');
   });
 
-  it('handles empty array without throwing', () => {
+  it('handles an empty array without throwing an error or crash, creates 3 empty datasets when the raw dataset source is an empty array', () => {
     const option = createOption([]);
 
     expect(option.dataset).toHaveLength(3);
@@ -61,14 +62,14 @@ describe('createOption', () => {
     expect(datasets[0].source).toEqual([]);
   });
 
-  it('handles header-only data without throwing', () => {
+  it('handles header-only data (no data rows) without throwing an error, still creates 3 datasets', () => {
     const headerOnly: RawData = [['Day', 'Metric', 'Count']];
     const option = createOption(headerOnly);
 
     expect(option.dataset).toHaveLength(3);
   });
 
-  it('handles data with a single metric', () => {
+  it('handles data with only either dataset_calls_completed or dataset_people_contacted without throwing an error or a crash', () => {
     const singleMetric: RawData = [
       ['Day', 'Metric', 'Count'],
       [1, 'Calls Completed', 12],
@@ -79,7 +80,7 @@ describe('createOption', () => {
     expect(option.series).toHaveLength(2);
   });
 
-  it('handles data with zero counts', () => {
+  it('handles data with all zero values in the Count column without throwing an error or a crash', () => {
     const zeroData: RawData = [
       ['Day', 'Metric', 'Count'],
       [1, 'Calls Completed', 0],
