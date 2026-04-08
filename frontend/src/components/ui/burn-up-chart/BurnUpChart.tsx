@@ -6,12 +6,6 @@ import {
   GridComponent,
   TransformComponent,
 } from 'echarts/components';
-/*import type {
- // DatasetComponentOption,
-  //TitleComponentOption,
-  //TooltipComponentOption,
-  //GridComponentOption,
-} from 'echarts/components';*/
 import { LineChart } from 'echarts/charts';
 /*import type { LineSeriesOption } from 'echarts/charts';*/
 import { UniversalTransition } from 'echarts/features';

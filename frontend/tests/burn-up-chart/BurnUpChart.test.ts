@@ -24,7 +24,7 @@ describe('createOption', () => {
     expect(datasets[0].source).toBe(validData);
   });
 
-  it('creates filter transforms for each metric', () => {
+  it('separates the raw data into 2 filtered datasets: dataset_calls_completed and dataset_people_contacted', () => {
     const option = createOption(validData);
     const datasets = option.dataset as { id: string; fromDatasetId?: string; transform?: { config: { and: { dimension: string; '=': string }[] } } }[];
 
