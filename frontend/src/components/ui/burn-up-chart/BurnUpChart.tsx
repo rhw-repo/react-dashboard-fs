@@ -37,16 +37,16 @@ export function BurnUpChart() {
   const {
     isPending,
     error,
-    data: _rawData,
+    data: fetchedMockData,
   } = useQuery<RawData>({
     queryKey: ['burnupChartData'],
     queryFn: () => fetch('/data/asset/data/sprint-burnup-data.json').then((res) => res.json()),
   });
 
   const option = useMemo(() => {
-    if (!_rawData) return null;
-    return createOption(_rawData) as unknown as EChartsOption;
-  }, [_rawData]);
+    if (!fetchedMockData) return null;
+    return createOption(fetchedMockData) as unknown as EChartsOption;
+  }, [fetchedMockData]);
 
   if (isPending) return <div>Loading chart...</div>;
 

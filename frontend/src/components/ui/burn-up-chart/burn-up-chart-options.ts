@@ -26,12 +26,12 @@ export interface BurnUpChartOption {
   }[];
 }
 
-export function createOption(_rawData: RawData): BurnUpChartOption {
+export function createOption(fetchedMockData: RawData): BurnUpChartOption {
   return {
     dataset: [
       {
         id: 'dataset_raw',
-        source: _rawData,
+        source: fetchedMockData,
       },
       {
         id: 'dataset_calls_completed',
