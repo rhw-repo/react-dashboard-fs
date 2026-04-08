@@ -90,4 +90,29 @@ describe('createOption', () => {
 
     expect(option.dataset).toHaveLength(3);
   });
+
+  it('configures tooltips to display Count values at each data point on the line', () => {
+    const option = createOption(validData);
+    const tooltip = option.tooltip as { trigger: string };
+    const series = option.series as { encode: { tooltip: string[] } }[];
+
+    expect(tooltip.trigger).toBe('axis');
+    expect(series[0].encode.tooltip).toContain('Count');
+    expect(series[1].encode.tooltip).toContain('Count');
+  });
+
+  it('displays non-empty labels on both axes', () => {
+    const option = createOption(validData);
+    const xAxisLabel = option.xAxis as { name: string };
+    const yAxisLabel = option.yAxis as { name: string };
+
+    expect(xAxisLabel.name).toBeDefined();
+    expect(typeof xAxisLabel.name).toBe('string');
+    expect(xAxisLabel.name.length).toBeGreaterThan(0);
+
+    expect(yAxisLabel.name).toBeDefined();
+    expect(typeof yAxisLabel.name).toBe('string');
+    expect(yAxisLabel.name.length).toBeGreaterThan(0);
+  });
 });
+
