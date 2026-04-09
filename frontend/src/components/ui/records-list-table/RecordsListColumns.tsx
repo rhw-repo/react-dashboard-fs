@@ -54,6 +54,7 @@ export function getColumns(
       maxSize: 40,
     },
     {
+      id: 'status',
       accessorKey: 'status',
       header: 'Status',
       cell: StatusCellWithText,
@@ -63,6 +64,7 @@ export function getColumns(
       maxSize: 80,
     },
     {
+      id: 'name',
       accessorKey: 'name',
       header: ({ column }) => (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
@@ -77,6 +79,7 @@ export function getColumns(
       maxSize: 200,
     },
     {
+      id: 'address',
       accessorKey: 'address',
       header: 'Address',
       cell: ({ row }) => row.original.address,
@@ -86,6 +89,7 @@ export function getColumns(
       maxSize: 200,
     },
     {
+      id: 'postcode',
       accessorKey: 'postcode',
       header: 'Postcode',
       cell: ({ row }) => row.original.postcode,
@@ -95,6 +99,7 @@ export function getColumns(
       maxSize: 80,
     },
     {
+      id: 'notes',
       accessorKey: 'notes',
       header: 'Notes',
       cell: ({ row }) => row.original.notes,
@@ -104,6 +109,7 @@ export function getColumns(
       maxSize: 900,
     },
     {
+      id: 'nextTask',
       accessorKey: 'nextTask',
       header: 'Next Task',
       cell: ({ row }) => row.original.nextTask,
@@ -113,6 +119,7 @@ export function getColumns(
       maxSize: 300,
     },
     {
+      id: 'taskDeadline',
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
       cell: ({ row }) => row.original.taskDeadline,
@@ -122,6 +129,7 @@ export function getColumns(
       maxSize: 80,
     },
     {
+      id: 'status2',
       accessorKey: 'status2',
       header: 'Status 2',
       cell: StatusCell,
