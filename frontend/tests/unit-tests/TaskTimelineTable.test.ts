@@ -1,6 +1,4 @@
 import { describe, it, expect } from 'vitest';
-//import type { ColumnDef } from '@tanstack/react-table';
-//import type { Person } from '@/types/types';
 import { statusPillClass, statusSquareClass } from '@/components/ui/task-timeline-table/statusCellClassNames';
 import { getColumns } from '@/components/ui/task-timeline-table/TaskTimelineColumns';
 
@@ -87,11 +85,11 @@ describe('TaskTimelineTable - Data Transformation', () => {
 
     it('columns in correct order', () => {
       const cols = getColumns();
-      expect(cols[0].accessorKey).toBe('status');
-      expect(cols[1].accessorKey).toBe('name');
-      expect(cols[2].accessorKey).toBe('nextTask');
-      expect(cols[3].accessorKey).toBe('taskDeadline');
-      expect(cols[4].accessorKey).toBe('status2');
+      expect(cols[0].id).toBe('status');
+      expect(cols[1].id).toBe('name');
+      expect(cols[2].id).toBe('nextTask');
+      expect(cols[3].id).toBe('taskDeadline');
+      expect(cols[4].id).toBe('status2');
     });
 
     it('all columns sortable', () => {
@@ -135,9 +133,9 @@ describe('TaskTimelineTable - Data Transformation', () => {
       expect(col.maxSize).toBe(60);
     });
 
-    it('total width 730px', () => {
+    it('total width 630px', () => {
       const total = getColumns().reduce((sum, col) => sum + (col.size || 0), 0);
-      expect(total).toBe(730);
+      expect(total).toBe(630);
     });
 
     it('all columns have required properties', () => {
