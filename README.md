@@ -1,7 +1,10 @@
 ### React Dashboard
 
 Work In Progress:
-Building a dashboard to handle display, Create, Read Update for a large data set for a Financial Consultancy.
+
+Dashboard app to handle Create, Read & Update with a large data set plus progress chart & Kanban board. 
+
+For a Financial Consultancy.
 
 ### Technologies
 
@@ -10,7 +13,9 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 - `Tanstack Query`
 - `Tailwind CSS`
 - `shadcn/ui`
+- `ECharts`
 - `vitest`
+- `Dev Containers (Docker, VS Code)`
 
 ---
 
@@ -21,16 +26,19 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 
 ### Solutions:
 
-1. Explore `shadcn/ui` Task Dashboard
+1. Implementing `shadcn/ui` Task Dashboard
 
-- faster table generation whilst retaining control over all it's code, fully modifiable
-- potentially explore other components for faster templating
+- faster table generation whilst retaining control over all code, fully modifiable
+- uses Tanstack Table (robust, tested solution)
+- using other `shadcn/ui` components for faster templating
+
 
 2. `Tailwind CSS` for quicker uniform & polished UI styling
 
 - Blend with modular vanilla CSS if required to retain full control over the design
 
-3. Implement `Tanstack Query` (React Query)
+
+3. Implementing `Tanstack Query` (React Query)
 
 - automate data fetching, caching and error / loading state
 
@@ -41,41 +49,38 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 Installation & config:
 
 - Vite, React and TypeScript
-- libraries, frameworks and component-library toolkit (shadcn)
+- React Router, React Query, component-library toolkit (shadcn), ECharts
+- Switched to developing in Docker container utilizing DevContainers as extension in the editor  
 
----
+Implementation:
+- Four tables with mock data 
+- ECharts stacked series chart with mock data 
+- Vertical navigation menu
+- Custom button with animation as per client request 
+- Template to be used later for log in and sign up pages 
 
-### To run this project locally:
+Testing: 
+- Unit testing with vitest 
 
-1. **Clone the repository**
+### Next sprints
 
-```
-git clone git@github.com:rhw-repo/react-dashboard-fs.git
-```
+Research & Team Discussion: 
+- Websockets for synchronization database and UI
+- Completion of login / signup with Google SSO 
+- Links to be finalised with team (currently mix of genuine pages / display of certain components)
+- Final color theme
 
-2. **Navigate to the frontend directory**
+Implementation: 
+- Updated links in vertical naviagtion menu
+- Kanban board 
+- integration with server side & websockets implentation for synchronization database and UI
+- Color theme
+- Possiblity to DRY Tailwind utility classes with Taiwind Variants (TBC)
 
-```
-cd react-dashboard-fs/frontend
-```
+Testing: 
+- integration testing with React Testing Library
+- end to end testing with Playwright 
 
-3. **Install dependencies**
-
-```
-npm install
-```
-
-or
-
-```
-yarn install
-```
-
-4. **Start local developerment server**
-
-```
-npm run dev
-```
 
 ---
 
