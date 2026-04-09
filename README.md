@@ -16,6 +16,8 @@ For a Financial Consultancy.
 - `ECharts`
 - `vitest`
 - `Dev Containers (Docker, VS Code)`
+- `React Testing Library`
+- `Playwright`
 
 ---
 
@@ -69,6 +71,7 @@ Research & Team Discussion:
 - Completion of login / signup with Google SSO 
 - Links to be finalised with team (currently mix of genuine pages / display of certain components)
 - Final color theme
+- Link to Kanban board or other UI solution
 
 Implementation: 
 - Updated links in vertical naviagtion menu
