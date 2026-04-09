@@ -10,6 +10,7 @@ Building a dashboard to handle display, Create, Read Update for a large data set
 - `Tanstack Query`
 - `Tailwind CSS`
 - `shadcn/ui`
+- `vitest`
 
 ---
 
