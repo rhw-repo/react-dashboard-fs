@@ -8,7 +8,18 @@ import RecordsListTablePage from './components/ui/records-list-table/RecordsList
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Create a client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
+
+
+// TypeScript only:
+declare global {
+  interface Window {
+    __TANSTACK_QUERY_CLIENT__:
+      import('@tanstack/query-core')
+        .QueryClient
+  }
+}
+window.__TANSTACK_QUERY_CLIENT__ = queryClient
 
 // Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {

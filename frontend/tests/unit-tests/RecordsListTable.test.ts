@@ -85,8 +85,6 @@ describe('RecordsListTable - Data Transformation', () => {
       const mockOnSelectRow = () => {};
 
     it('returns 5 columns', () => {
-      
-
       expect(getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow)).toHaveLength(9);
     });
 

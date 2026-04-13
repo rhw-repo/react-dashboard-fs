@@ -46,5 +46,6 @@ export function BurnUpChart() {
 
   if (error) return <div>An error has occurred: {error.message}</div>;
 
-  return <EChart option={option} />;
+  return <EChart option={option} />
+  ;
 }
