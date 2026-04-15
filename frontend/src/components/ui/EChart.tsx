@@ -47,6 +47,7 @@ useEffect(() => {
     return () => {
       resizeObserver.disconnect();
     };*/
+    
 }, [option, optionSettings]);
 
   return <div ref={chartRef} style={style} {...props} />;
