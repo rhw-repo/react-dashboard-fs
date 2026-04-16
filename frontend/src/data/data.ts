@@ -15,13 +15,13 @@ export const person: FullPerson[] = [
   {
     id: '489e1d42',
     name: 'Jane Doe',
-    address: '24 Example Street, Example Town, Example Region, Example Country',
-    postcode: '35300',
+    //address: '24 Example Street, Example Town, Example Region, Example Country',
+    //postcode: '35300',
     status: 'gold',
-    email: 'example@gmail.com',
-    nextTask: 'follow up',
-    taskDeadline: 'date',
-    status2: 'gold',
+    //email: 'example@gmail.com',
+    //nextTask: 'call',
+    //taskDeadline: 'date',
+    //status2: 'gold', commenting out simulates empty field 
   },
   {
     id: '7f3a9c10',

@@ -30,13 +30,25 @@ export const EChart: React.FC<EChartProps> = ({
     };
   }, [chartSettings]);
 
-  // Update chart when option changes
-  useEffect(() => {
-    if (!option || !chartRef.current) return;
+  
+ // Update chart when option changes & handle resizing
+useEffect(() => {
+  if (!option || !chartRef.current) return;
 
-    const chart = getInstanceByDom(chartRef.current);
-    chart?.setOption(option, optionSettings);
-  }, [option, optionSettings]);
+  const chart = getInstanceByDom(chartRef.current);
+  chart?.setOption(option, optionSettings);
+
+ /*const resizeObserver = new ResizeObserver(() => {
+      chart?.resize();
+    });
+
+    resizeObserver.observe(chartRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };*/
+    
+}, [option, optionSettings]);
 
   return <div ref={chartRef} style={style} {...props} />;
 };
