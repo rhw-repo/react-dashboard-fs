@@ -57,9 +57,10 @@ queryFn: () => fetchData<Person[]>("/data/asset/data/mock-table-data.json")
   return <div>An error has occurred: {error instanceof Error ? error.message : 'Unknown error'}</div>;
   }
 
-// Expected: guaranteed Person[] array - fetchedData can be undefined whilst loading
+// Expected: guaranteed Person[] array 
+// fetchedData can be undefined whilst loading
 // Using EMPTY_DATA (defined outside function) maintains a stable memory reference.
-// Fallback to stable reference; prevents unnecessary Table re-renders if not loaded
+// Fallback to stable reference; prevents unnecessary Table re-renders if so
 const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
