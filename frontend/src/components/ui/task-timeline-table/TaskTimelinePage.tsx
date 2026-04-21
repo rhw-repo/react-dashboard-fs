@@ -75,7 +75,12 @@ const safeData = fetchedData ?? EMPTY_DATA;
           <TaskTimelineTable data={safeData} initialColumnVisibility={visibility3} />
         </article>
         <article className="mt-8 grid h-1/2 grid-cols-2 gap-4">
+        <div className='col-start-1 col-span-1'>
           <BurnUpChart />
+          </div>
+    <div className='col-start-2 col-span-1'>
+      <img src='https://mintcdn.com/kan/tZr6SCXtNIaMjnC7/images/hero-dark.png?w=2500&fit=max&auto=format&n=tZr6SCXtNIaMjnC7&q=85&s=e3c16964a05107ab04b31add4a7efa47'/>
+    </div>
         </article>
       </main>
     </div>

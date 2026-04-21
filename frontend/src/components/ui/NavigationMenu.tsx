@@ -18,7 +18,7 @@ function NavigationMenu({
       data-slot="navigation-menu"
       data-viewport={viewport}
       className={cn(
-        'group/navigation-menu relative flex h-screen w-fit flex-col justify-start bg-violet-600 px-2',
+        'group/navigation-menu relative flex h-screen w-fit flex-col justify-start bg-blue-950 px-2',
         className,
       )}
       {...props}
