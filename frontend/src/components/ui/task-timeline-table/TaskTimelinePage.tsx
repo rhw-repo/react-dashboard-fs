@@ -63,6 +63,10 @@ queryFn: () => fetchData<Person[]>("/data/asset/data/mock-table-data.json")
 // Fallback to stable reference; prevents unnecessary Table re-renders if so
 const safeData = fetchedData ?? EMPTY_DATA;
 
+// TEMP trigger ErrorBoundary to test 
+// TODO delet line below and comment above
+throw new Error("Testing my error boundary for errors inside the router!");
+
   return (
     <div className="mx-auto grid h-screen max-w-550 grid-cols-[5%_95%] overflow-auto">
       <aside className="justify-self-end">

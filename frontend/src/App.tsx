@@ -1,5 +1,5 @@
 import TaskTimelinePage from './components/ui/task-timeline-table/TaskTimelinePage';
-import { createBrowserRouter, type RouteObject, RouterProvider, Outlet } from 'react-router';
+import { createBrowserRouter, type RouteObject, RouterProvider, Outlet, useRouteError } from 'react-router';
 import type React from 'react';
 import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';
 import { LoginCard } from './components/ui/login-card/LoginCard';
@@ -22,6 +22,17 @@ declare global {
 }
 window.__TANSTACK_QUERY_CLIENT__ = queryClient
 
+function RouteErrorFallback() {
+  const error = useRouteError();
+  return (
+    <div role="alert" style={{ padding: '20px', border: '2px solid orange' }}>
+      <h2>Page Error</h2>
+      <p>Something went wrong loading this page:</p>
+      <pre style={{ color: 'red' }}>{(error as Error).message}</pre>
+    </div>
+  );
+}
+
 // Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {
   return (
@@ -37,6 +48,7 @@ const routes: RouteObject[] = [
   {
     path: '/',
     element: <Layout />,
+    errorElement: <RouteErrorFallback />,
     children: [
       { index: true, element: <TaskTimelinePage /> },
       { path: 'test', element: <BuzzerButton /> },
@@ -47,11 +59,12 @@ const routes: RouteObject[] = [
   },
 ];
 
+// TOD0 - REPLACE WITH ERROR BOUNDARY UI COMPONENT - TEST PROVES react-error-boundary executes
 function ErrorFallback({ error }: FallbackProps) {
 	return (
 		<div role="alert">
-			<p>Something went wrong:</p>
-			<pre style={{ color: 'red' }}>{(error as Error).message}</pre>
+			<h2>Something went wrong outside the router</h2>
+			<pre style={{ color: 'red', border:'2px solid pink', padding:'20px' }}>{(error as Error).message}</pre>
 		</div>
 	)
 }
