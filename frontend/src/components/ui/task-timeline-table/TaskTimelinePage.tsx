@@ -13,17 +13,12 @@ const EMPTY_DATA: Person[] = [];
 export default function TaskTimeLinePage() {
   'use no memo';
   // Single data fetch - reused for all three tables
-  // const data = person as Person[];
+ // const data = person as Person[];
 
-  const {
-    data: fetchedData,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ['timelineTasks'],
-    queryFn: () => fetchData<Person[]>('/data/asset/data/mock-table-data.json'),
-  });
+ const { data: fetchedData, isLoading, isError, error } = useQuery({
+queryKey: ["timelineTasks"],
+queryFn: () => fetchData<Person[]>("/data/asset/data/mock-table-data.json")
+ });
 
   // Table 1
   const visibility1 = {
@@ -52,20 +47,21 @@ export default function TaskTimeLinePage() {
     status2: true,
   };
 
-  // TEMP: TODO PROVIDE CORRECT UI TO INDICATE A LOADING STATE
+    // TEMP: TODO PROVIDE CORRECT UI TO INDICATE A LOADING STATE 
   if (isLoading) {
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
   }
 
-  // TEMP: TODO PROVIDE CORRECT UI FOR ERROR MESSAGE
+  // TEMP: TODO PROVIDE CORRECT UI FOR ERROR MESSAGE 
   if (isError) {
-    return <div>An error has occurred: {error instanceof Error ? error.message : 'Unknown error'}</div>;
+  return <div>An error has occurred: {error instanceof Error ? error.message : 'Unknown error'}</div>;
   }
 
-  // Expected: guaranteed Person[] array - fetchedData can be undefined whilst loading
-  // Using EMPTY_DATA (defined outside function) maintains a stable memory reference.
-  // Fallback to stable reference; prevents unnecessary Table re-renders if not loaded
-  const safeData = fetchedData ?? EMPTY_DATA;
+// Expected: guaranteed Person[] array 
+// fetchedData can be undefined whilst loading
+// Using EMPTY_DATA (defined outside function) maintains a stable memory reference.
+// Fallback to stable reference; prevents unnecessary Table re-renders if so
+const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
     <div className="mx-auto grid h-screen max-w-550 grid-cols-[5%_95%] overflow-auto">
@@ -79,7 +75,12 @@ export default function TaskTimeLinePage() {
           <TaskTimelineTable data={safeData} initialColumnVisibility={visibility3} />
         </article>
         <article className="mt-8 grid h-1/2 grid-cols-2 gap-4">
+        <div className='col-start-1 col-span-1'>
           <BurnUpChart />
+          </div>
+    <div className='col-start-2 col-span-1'>
+      <img src='https://mintcdn.com/kan/tZr6SCXtNIaMjnC7/images/hero-dark.png?w=2500&fit=max&auto=format&n=tZr6SCXtNIaMjnC7&q=85&s=e3c16964a05107ab04b31add4a7efa47'/>
+    </div>
         </article>
       </main>
     </div>
