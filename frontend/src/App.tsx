@@ -6,6 +6,7 @@ import { LoginCard } from './components/ui/login-card/LoginCard';
 import SignUpCard from './components/ui/signup-card/SignUpCard';
 import RecordsListTablePage from './components/ui/records-list-table/RecordsListPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 
 // Create a client
 const queryClient = new QueryClient()
@@ -46,11 +47,22 @@ const routes: RouteObject[] = [
   },
 ];
 
+function ErrorFallback({ error }: FallbackProps) {
+	return (
+		<div role="alert">
+			<p>Something went wrong:</p>
+			<pre style={{ color: 'red' }}>{(error as Error).message}</pre>
+		</div>
+	)
+}
+
 export default function App() {
   const router = createBrowserRouter(routes);
   return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
