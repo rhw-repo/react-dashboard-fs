@@ -77,7 +77,7 @@ export default function App() {
   const router = createBrowserRouter(routes);
   return (
     <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-    <QueryClientProvider /*client={queryClient}*/ client={null as any}>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
     </ErrorBoundary>
