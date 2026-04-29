@@ -63,8 +63,8 @@ queryFn: () => fetchData<Person[]>("/data/asset/data/mock-table-data.json")
 // Fallback to stable reference; prevents unnecessary Table re-renders if so
 const safeData = fetchedData ?? EMPTY_DATA;
 
-// TEMP trigger ErrorBoundary to test 
-// TODO delet line below and comment above
+// TEMP trigger RouteErrorFallback.tsx to test 
+// TODO delete line below and comment above
 //throw new Error("Testing my error boundary for errors inside the router!");
 
   return (
