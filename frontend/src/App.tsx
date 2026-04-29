@@ -6,8 +6,9 @@ import { LoginCard } from './components/ui/login-card/LoginCard';
 import SignUpCard from './components/ui/signup-card/SignUpCard';
 import RecordsListTablePage from './components/ui/records-list-table/RecordsListPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
+import { ErrorBoundary } from "react-error-boundary";
 import RouteErrorFallback from './components/ui/error-fallback-ui/RouteErrorFallback';
+import ErrorBoundaryFallback from './components/ui/error-fallback-ui/ErrorBoundaryFallback';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -23,7 +24,8 @@ declare global {
 }
 window.__TANSTACK_QUERY_CLIENT__ = queryClient
 
-/*function RouteErrorFallback() {
+/* TODO: DELETE ONCE COMPLETED ROUTEERRORFALLBACK.TSX
+function RouteErrorFallback() {
   const error = useRouteError();
   return (
     <div role="alert" style={{ padding: '20px', border: '2px solid orange' }}>
@@ -60,21 +62,22 @@ const routes: RouteObject[] = [
   },
 ];
 
-// TOD0 - REPLACE WITH ERROR BOUNDARY UI COMPONENT - TEST PROVES react-error-boundary executes
-function ErrorFallback({ error }: FallbackProps) {
+/* TOD0 - REPLACE WITH ERROR BOUNDARY UI COMPONENT - DELETE ONCE COMPLETED
+THIS BLOCK TESTED TO PROVE react-error-boundary executes */
+/*function ErrorFallback({ error }: FallbackProps) {
 	return (
 		<div role="alert">
 			<h2>Something went wrong outside the router</h2>
 			<pre style={{ color: 'red', border:'2px solid pink', padding:'20px' }}>{(error as Error).message}</pre>
 		</div>
 	)
-}
+}*/
 
 export default function App() {
   const router = createBrowserRouter(routes);
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-    <QueryClientProvider client={queryClient}>
+    <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+    <QueryClientProvider /*client={queryClient}*/ client={null as any}>
       <RouterProvider router={router} />
     </QueryClientProvider>
     </ErrorBoundary>
