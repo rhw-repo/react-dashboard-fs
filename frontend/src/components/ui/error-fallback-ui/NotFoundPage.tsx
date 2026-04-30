@@ -1,15 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { ErrorFallbackUI } from './ErrorFallbackUI';
+import { NOT_FOUND_CONTENT } from './errorContent';
 
 export const NotFoundPage = () => {
   const navigate = useNavigate();
 
-  return (
-    <ErrorFallbackUI
-      onAction={() => navigate('/')}
-      title="404 - Page Not Found"
-      message="It looks like you've wandered into deep waters. This page doesn't exist."
-      buttonText="Return Home"
-    />
-  );
+  const handleClick = () => {
+    void navigate('/');
+  };
+  return <ErrorFallbackUI onAction={handleClick} content={NOT_FOUND_CONTENT} />;
 };

@@ -1,5 +1,6 @@
 import { useRouteError } from "react-router";
 import { ErrorFallbackUI } from "./ErrorFallbackUI";
+import { GENERAL_ERROR_CONTENT } from './errorContent';
 
 const RouteErrorFallback = () => {
   const error = useRouteError();
@@ -12,7 +13,7 @@ const RouteErrorFallback = () => {
     window.location.assign("/");
    }
 
-  return <ErrorFallbackUI onAction={handleReset} buttonText="Restart App" />;
+  return <ErrorFallbackUI onAction={handleReset} content={GENERAL_ERROR_CONTENT} />;
 };
 
 
