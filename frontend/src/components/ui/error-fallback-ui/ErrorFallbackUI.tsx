@@ -13,7 +13,7 @@ interface ErrorFallbackUIProps {
 export const ErrorFallbackUI = ({ onAction, content }: ErrorFallbackUIProps) => {
   return (
     <main className="flex min-h-screen w-full items-center justify-center bg-slate-50 p-4 sm:p-8 md:p-12 dark:bg-slate-950">
-      <Card className="flex min-h-[75vh] w-full max-w-5xl flex-col overflow-hidden border-slate-300 bg-slate-850 text-slate-50 shadow-xl">
+      <Card className="flex min-h-[75vh] w-full max-w-5xl flex-col overflow-hidden border-slate-300 bg-slate-850 text-slate-50 shadow-xl dark:shadow-slate-700/20">
         <CardContent className="flex flex-1 flex-col items-center justify-center p-8 text-center sm:p-12 md:p-16">
           {content.imageSrc && (
             <img
