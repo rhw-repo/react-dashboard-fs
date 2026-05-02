@@ -6,7 +6,7 @@ import { fetchData } from '../utils/api';
 import { TaskTimelineTable } from './TaskTimelineTable';
 import Navbar from '../navbar/Navbar';
 import { BurnUpChart } from '../burn-up-chart/BurnUpChart';
-import EmptyLoadingSpinner from '@/components/loading-fallback-ui/EmptyLoadingSpinner';
+import EmptyLoadingSpinner from '@/components/ui/loading-fallback-ui/EmptyLoadingSpinner';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
 import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';

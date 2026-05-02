@@ -15,7 +15,7 @@ import { useMemo } from 'react';
 import { EChart } from '../EChart';
 import { createOption, type RawData } from './burn-up-chart-options';
 import type { EChartsOption } from 'echarts';
-import EmptyLoadingSpinner from '@/components/loading-fallback-ui/EmptyLoadingSpinner';
+import EmptyLoadingSpinner from '@/components/ui/loading-fallback-ui/EmptyLoadingSpinner';
 
 echarts.use([
   DatasetComponent,
@@ -41,7 +41,7 @@ export function BurnUpChart() {
       const response = await fetch('/data/asset/data/mock-burnup-chart-data.json');
       const data = await response.json();
       // Add artificial delay to see the Spinner
-      await new Promise((resolve) => setTimeout(resolve, 10000)); // 2 second delay
+      await new Promise((resolve) => setTimeout(resolve, 10000)); // 10 second delay
       return data;
     },*/
   });
