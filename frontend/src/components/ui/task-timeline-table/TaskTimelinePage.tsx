@@ -6,6 +6,10 @@ import { fetchData } from '../utils/api';
 import { TaskTimelineTable } from './TaskTimelineTable';
 import Navbar from '../navbar/Navbar';
 import { BurnUpChart } from '../burn-up-chart/BurnUpChart';
+import EmptyLoadingSpinner from '@/components/ui/loading-fallback-ui/EmptyLoadingSpinner';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
+import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
 
 // Fallback in case undefined during loading following the useQuery call
 const EMPTY_DATA: Person[] = [];
@@ -52,9 +56,8 @@ export default function TaskTimeLinePage() {
     status2: true,
   };
 
-  // TEMP: TODO PROVIDE CORRECT UI TO INDICATE A LOADING STATE
   if (isLoading) {
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+    return <EmptyLoadingSpinner/>;
   }
 
   // TEMP: TODO PROVIDE CORRECT UI FOR ERROR MESSAGE
@@ -68,6 +71,8 @@ export default function TaskTimeLinePage() {
   // Fallback to stable reference; prevents unnecessary Table re-renders if so
   const safeData = fetchedData ?? EMPTY_DATA;
 
+  const reset = () => window.location.reload();
+
   // TEMP trigger RouteErrorFallback.tsx to test
   // TODO delete line below and comment above
   //throw new Error("Testing my error boundary for errors inside the router!");
@@ -77,21 +82,23 @@ export default function TaskTimeLinePage() {
       <aside className="justify-self-end">
         <Navbar />{' '}
       </aside>
-      <main className="col-start-2 h-full overflow-x-auto py-10">
-        <article className="grid min-w-max grid-cols-3 gap-4">
-          <TaskTimelineTable data={safeData} initialColumnVisibility={visibility1} />
-          <TaskTimelineTable data={safeData} initialColumnVisibility={visibility2} />
-          <TaskTimelineTable data={safeData} initialColumnVisibility={visibility3} />
-        </article>
-        <article className="mt-8 grid h-1/2 grid-cols-2 gap-4">
-          <div className="col-span-1 col-start-1">
-            <BurnUpChart />
-          </div>
-          <div className="col-span-1 col-start-2">
-            <img src="https://mintcdn.com/kan/tZr6SCXtNIaMjnC7/images/hero-dark.png?w=2500&fit=max&auto=format&n=tZr6SCXtNIaMjnC7&q=85&s=e3c16964a05107ab04b31add4a7efa47" />
-          </div>
-        </article>
-      </main>
+      <ErrorBoundary fallbackRender={() => <ErrorFallbackUI onAction={reset} content={GENERAL_ERROR_CONTENT} />}>
+        <main className="col-start-2 h-full overflow-x-auto py-10">
+          <article className="grid min-w-max grid-cols-3 gap-4">
+            <TaskTimelineTable data={safeData} initialColumnVisibility={visibility1} />
+            <TaskTimelineTable data={safeData} initialColumnVisibility={visibility2} />
+            <TaskTimelineTable data={safeData} initialColumnVisibility={visibility3} />
+          </article>
+          <article className="mt-8 grid h-1/2 grid-cols-2 gap-4">
+            <div className="col-span-1 col-start-1">
+              <BurnUpChart />
+            </div>
+            <div className="col-span-1 col-start-2">
+              <img src="https://mintcdn.com/kan/tZr6SCXtNIaMjnC7/images/hero-dark.png?w=2500&fit=max&auto=format&n=tZr6SCXtNIaMjnC7&q=85&s=e3c16964a05107ab04b31add4a7efa47" />
+            </div>
+          </article>
+        </main>
+      </ErrorBoundary>
     </div>
   );
 }
