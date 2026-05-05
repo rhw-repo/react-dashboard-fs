@@ -12,7 +12,14 @@ export interface BurnUpChartOption {
         };
       }
   )[];
-  title: { text: string };
+  title: { text: string;
+    textStyle?: {
+      color?: string; 
+      fontSize?: number;
+      fontWeight?: string | number;
+      fontFamily?: string;
+    };
+   };
   tooltip: { trigger: string };
   xAxis: { type: string; name: string; nameLocation: string; nameGap: number };
   yAxis: { name: string; nameLocation: string; nameGap: number };
@@ -56,6 +63,12 @@ export function createOption(fetchedMockData: RawData): BurnUpChartOption {
     ],
     title: {
       text: 'Sprint Burnup Chart - Task Completion Progress',
+      textStyle: {
+        color: '#ffffff', 
+        fontSize: 16, 
+        fontWeight: 400,   
+        fontFamily: 'Noto Sans', 
+      },
     },
     tooltip: {
       trigger: 'axis',
