@@ -77,14 +77,15 @@ export default function TaskTimeLinePage() {
   // TODO delete line below and comment above
   //throw new Error("Testing my error boundary for errors inside the router!");
 
+  // removed min-w-max from the first article 
   return (
-    <div className="mx-auto grid h-screen max-w-550 grid-cols-[5%_95%] overflow-auto">
+    <div className="mx-auto grid h-screen max-w-550 grid-cols-[5%_95%] overflow-hidden px-20">
       <aside className="justify-self-end">
         <Navbar />{' '}
       </aside>
       <ErrorBoundary fallbackRender={() => <ErrorFallbackUI onAction={reset} content={GENERAL_ERROR_CONTENT} />}>
         <main className="col-start-2 h-full overflow-x-auto py-10">
-          <article className="grid min-w-max grid-cols-3 gap-4">
+          <article className="grid grid-cols-3 gap-4 justify-self-center">
             <TaskTimelineTable data={safeData} initialColumnVisibility={visibility1} />
             <TaskTimelineTable data={safeData} initialColumnVisibility={visibility2} />
             <TaskTimelineTable data={safeData} initialColumnVisibility={visibility3} />
