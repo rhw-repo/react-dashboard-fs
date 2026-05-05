@@ -17,6 +17,7 @@ export interface BurnUpChartOption {
       color?: string; 
       fontSize?: number;
       fontWeight?: string | number;
+      fontFamily?: string;
     };
    };
   tooltip: { trigger: string };
@@ -63,9 +64,10 @@ export function createOption(fetchedMockData: RawData): BurnUpChartOption {
     title: {
       text: 'Sprint Burnup Chart - Task Completion Progress',
       textStyle: {
-        color: '#ffffff', // Set your desired color here
+        color: '#ffffff', 
         fontSize: 16, 
-        fontWeight: 400,    // Optional: control size
+        fontWeight: 400,   
+        fontFamily: 'Noto Sans', 
       },
     },
     tooltip: {
