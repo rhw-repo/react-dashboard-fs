@@ -13,20 +13,18 @@ export function TaskTimelineSection() {
   /*const { data: fetchedData } = useQuery({
     queryKey: ['timelineTasks'],
    /* queryFn: () => fetchData<Person[]>('/data/asset/data/mock-table-data.json'),
-    throwOnError: true, // Crucial: This triggers the parent's ErrorBoundary */
+    throwOnError: true, */
 
-    // TEST 
-   const { data: fetchedData, isLoading } = useQuery({
-  queryKey: ['timelineTasks'],
-  // Pass a non-existent path to trigger the !response.ok block
-  queryFn: () => fetchData<Person[]>('/data/asset/data/THIS-FILE-DOES-NOT-EXIST.json'),
-  throwOnError: true,
-  retry: false, // Prevents waiting for 3 retries
-});
- 
+  // TEST display of ErrorBoundaryFallbackUI by passing in non-existant path
+  const { data: fetchedData, isLoading } = useQuery({
+    queryKey: ['timelineTasks'],
+    // Pass a non-existent path to trigger the !response.ok block
+    queryFn: () => fetchData<Person[]>('/data/asset/data/THIS-FILE-DOES-NOT-EXIST.json'),
+    throwOnError: true,
+    retry: false, // Prevents waiting for 3 retries
+  });
 
   const safeData = fetchedData ?? EMPTY_DATA;
-
 
   // Table 1
   const todoVisibility = {
@@ -55,7 +53,7 @@ export function TaskTimelineSection() {
     status2: true,
   };
 
-   if (isLoading) {
+  if (isLoading) {
     return <EmptyLoadingSpinner />;
   }
 
@@ -75,10 +73,11 @@ export function TaskTimelineSectionWrapper() {
         <ErrorBoundary
           onReset={reset}
           fallbackRender={({ resetErrorBoundary }) => (
-            <ErrorFallbackUI 
-              onAction={resetErrorBoundary} 
-              content={GENERAL_ERROR_CONTENT} 
-            />
+            <div className="relative h-[40vh] w-full overflow-hidden rounded-xl border border-dashed border-white/10">
+              <div className="absolute -top-20 left-1/2 w-full max-w-4xl origin-top -translate-x-1/2 scale-[0.5] pt-0">
+                <ErrorFallbackUI onAction={resetErrorBoundary} content={GENERAL_ERROR_CONTENT} />
+              </div>
+            </div>
           )}
         >
           <TaskTimelineSection />

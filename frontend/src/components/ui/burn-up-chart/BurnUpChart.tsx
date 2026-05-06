@@ -70,8 +70,6 @@ function BurnUpChartContent () {
 
   if (isPending) return <EmptyLoadingSpinner />
 
-// if (error) return <div>An error has occurred: {error.message}</div>;
-
   return <EChart option={option} />;
 }
 

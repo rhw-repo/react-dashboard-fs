@@ -11,11 +11,10 @@
 //import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
 import Navbar from '../navbar/Navbar';
 import { BurnUpChart } from '../burn-up-chart/BurnUpChart';
-import { TaskTimelineSection, TaskTimelineSectionWrapper } from './TaskTimeLineTablesSection';
+import { TaskTimelineSectionWrapper } from './TaskTimeLineTablesSection';
 
 export default function TaskTimeLinePage() {
   'use no memo';
-  // Single data fetch - reused for all three tables
   return (
     <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[5%_95%] px-20">
       <aside className="justify-self-end">
@@ -24,12 +23,12 @@ export default function TaskTimeLinePage() {
 
       <main className="col-start-2 h-full w-max min-w-full py-10">
    
-              <article className="flex w-max gap-4">
+              <article className="flex w-full gap-4">
+                <div className="flex-1 min-w-0">
                 <TaskTimelineSectionWrapper />
+                </div>
               </article>
-        
-     
-
+    
         <article className="mt-8 grid h-[50vh] w-full grid-cols-2 gap-4">
           <div className="col-span-1 col-start-1 h-full min-w-0">
             <BurnUpChart />
