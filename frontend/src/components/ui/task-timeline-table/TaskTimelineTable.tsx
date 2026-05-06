@@ -59,7 +59,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
   const totalWidth = table.getTotalSize();
 
   // Debug: log column info, id is derived from the accessorKey
-  React.useEffect(() => {
+/*  React.useEffect(() => {
     const totalSize = table.getTotalSize();
     headerGroups.forEach((headerGroup) => {
       headerGroup.headers.forEach((header) => {
@@ -67,7 +67,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
       });
     });
     console.log(`Total Table Size: ${totalSize}px`);
-  }, [headerGroups, table]);
+  }, [headerGroups, table]);*/
 
   return (
     <div>
