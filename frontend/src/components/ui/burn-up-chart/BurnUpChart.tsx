@@ -16,6 +16,8 @@ import { EChart } from '../EChart';
 import { createOption, type RawData } from './burn-up-chart-options';
 import type { EChartsOption } from 'echarts';
 import EmptyLoadingSpinner from '@/components/ui/loading-fallback-ui/EmptyLoadingSpinner';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorBoundaryFallback from '../error-fallback-ui/ErrorBoundaryFallback';
 
 echarts.use([
   DatasetComponent,
@@ -28,14 +30,29 @@ echarts.use([
   UniversalTransition,
 ]);
 
-export function BurnUpChart() {
+function BurnUpChartContent () {
   const {
     isPending,
-    error,
+    //error,
     data: fetchedMockData,
   } = useQuery<RawData>({
     queryKey: ['burnupChartData'],
-    queryFn: () => fetch('/data/asset/data/mock-burnup-chart-data.json').then((res) => res.json()),
+    queryFn: () => fetch('/data/asset/data/mock-burnup-chart-data.json').then((res) => {
+      if (!res.ok) throw new Error("Network response error")
+      return res.json();
+    }
+    )
+   // TEMP to display Spinner & Badge followed by ErrorBoundaryFallbackUI 
+/*queryFn: async () => {
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      
+      // Simulate a failed network response
+      throw new Error("500 Internal Server Error: Mock data service is down.");
+    },
+    throwOnError: true, 
+    retry: false
+
     // TEMP to display the Spinner & Badge for styling
    /* queryFn: async () => {
       const response = await fetch('/data/asset/data/mock-burnup-chart-data.json');
@@ -53,7 +70,15 @@ export function BurnUpChart() {
 
   if (isPending) return <EmptyLoadingSpinner />
 
-  if (error) return <div>An error has occurred: {error.message}</div>;
+// if (error) return <div>An error has occurred: {error.message}</div>;
 
   return <EChart option={option} />;
+}
+
+export function BurnUpChart() {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+      <BurnUpChartContent />
+    </ErrorBoundary>
+  )
 }
