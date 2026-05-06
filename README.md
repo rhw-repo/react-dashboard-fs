@@ -66,6 +66,10 @@ Testing:
 
 - Unit testing with vitest
 
+Staging:
+
+- Using Docker & Railway
+
 ### Next sprints
 
 Research & Team Discussion:
