@@ -28,6 +28,7 @@
   /* Apply Karla to general text, excluding tables, status pills, and navbar */
   body {
     font-weight: 200;
+    font-family: var(--font-family-karla);
   }
 
   /* Override for table elements - use default sans-serif */
@@ -36,11 +37,6 @@
   li {
     font-family: var(--font-family-noto-sans);
     font-weight: 900;
-  }
-
-  td,
-  p {
-    font-family: var(--font-family-karla);
   }
 }
 
