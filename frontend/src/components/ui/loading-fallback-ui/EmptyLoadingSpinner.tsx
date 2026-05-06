@@ -10,7 +10,7 @@ const EmptyLoadingSpinner = () => {
               <EmptyMedia variant="icon">
                 <Spinner data-icon="inline-start" className="size-8" />
               </EmptyMedia>
-              <EmptyTitle>Chart is loading</EmptyTitle>
+              <EmptyTitle>Loading</EmptyTitle>
               <EmptyDescription>Please wait.</EmptyDescription>
           </EmptyHeader>
         </Empty>
