@@ -4,6 +4,7 @@ import { NavLink } from 'react-router';
 
 export default function SignupCard() {
   return (
+    <article className='flex min-h-screen items-center justify-center'>
     <Card className="mx-4 w-full max-w-sm">
       <CardHeader>
         <CardTitle>Signup for an account</CardTitle>
@@ -20,5 +21,6 @@ export default function SignupCard() {
         </Button>
       </CardFooter>
     </Card>
+    </article>
   );
 }

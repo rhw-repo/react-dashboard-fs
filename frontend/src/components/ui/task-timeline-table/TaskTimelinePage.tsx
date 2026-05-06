@@ -82,7 +82,7 @@ export default function TaskTimeLinePage() {
     /*<div className="mx-auto grid min-w-max min-h-screen max-w-550 grid-cols-[5%_95%] px-20">*/
   }
   return (
-    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[5%_95%] px-20">
+    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[5%_95%] px-20 py-4">
       <aside className="justify-self-end">
         <Navbar />{' '}
       </aside>
