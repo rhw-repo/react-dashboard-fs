@@ -58,8 +58,10 @@ Implementation:
 - Four tables with mock data 
 - ECharts stacked series chart with mock data 
 - Vertical navigation menu
-- Custom button with animation as per client request 
-- Template to be used later for log in and sign up pages 
+- Custom button with animation as per client request demo display for coleague
+- Template to be used later for log in and sign up pages (shadcn Card)
+- Kanban provider selected
+- Placeholder image for the kanban board to demo layout for coleague
 
 Testing: 
 - Unit testing with vitest 
@@ -74,7 +76,7 @@ Research & Team Discussion:
 - Link to Kanban board or other UI solution
 
 Implementation: 
-- Updated links in vertical naviagtion menu
+- Updated links in vertical navigation menu
 - Kanban board 
 - integration with server side & websockets implentation for synchronization database and UI
 - Color theme
