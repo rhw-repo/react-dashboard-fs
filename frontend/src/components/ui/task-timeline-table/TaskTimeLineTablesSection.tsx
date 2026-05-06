@@ -3,14 +3,14 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { fetchData } from '../utils/api';
 import type { Person } from '../../../types/types';
 import { TaskTimelineTable } from './TaskTimelineTable';
-//import EmptyLoadingSpinner from '../loading-fallback-ui/EmptyLoadingSpinner';
+import EmptyLoadingSpinner from '../loading-fallback-ui/EmptyLoadingSpinner';
 import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
 import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
 
 const EMPTY_DATA: Person[] = [];
 
 export function TaskTimelineSection() {
-  const { data: fetchedData } = useQuery({
+  const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['timelineTasks'],
     queryFn: () => fetchData<Person[]>('/data/asset/data/mock-table-data.json'),
     throwOnError: true,
@@ -45,9 +45,9 @@ export function TaskTimelineSection() {
     status2: true,
   };
 
-  /*if (isLoading) {
+  if (isLoading) {
     return <EmptyLoadingSpinner />;
-  }*/
+  }
 
   return (
     <article className="flex w-max gap-4">
