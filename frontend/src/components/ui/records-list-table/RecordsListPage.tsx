@@ -48,7 +48,7 @@ const safeData = fetchedData ?? EMPTY_DATA;
       <aside className="justify-self-end">
         <Navbar />
       </aside>
-      <main className="col-start-2">
+      <main className="col-start-2 place-content-center">
         <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
       </main>
     </div>

@@ -4,6 +4,8 @@ const BuzzerButton = () => {
   return (
     <>
       <section className={styles.buttonWrapper}>
+         <h1>Tests display of a button made to clients' design
+         </h1>
         <div className={styles.buttonShell}>
           <div className={styles.buttonRim}>
             <span className={styles.buttonRimShadow}></span>
