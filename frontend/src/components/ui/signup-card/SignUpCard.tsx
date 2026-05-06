@@ -4,6 +4,8 @@ import { NavLink } from 'react-router';
 
 export default function SignupCard() {
   return (
+    <article className='flex flex-col min-h-screen items-center justify-center'>
+       <h1 className='p-4 text-neutral-50 font-medium font-noto-sans'>Shadcn card, SSO anticipated with Google</h1>
     <Card className="mx-4 w-full max-w-sm">
       <CardHeader>
         <CardTitle>Signup for an account</CardTitle>
@@ -20,5 +22,6 @@ export default function SignupCard() {
         </Button>
       </CardFooter>
     </Card>
+    </article>
   );
 }
