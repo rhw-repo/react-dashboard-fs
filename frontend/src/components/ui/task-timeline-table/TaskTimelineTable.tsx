@@ -1,13 +1,7 @@
 'use no memo';
-// see https://react.dev/reference/react-compiler/directives/use-no-memo
-/* Disable optimisation prevent memoization breaking table functionality:
-   TanStack table returns a stable reference for table, so that means that
-   we cannot get the freshest updates during renders, unless we opt out of memoization.
-   https://github.com/facebook/react/issues/33057
-*/
+
 import * as React from 'react';
 import { Button } from '@/components/ui/Button';
-// import styles from './TaskTimelineTable.module.css';
 import { getColumns } from './TaskTimelineColumns';
 import type { Person } from '../../../types/types';
 
@@ -57,17 +51,6 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
   const totalWidth = table.getTotalSize();
-
-  // Debug: log column info, id is derived from the accessorKey
-/*  React.useEffect(() => {
-    const totalSize = table.getTotalSize();
-    headerGroups.forEach((headerGroup) => {
-      headerGroup.headers.forEach((header) => {
-        console.log(`Column ID: ${header.column.id}, Size: ${header.getSize()}px`);
-      });
-    });
-    console.log(`Total Table Size: ${totalSize}px`);
-  }, [headerGroups, table]);*/
 
   return (
     <div>

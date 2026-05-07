@@ -40,11 +40,10 @@ export function getColumns(): ColumnDef<Person>[] {
       id: 'nextTask',
       accessorKey: 'nextTask',
       header: 'Next Task',
-      //cell: ({ row }) => row.original.nextTask,
       cell: (info) => {
-      const task = info.getValue(); 
-      if (!task) return 'Unassigned';
-      return task;
+        const task = info.getValue();
+        if (!task) return 'Unassigned';
+        return task;
       },
       enableSorting: true,
       size: 300,
@@ -55,11 +54,10 @@ export function getColumns(): ColumnDef<Person>[] {
       id: 'taskDeadline',
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
-      //cell: ({ row }) => row.original.taskDeadline,
       cell: (info) => {
-      const taskDeadline = info.getValue(); 
-      if (!taskDeadline) return 'N/A';
-      return taskDeadline;
+        const taskDeadline = info.getValue();
+        if (!taskDeadline) return 'N/A';
+        return taskDeadline;
       },
       enableSorting: true,
       size: 70,
