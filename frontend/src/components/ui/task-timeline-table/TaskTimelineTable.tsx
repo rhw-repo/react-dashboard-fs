@@ -7,7 +7,6 @@
 */
 import * as React from 'react';
 import { Button } from '@/components/ui/Button';
-// import styles from './TaskTimelineTable.module.css';
 import { getColumns } from './TaskTimelineColumns';
 import type { Person } from '../../../types/types';
 
@@ -59,7 +58,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
   const totalWidth = table.getTotalSize();
 
   // Debug: log column info, id is derived from the accessorKey
-/*  React.useEffect(() => {
+  /*  React.useEffect(() => {
     const totalSize = table.getTotalSize();
     headerGroups.forEach((headerGroup) => {
       headerGroup.headers.forEach((header) => {
