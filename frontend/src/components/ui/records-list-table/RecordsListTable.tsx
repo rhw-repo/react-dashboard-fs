@@ -11,6 +11,11 @@ import { Button } from '@/components/ui/Button';
 //import styles from './RecordsListTable.module.css';
 import { getColumns } from './RecordsListColumns';
 import type { Person } from '../../../types/types';
+import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
+import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
+
 
 import {
   type SortingState,
@@ -118,91 +123,114 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
   const rows = table.getRowModel().rows;
   const totalWidth = table.getTotalSize();
 
-  {
-    /*<div className={`overflow-hidden rounded-md border-0 lg:border ${styles['table-responsive']}`}>*/
-  }
   return (
-    <div>
-      <div className="w-fit overflow-hidden rounded-md border-0 lg:border">
-        {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
-        <Table
-          responsiveWidth={false}
-          className="table table-fixed text-neutral-50"
-          style={{ width: `${totalWidth}px` }}
+    <QueryErrorResetBoundary>
+      {({ reset }) => (
+        <ErrorBoundary
+          onReset={reset}
+          fallbackRender={({ resetErrorBoundary }) => (
+            <div className="relative h-[40vh] w-full overflow-hidden rounded-xl border border-dashed border-white/10">
+              <div className="absolute -top-20 left-1/2 w-full max-w-4xl origin-top -translate-x-1/2 scale-[0.5] pt-0">
+                <ErrorFallbackUI onAction={resetErrorBoundary} content={GENERAL_ERROR_CONTENT} />
+              </div>
+            </div>
+          )}
         >
-          {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
-          <TableHeader className="table-header-group">
-            {headerGroups.map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="border-x border-neutral-50 text-neutral-50 [&:has([role=checkbox])]:px-0"
-                    style={{
-                      width: `${header.column.columnDef.size}px`,
-                    }}
-                  >
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-
-          <TableBody>
-            {rows.length > 0 ? (
-              rows.map((row) => {
-                const id = row.original.id;
-                const isSelected = selectedRows.has(id);
-
-                return (
-                  <TableRow
-                    key={row.id}
-                    data-state={isSelected ? 'selected' : undefined}
-                    className={'border-accent data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50'}
-                  >
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <TableCell
-                          key={cell.id}
-                          className={`border-x border-neutral-50`}
+          <div>
+            <div className="w-fit overflow-hidden rounded-md border-0 lg:border">
+              {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
+              <Table
+                responsiveWidth={false}
+                className="table table-fixed text-neutral-50"
+                style={{ width: `${totalWidth}px` }}
+              >
+                {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
+                <TableHeader className="table-header-group">
+                  {headerGroups.map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => (
+                        <TableHead
+                          key={header.id}
+                          className="border-x border-neutral-50 text-neutral-50 [&:has([role=checkbox])]:px-0"
                           style={{
-                            width: `${cell.column.columnDef.size}px`,
+                            width: `${header.column.columnDef.size}px`,
                           }}
                         >
-                          <div className="truncate">{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })
-            ) : (
-              <TableRow>
-                <TableCell colSpan={table.getVisibleLeafColumns().length} className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(header.column.columnDef.header, header.getContext())}
+                        </TableHead>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableHeader>
 
-      <div className="flex items-center justify-center space-x-2 py-4">
-        <p className="text-center">Temp display: pagination server side</p>
-        <Button variant="outline" onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
-          {'<<'}
-        </Button>
-        <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          Previous
-        </Button>
-        <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          Next
-        </Button>
-        <Button variant="outline" size="sm" onClick={() => table.lastPage()} disabled={!table.getCanNextPage()}>
-          {'>>'}
-        </Button>
-      </div>
-    </div>
+                <TableBody>
+                  {rows.length > 0 ? (
+                    rows.map((row) => {
+                      const id = row.original.id;
+                      const isSelected = selectedRows.has(id);
+
+                      return (
+                        <TableRow
+                          key={row.id}
+                          data-state={isSelected ? 'selected' : undefined}
+                          className={
+                            'border-accent data-[state=selected]:bg-gray-800 data-[state=selected]:text-neutral-50'
+                          }
+                        >
+                          {row.getVisibleCells().map((cell) => {
+                            return (
+                              <TableCell
+                                key={cell.id}
+                                className={`border-x border-neutral-50`}
+                                style={{
+                                  width: `${cell.column.columnDef.size}px`,
+                                }}
+                              >
+                                <div className="truncate">
+                                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </div>
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={table.getVisibleLeafColumns().length} className="h-24 text-center">
+                        No results.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+
+            <div className="flex items-center justify-center space-x-2 py-4">
+              <p className="text-center">Temp display: pagination server side</p>
+              <Button variant="outline" onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
+                {'<<'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                Previous
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                Next
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => table.lastPage()} disabled={!table.getCanNextPage()}>
+                {'>>'}
+              </Button>
+            </div>
+          </div>
+        </ErrorBoundary>
+      )}
+    </QueryErrorResetBoundary>
   );
 }
