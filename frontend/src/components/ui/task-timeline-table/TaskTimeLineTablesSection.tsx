@@ -1,6 +1,6 @@
 import { useQuery, QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { fetchData } from '../utils/api';
+import { fetchData } from '../utils/fetchData';
 import type { Person } from '../../../types/types';
 import { TaskTimelineTable } from './TaskTimelineTable';
 import EmptyLoadingSpinner from '../loading-fallback-ui/EmptyLoadingSpinner';
@@ -12,7 +12,7 @@ const EMPTY_DATA: Person[] = [];
 export function TaskTimelineSection() {
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['timelineTasks'],
-    queryFn: () => fetchData<Person[]>('/data/asset/data/mock-table-data.json'),
+    queryFn: ( { signal }) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
     throwOnError: true,
   });
 

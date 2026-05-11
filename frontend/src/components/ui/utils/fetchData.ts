@@ -1,5 +1,5 @@
-export async function fetchData<T>(url: string): Promise<T> {
-  const response = await fetch(url);
+export async function fetchData<T>(url: string, signal?:AbortSignal): Promise<T> {
+  const response = await fetch(url, { signal});
   
   if (!response.ok) {
     throw new Error(`Failed to fetch data from ${url}`);
