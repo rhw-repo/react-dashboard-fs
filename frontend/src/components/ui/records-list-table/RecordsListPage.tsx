@@ -14,9 +14,24 @@ export default function RecordsListTablePage() {
   'use no memo';
   // const data = person as Person[];
 
+  // Set state fot the required polling time in milliseconds 
+  // const [intervalMs, setIntervalMs] = useState(15000);
+
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['recordsListData'],
-    queryFn: ({ signal}) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
+    queryFn: ({ signal}) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal
+    ),
+    /*
+    configure correct path from this example to set up polling 
+    queryFn: async () => {
+      const res = await fetch('/api/data')
+      return res.data
+    },
+    // Refetch the data every 15 seconds when browser in focus
+    refetchInterval: intervalMS, 
+    // Ensure that refetch happens even when browser not in focus 
+    refetchIntervalInBackground: true, 
+    */
     throwOnError: true,
   });
 
