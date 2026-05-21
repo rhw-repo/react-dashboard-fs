@@ -8,8 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest",
-    "mock-api": "json-server public/data/asset/data/mock-table-data.json --port 3001"
+    "test": "vitest"
   },
   "engines": {
     "node": ">=24 <25"
