@@ -12,7 +12,6 @@ const EMPTY_DATA: Person[] = [];
 
 export default function RecordsListTablePage() {
   'use no memo';
-  // const data = person as Person[];
 
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['recordsListData'],
