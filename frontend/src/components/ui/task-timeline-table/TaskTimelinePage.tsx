@@ -6,7 +6,8 @@ import { TaskTimelineSectionWrapper } from './TaskTimeLineTablesSection';
 export default function TaskTimeLinePage() {
   'use no memo';
   return (
-    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[5%_95%] px-20">
+    
+    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[5%_95%] px-20 border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
       <aside className="justify-self-end">
         <Navbar />{' '}
       </aside>
