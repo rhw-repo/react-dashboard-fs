@@ -18,7 +18,7 @@ function NavigationMenu({
       data-slot="navigation-menu"
       data-viewport={viewport}
       className={cn(
-        'group/navigation-menu relative flex h-full w-fit flex-col justify-start bg-indigo-600 px-2',
+        'group/navigation-menu relative flex h-full w-fit flex-col justify-start bg-linear-to-tr from-violet-900 to-indigo-600 px-2 shadow-lg shadow-violet-600/90 [clip-path:inset(-100px_-100px_0px_-100px)]',
         className,
       )}
       {...props}
@@ -33,7 +33,7 @@ function NavigationMenuList({ className, ...props }: React.ComponentProps<typeof
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
-      className={cn('group flex list-none flex-col items-start justify-start gap-2 sm:gap-4', className)}
+      className={cn('group flex list-none flex-col items-stretch justify-start gap-2 sm:gap-4', className)}
       {...props}
     />
   );
@@ -102,7 +102,7 @@ function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "flex flex-col gap-1 rounded-sm px-2 pt-12 pb-4 text-sm transition-all outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground data-[active=true]:hover:bg-accent data-[active=true]:focus:bg-accent max-[364px]:items-center max-[364px]:text-center sm:text-base [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+        "relative flex w-full flex-col gap-1 rounded-sm px-2 pt-12 pb-4 text-sm transition-all outline-none before:absolute before:inset-x-0 before:inset-y-0 before:-z-10 before:rounded-sm before:transition-all hover:text-accent-foreground hover:before:bg-accent focus:text-accent-foreground focus:before:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 data-[active=true]:text-accent-foreground data-[active=true]:before:bg-accent/50 data-[active=true]:hover:before:bg-accent data-[active=true]:focus:before:bg-accent max-[364px]:items-center max-[364px]:text-center sm:text-base [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
         className,
       )}
       {...props}
