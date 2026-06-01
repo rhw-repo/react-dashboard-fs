@@ -30,6 +30,7 @@ export interface BurnUpChartOption {
     smooth: boolean;
     encode: { x: string; y: string; itemName: string; tooltip: string[] };
     name: string;
+    lineStyle?: { color?: string };
   }[];
 }
 
@@ -97,6 +98,7 @@ export function createOption(fetchedMockData: RawData): BurnUpChartOption {
           tooltip: ['Count'],
         },
         name: 'Calls Completed',
+        lineStyle: { color: 'oklch(51.1% 0.262 276.966)' },  
       },
       {
         type: 'line',
@@ -110,6 +112,7 @@ export function createOption(fetchedMockData: RawData): BurnUpChartOption {
           tooltip: ['Count'],
         },
         name: 'People Contacted',
+          lineStyle: { color: 'oklch(82.8% 0.189 84.429)' }, 
       },
     ],
   };

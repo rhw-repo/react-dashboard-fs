@@ -1,7 +1,7 @@
 {
     "name": "React Dashboard Frontend",
     "build": {
-        "dockerfile": "../frontend/Dockerfile",
+        "dockerfile": "../frontend/Dockerfile.dev",
         "context": "../frontend"
     },
     "workspaceFolder": "/workspaces/react-dashboard-fs/frontend",
