@@ -12,7 +12,12 @@ const EMPTY_DATA: Person[] = [];
 export function TaskTimelineSection() {
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['timelineTasks'],
-    queryFn: ( { signal }) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
+    queryFn: ({ signal }) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
+    // Uncomment for polling
+    /*
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: true,
+    */
     throwOnError: true,
   });
 

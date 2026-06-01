@@ -16,7 +16,12 @@ export default function RecordsListTablePage() {
 
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['recordsListData'],
-    queryFn: ({ signal}) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
+    queryFn: ({ signal }) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
+    // Uncomment for polling
+    /*
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: true,
+    */
     throwOnError: true,
   });
 
