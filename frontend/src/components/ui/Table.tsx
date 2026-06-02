@@ -8,11 +8,11 @@ interface TableProps extends React.ComponentProps<'table'> {
 
 function Table({ className, responsiveWidth = true, ...props }: TableProps) {
   return (
-    <div data-slot="table-container" className="relative overflow-x-auto">
+    <div data-slot="table-container" className="relative overflow-x-auto overflow-hidden rounded-sm border border-neutral-50/50">
       <table
         data-slot="table"
         className={cn(
-          'caption-bottom border-0 border-neutral-50 text-sm sm:rounded sm:border-2',
+          'caption-bottom text-sm',
           responsiveWidth && 'sm:w-full',
           className,
         )}
