@@ -44,7 +44,7 @@ queryFn: () => fetchData<Person[]>("/data/asset/data/mock-table-data.json")
 const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
-    <div className="mx-auto grid max-w-550 grid-cols-[1fr_9fr] overflow-auto py-10">
+    <div className="mx-auto min-h-screen grid max-w-550 grid-cols-[1fr_9fr] overflow-auto py-10">
       <aside className="justify-self-end">
         <Navbar />
       </aside>
