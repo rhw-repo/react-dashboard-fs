@@ -7,14 +7,14 @@ export default function TaskTimeLinePage() {
   'use no memo';
   return (
     
-    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[5%_95%] px-20 border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
-      <aside className="justify-self-end">
+    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[9rem_1fr]  border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
+      <aside className="justify-self-start">
         <Navbar />{' '}
       </aside>
 
       <main className="col-start-2 h-full w-max min-w-full py-10">
         <article className="flex w-full gap-4">
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 px-20">
             <TaskTimelineSectionWrapper />
           </div>
         </article>

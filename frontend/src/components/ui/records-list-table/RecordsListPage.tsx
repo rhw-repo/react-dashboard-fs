@@ -48,11 +48,11 @@ export default function RecordsListTablePage() {
   const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
-    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[1fr_9fr] overflow-auto border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
-      <aside className="justify-self-end">
+    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[9rem_1fr] overflow-auto border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
+      <aside className="justify-self-start">
         <Navbar />
       </aside>
-      <main className="col-start-2 place-content-center">
+      <main className="col-start-2 flex place-content-center place-items-center min-h-screen">
         <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
       </main>
     </div>
