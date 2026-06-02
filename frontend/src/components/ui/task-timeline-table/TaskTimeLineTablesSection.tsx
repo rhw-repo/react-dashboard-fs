@@ -13,6 +13,11 @@ export function TaskTimelineSection() {
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['timelineTasks'],
     queryFn: () => fetchData<Person[]>('/data/asset/data/mock-table-data.json'),
+    // Uncomment for polling
+    /*
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: true,
+    */
     throwOnError: true,
   });
 

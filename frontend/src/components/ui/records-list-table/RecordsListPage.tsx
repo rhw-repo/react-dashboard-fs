@@ -16,8 +16,6 @@ export default function RecordsListTablePage() {
   const {
     data: fetchedData,
     isLoading,
-    isError,
-    error,
   } = useQuery({
     queryKey: ['recordsListData'],
     queryFn: () => fetchData<Person[]>('/data/asset/data/mock-table-data.json'),
