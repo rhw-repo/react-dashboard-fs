@@ -137,7 +137,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
           )}
         >
           <div>
-            <div className="w-fit overflow-hidden rounded-md border-0 lg:border">
+            <div className="w-fit">
               {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
               <Table
                 responsiveWidth={false}
@@ -151,7 +151,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                       {headerGroup.headers.map((header) => (
                         <TableHead
                           key={header.id}
-                          className="border-x border-neutral-50 text-neutral-50 [&:has([role=checkbox])]:px-0"
+                          className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0 [&:has([role=checkbox])]:px-0"
                           style={{
                             width: `${header.column.columnDef.size}px`,
                           }}
@@ -183,7 +183,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                             return (
                               <TableCell
                                 key={cell.id}
-                                className={`border-x border-neutral-50`}
+                                className={`border-x border-neutral-50/50 first:border-l-0 last:border-r-0`}
                                 style={{
                                   width: `${cell.column.columnDef.size}px`,
                                 }}

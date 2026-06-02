@@ -54,11 +54,11 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
 
   return (
     <div>
-      <div className={`overflow-hidden rounded-sm border`}>
+      <div>
         {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
         <Table
           responsiveWidth={false}
-          className="table table-fixed border-x border-neutral-50 text-neutral-50"
+          className="table table-fixed text-neutral-50"
           style={{ width: `${totalWidth}px` }}
         >
           {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
@@ -68,7 +68,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="border-x border-neutral-50 text-neutral-50"
+                    className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0"
                     style={{
                       width: `${header.column.columnDef.size}px`,
                     }}
@@ -94,7 +94,7 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
                       return (
                         <TableCell
                           key={cell.id}
-                          className={`border-x border-neutral-50`}
+                          className={`border-x border-neutral-50/50 first:border-l-0 last:border-r-0`}
                           style={{
                             width: `${cell.column.columnDef.size}px`,
                           }}
