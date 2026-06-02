@@ -48,7 +48,7 @@ export default function RecordsListTablePage() {
   const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
-    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[1fr_9fr] overflow-auto py-10 border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
+    <div className="mx-auto grid min-h-screen max-w-550 grid-cols-[1fr_9fr] overflow-auto border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
       <aside className="justify-self-end">
         <Navbar />
       </aside>
