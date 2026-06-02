@@ -38,7 +38,7 @@ useEffect(() => {
   const chart = getInstanceByDom(chartRef.current);
   chart?.setOption(option, optionSettings);
 
- /*const resizeObserver = new ResizeObserver(() => {
+ const resizeObserver = new ResizeObserver(() => {
       chart?.resize();
     });
 
@@ -46,7 +46,7 @@ useEffect(() => {
 
     return () => {
       resizeObserver.disconnect();
-    };*/
+    };
     
 }, [option, optionSettings]);
 
