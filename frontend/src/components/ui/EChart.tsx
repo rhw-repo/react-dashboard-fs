@@ -50,5 +50,9 @@ useEffect(() => {
     
 }, [option, optionSettings]);
 
-  return <div ref={chartRef} style={style} {...props} />;
+  return (
+    <div className="shadow-xl shadow-indigo-500/50">
+      <div ref={chartRef} style={style} {...props} />
+    </div>
+  );
 };

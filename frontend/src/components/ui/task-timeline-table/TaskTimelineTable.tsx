@@ -55,13 +55,11 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
   return (
     <div>
       <div>
-        {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
         <Table
           responsiveWidth={false}
           className="table table-fixed text-neutral-50"
           style={{ width: `${totalWidth}px` }}
         >
-          {/* Column headers: were hidden on mobile, visible from `lg:` TBC*/}
           <TableHeader className="table-header-group">
             {headerGroups.map((headerGroup) => (
               <TableRow key={headerGroup.id}>

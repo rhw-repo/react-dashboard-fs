@@ -24,7 +24,7 @@ export default function TaskTimeLinePage() {
             <BurnUpChart />
           </div>
 
-          <div className="relative col-span-1 col-start-2 inline-block h-full w-237.5 align-top">
+          <div className="relative col-span-1 col-start-2 inline-block h-full w-237.5 align-top shadow-xl shadow-indigo-500/50">
             <p className="absolute top-4 left-4 z-10 rounded bg-black/60 px-2 py-1 text-[17px] font-extralight text-white backdrop-blur-sm">
               Placeholder for Kanban Board
             </p>
