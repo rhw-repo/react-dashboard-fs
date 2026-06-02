@@ -12,14 +12,14 @@ export default function TaskTimeLinePage() {
         <Navbar />{' '}
       </aside>
 
-      <main className="col-start-2 min-h-full  min-w-full py-10">
+      <main className="col-start-2 min-h-full  min-w-full py-1 px-20">
         <article className="flex w-full gap-4">
-          <div className="flex-1 px-20">
+          <div className="flex-1">
             <TaskTimelineSectionWrapper />
           </div>
         </article>
 
-        <article className="mt-24 grid h-[550px] w-full grid-cols-2 gap-4 px-20">
+        <article className="mt-24 grid h-[550px] w-full grid-cols-2 gap-4">
           <div className="col-span-1 col-start-1 h-full">
             <BurnUpChart />
           </div>
