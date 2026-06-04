@@ -4,9 +4,9 @@ import { NavLink } from 'react-router';
 
 export function LoginCard() {
   return (
-    <article className="flex flex-col min-h-screen items-center justify-center">
-      <h1 className='p-4 text-neutral-50 font-medium font-noto-sans'>Shadcn card, SSO anticipated with Google</h1>
-      <Card className="mx-4 w-full max-w-sm font-noto-sans">
+    <article className="flex min-h-screen flex-col items-center justify-center">
+      <h1 className="font-noto-sans p-4 font-medium text-neutral-50">Shadcn card, SSO anticipated with Google</h1>
+      <Card className="font-noto-sans mx-4 w-full max-w-sm">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>Login with Google to access your account</CardDescription>

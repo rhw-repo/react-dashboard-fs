@@ -21,17 +21,14 @@
   font-display: swap;
 }
 
-/* Corrected as per docs */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  /* Apply Karla to general text, excluding tables, status pills, and navbar */
   body {
     font-weight: 200;
     font-family: var(--font-family-karla);
   }
 
-  /* Override for table elements - use default sans-serif */
   th,
   thead,
   li {

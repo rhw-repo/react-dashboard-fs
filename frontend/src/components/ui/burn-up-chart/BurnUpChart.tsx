@@ -7,7 +7,6 @@ import {
   TransformComponent,
 } from 'echarts/components';
 import { LineChart } from 'echarts/charts';
-/*import type { LineSeriesOption } from "echarts/charts";*/
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useQuery } from '@tanstack/react-query';
@@ -33,7 +32,6 @@ echarts.use([
 function BurnUpChartContent () {
   const {
     isPending,
-    //error,
     data: fetchedMockData,
   } = useQuery<RawData>({
     queryKey: ['burnupChartData'],
@@ -42,25 +40,6 @@ function BurnUpChartContent () {
       return res.json();
     }
     )
-   // TEMP to display Spinner & Badge followed by ErrorBoundaryFallbackUI 
-/*queryFn: async () => {
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      // Simulate a failed network response
-      throw new Error("500 Internal Server Error: Mock data service is down.");
-    },
-    throwOnError: true, 
-    retry: false
-
-    // TEMP to display the Spinner & Badge for styling
-   /* queryFn: async () => {
-      const response = await fetch('/data/asset/data/mock-burnup-chart-data.json');
-      const data = await response.json();
-      // Add artificial delay to see the Spinner
-      await new Promise((resolve) => setTimeout(resolve, 10000)); // 10 second delay
-      return data;
-    },*/
   });
 
   const option = useMemo(() => {

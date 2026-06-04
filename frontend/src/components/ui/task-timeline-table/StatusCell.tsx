@@ -14,14 +14,6 @@ export function StatusCell(info: CellContext<Person, unknown>) {
     </span>
   );
 
-  {/*return (
-    <div className="flex h-full w-full items-center justify-center">
-      <span className={statusSquareClass(status)}></span>
-    </div>
-  );
-}*/}
-
-
   return (
     <div className="flex h-full w-full items-center justify-center">
       <span>{statusMarker}</span>

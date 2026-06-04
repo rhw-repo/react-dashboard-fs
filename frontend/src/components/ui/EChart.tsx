@@ -19,7 +19,6 @@ export const EChart: React.FC<EChartProps> = ({
 }) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
-  // Initialize chart on mount
   useEffect(() => {
     if (!chartRef.current) return;
 
@@ -31,7 +30,6 @@ export const EChart: React.FC<EChartProps> = ({
   }, [chartSettings]);
 
   
- // Update chart when option changes & handle resizing
 useEffect(() => {
   if (!option || !chartRef.current) return;
 

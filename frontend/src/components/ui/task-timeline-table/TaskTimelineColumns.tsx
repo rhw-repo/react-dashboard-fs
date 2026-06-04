@@ -4,11 +4,6 @@ import { Button } from '@/components/ui/Button';
 import type { Person } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from './StatusCell';
 
-/* Refactored: now use plain `ColumnDef<Person>[]` instead of `createColumnHelper`.
- `DataTable` expects one consistent column value type across the `columns`
- prop, but `createColumnHelper` infers a different `TValue` per column.
- That mismatch causes a generic assignment error.*/
-
 export function getColumns(): ColumnDef<Person>[] {
   return [
     {

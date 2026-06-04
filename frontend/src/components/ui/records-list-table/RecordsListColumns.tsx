@@ -6,10 +6,6 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import type { FullPerson } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
 
-/* 
-Absecnce of a value for status2 handled in StatusCell.tsx
-*/
-
 export function getColumns(
   selectedRows: Set<string>,
   selectAllState: CheckedState,
@@ -73,11 +69,11 @@ export function getColumns(
       id: 'address',
       accessorKey: 'address',
       header: 'Address',
-     // cell: ({ row }) => row.original.address,
+      // cell: ({ row }) => row.original.address,
       cell: (info) => {
-      const address = info.getValue(); 
-      if (!address) return 'N/A';
-      return address;
+        const address = info.getValue();
+        if (!address) return 'N/A';
+        return address;
       },
       enableSorting: true,
       size: 200,
@@ -88,11 +84,10 @@ export function getColumns(
       id: 'postcode',
       accessorKey: 'postcode',
       header: 'Postcode',
-      //cell: ({ row }) => row.original.postcode,
       cell: (info) => {
-      const postcode = info.getValue(); 
-      if (!postcode) return 'N/A';
-      return postcode;
+        const postcode = info.getValue();
+        if (!postcode) return 'N/A';
+        return postcode;
       },
       enableSorting: true,
       size: 80,
@@ -103,11 +98,10 @@ export function getColumns(
       id: 'notes',
       accessorKey: 'notes',
       header: 'Notes',
-      //cell: ({ row }) => row.original.notes,
       cell: (info) => {
-      const notes = info.getValue(); 
-      if (!notes) return 'Unassigned';
-      return notes;
+        const notes = info.getValue();
+        if (!notes) return 'Unassigned';
+        return notes;
       },
       enableSorting: true,
       size: 900,
@@ -118,11 +112,10 @@ export function getColumns(
       id: 'nextTask',
       accessorKey: 'nextTask',
       header: 'Next Task',
-      //cell: ({ row }) => row.original.nextTask,
       cell: (info) => {
-      const task = info.getValue(); 
-      if (!task) return 'Unassigned';
-      return task;
+        const task = info.getValue();
+        if (!task) return 'Unassigned';
+        return task;
       },
       enableSorting: true,
       size: 300,
@@ -133,11 +126,10 @@ export function getColumns(
       id: 'taskDeadline',
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
-      //cell: ({ row }) => row.original.taskDeadline,
       cell: (info) => {
-      const taskDeadline = info.getValue(); 
-      if (!taskDeadline) return 'N/A';
-      return taskDeadline;
+        const taskDeadline = info.getValue();
+        if (!taskDeadline) return 'N/A';
+        return taskDeadline;
       },
       enableSorting: true,
       size: 80,
