@@ -3,7 +3,7 @@ import type { FullPerson } from '../types/types';
 export const person: FullPerson[] = [
   {
     id: '728ed52f',
-    name: 'John Doe',
+    name: 'John Doe aaaaaabbbbbbbbcccccddddddeeeeeeefffffffffffffffffffffffffffffffffffffffff',
     status: 'bronze',
     nextTask: 'email',
     taskDeadline: 'date',
@@ -15,13 +15,13 @@ export const person: FullPerson[] = [
   {
     id: '489e1d42',
     name: 'Jane Doe',
-    address: '24 Example Street, Example Town, Example Region, Example Country',
-    postcode: '35300',
+    //address: '24 Example Street, Example Town, Example Region, Example Country',
+    //postcode: '35300',
     status: 'gold',
-    email: 'example@gmail.com',
-    nextTask: 'follow up',
-    taskDeadline: 'date',
-    status2: 'gold',
+    //email: 'example@gmail.com',
+    //nextTask: 'call',
+    //taskDeadline: 'date',
+    //status2: 'gold', commenting out simulates empty field 
   },
   {
     id: '7f3a9c10',
@@ -191,7 +191,8 @@ export const person: FullPerson[] = [
   {
     id: '8901h234',
     name: 'Olivia Martin',
-    address: '320 Willow Way, Streamtown, River County, Waterford',
+    address:
+      '320 Willow Way, Streamtown, River County, Waterford aaaaaabbbbbbbbcccccddddddeeeeeeefffffffffffffffffffffffffffffffffffffffff',
     postcode: '40404',
     status: 'gold',
     email: 'olivia.martin@example.org',

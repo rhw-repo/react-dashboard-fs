@@ -12,15 +12,17 @@ import { StatusCell, StatusCellWithText } from './StatusCell';
 export function getColumns(): ColumnDef<Person>[] {
   return [
     {
+      id: 'status',
       accessorKey: 'status',
       header: 'Status',
       cell: StatusCellWithText,
       enableSorting: true,
-      size: 50,
-      minSize: 50,
-      maxSize: 50,
+      size: 80,
+      minSize: 80,
+      maxSize: 80,
     },
     {
+      id: 'name',
       accessorKey: 'name',
       header: ({ column }) => (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
@@ -31,35 +33,46 @@ export function getColumns(): ColumnDef<Person>[] {
       cell: ({ row }) => row.original.name,
       enableSorting: true,
       size: 120,
-      minSize: 80,
-      maxSize: 150,
+      minSize: 120,
+      maxSize: 120,
     },
     {
+      id: 'nextTask',
       accessorKey: 'nextTask',
       header: 'Next Task',
-      cell: ({ row }) => row.original.nextTask,
+      cell: (info) => {
+        const task = info.getValue();
+        if (!task) return 'Unassigned';
+        return task;
+      },
       enableSorting: true,
-      size: 341,
-      minSize: 341,
-      maxSize: 341,
+      size: 300,
+      minSize: 300,
+      maxSize: 300,
     },
     {
+      id: 'taskDeadline',
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
-      cell: ({ row }) => row.original.taskDeadline,
+      cell: (info) => {
+        const taskDeadline = info.getValue();
+        if (!taskDeadline) return 'N/A';
+        return taskDeadline;
+      },
       enableSorting: true,
-      size: 60,
-      minSize: 60,
-      maxSize: 60,
+      size: 70,
+      minSize: 70,
+      maxSize: 70,
     },
     {
+      id: 'status2',
       accessorKey: 'status2',
       header: 'Status 2',
       cell: StatusCell,
       enableSorting: true,
-      size: 30,
-      minSize: 30,
-      maxSize: 30,
+      size: 60,
+      minSize: 60,
+      maxSize: 60,
     },
   ];
 }

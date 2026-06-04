@@ -2,7 +2,7 @@
 
 Work In Progress:
 
-Dashboard app to handle Create, Read & Update with a large data set plus progress chart & Kanban board. 
+Dashboard app to handle Create, Read & Update with a large data set plus progress chart & Kanban board.
 
 For a Financial Consultancy.
 
@@ -34,11 +34,9 @@ For a Financial Consultancy.
 - uses Tanstack Table (robust, tested solution)
 - using other `shadcn/ui` components for faster templating
 
-
 2. `Tailwind CSS` for quicker uniform & polished UI styling
 
 - Blend with modular vanilla CSS if required to retain full control over the design
-
 
 3. Implementing `Tanstack Query` (React Query)
 
@@ -52,40 +50,48 @@ Installation & config:
 
 - Vite, React and TypeScript
 - React Router, React Query, component-library toolkit (shadcn), ECharts
-- Switched to developing in Docker container utilizing DevContainers as extension in the editor  
+- Switched to developing in Docker container utilizing DevContainers as extension in the editor
 
 Implementation:
-- Four tables with mock data 
-- ECharts stacked series chart with mock data 
+
+- Four tables with mock data
+- ECharts stacked series chart with mock data
 - Vertical navigation menu
 - Custom button with animation as per client request demo display for coleague
 - Template to be used later for log in and sign up pages (shadcn Card)
 - Kanban provider selected
 - Placeholder image for the kanban board to demo layout for coleague
 
-Testing: 
-- Unit testing with vitest 
+Testing:
+
+- Unit testing with vitest
+
+Staging:
+
+- Using Docker & Railway
 
 ### Next sprints
 
-Research & Team Discussion: 
+Research & Team Discussion:
+
 - Websockets for synchronization database and UI
-- Completion of login / signup with Google SSO 
+- Completion of login / signup with Google SSO
 - Links to be finalised with team (currently mix of genuine pages / display of certain components)
 - Final color theme
 - Link to Kanban board or other UI solution
 
-Implementation: 
+Implementation:
+
 - Updated links in vertical navigation menu
-- Kanban board 
+- Kanban board
 - integration with server side & websockets implentation for synchronization database and UI
 - Color theme
 - Possiblity to DRY Tailwind utility classes with Taiwind Variants (TBC)
 
-Testing: 
-- integration testing with React Testing Library
-- end to end testing with Playwright 
+Testing:
 
+- integration testing with React Testing Library
+- end to end testing with Playwright
 
 ---
 
