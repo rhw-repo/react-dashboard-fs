@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import type { FullPerson } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
+import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
 
 /* 
-Absecnce of a value for status2 handled in StatusCell.tsx
+Absence of a value for status2 handled in StatusCell.tsx
 */
 
 export function getColumns(
@@ -43,6 +44,15 @@ export function getColumns(
       size: 40,
       minSize: 40,
       maxSize: 40,
+    },
+    {
+      id: 'edit',
+      header: '',
+      cell: ({ row }) => <RecordEditModal person={row.original} />,
+      enableSorting: false,
+      size: 80,
+      minSize: 80,
+      maxSize: 80,
     },
     {
       id: 'status',
