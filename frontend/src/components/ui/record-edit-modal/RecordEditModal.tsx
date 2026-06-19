@@ -15,11 +15,15 @@ type RecordEditModalProps = {
   person: FullPerson;
 };
 
+
 export const RecordEditModal = ({ person }: RecordEditModalProps) => {
+
+
+
   return (
     <Sheet>
       <SheetTrigger><Button variant="outline">Edit</Button></SheetTrigger>
-      <SheetContent>
+      <SheetContent side='top'>
         <SheetHeader>
           <SheetTitle>Edit: {person.name}</SheetTitle>
           <SheetDescription>Make changes to the record here. Click save when you are finished.</SheetDescription>
