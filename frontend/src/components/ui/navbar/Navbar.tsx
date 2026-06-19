@@ -10,6 +10,7 @@ import { NavLink } from 'react-router';
 const LINKS = [
   { to: '/', label: 'Home', end: true },
   //{ to: '/test', label: 'Buttons Test', end: true },
+  { to: 'record-edit-modal-test', label: 'Record Edit Modal Test', end: false},
   { to: '/login', label: 'Login Test', end: false },
   { to: '/signup', label: 'Signup Test', end: false },
   { to: '/records-list-table', label: 'Records List', end: false },

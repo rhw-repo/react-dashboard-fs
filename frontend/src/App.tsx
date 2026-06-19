@@ -10,6 +10,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import RouteErrorFallback from './components/ui/error-fallback-ui/RouteErrorFallback';
 import ErrorBoundaryFallback from './components/ui/error-fallback-ui/ErrorBoundaryFallback';
 import { NotFoundPage } from './components/ui/error-fallback-ui/NotFoundPage';
+import { RecordEditModal } from './components/ui/record-edit-modal/RecordEditModal';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const routes: RouteObject[] = [
     children: [
       { index: true, element: <TaskTimelinePage /> },
       { path: 'test', element: <BuzzerButton /> },
+      { path: 'record-edit-modal-test', element: <RecordEditModal />},
       { path: 'login', element: <LoginCard /> },
       { path: 'signup', element: <SignUpCard /> },
       { path: 'records-list-table', element: <RecordsListTablePage /> },
