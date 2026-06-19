@@ -26,7 +26,6 @@
         }
     },
     "remoteUser": "node",
-    "postCreateCommand": "wget -qO- https://get.pnpm.io/install.sh | ENV=\"$HOME/.shrc\" SHELL=\"$(which sh)\" sh -",
-    "postStartCommand": ". $HOME/.shrc && pnpm install",
-    "postAttachCommand": ". $HOME/.shrc && pnpm run dev"
+    "postCreateCommand": "pnpm install",
+    "postAttachCommand": "pnpm run dev"
 }

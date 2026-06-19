@@ -15,10 +15,10 @@ importers:
         specifier: ^0.10.5
         version: 0.10.5(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(csstype@3.2.3)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.13)
       '@tanstack/react-form':
-        specifier: ^1.33.0
+        specifier: 1.33.0
         version: 1.33.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tanstack/react-form-devtools':
-        specifier: ^0.2.29
+        specifier: 0.2.29
         version: 0.2.29(@types/react@19.2.17)(csstype@3.2.3)(react@19.2.7)(solid-js@1.9.13)
       '@tanstack/react-query':
         specifier: ^5.96.0

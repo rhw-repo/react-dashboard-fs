@@ -11,16 +11,13 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Input } from '../input';
 import type { FullPerson } from '@/types/types';
-import { Label } from '@/components/ui/label';
+import { Label } from '@/components/ui/Label';
 
 type RecordEditModalProps = {
   person: FullPerson;
 };
 
-
 export const RecordEditModal = ({ person }: RecordEditModalProps) => {
-
-
 
   return (
     <Sheet>
