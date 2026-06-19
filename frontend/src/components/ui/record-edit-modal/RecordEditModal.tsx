@@ -9,7 +9,9 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/Button';
+import { Input } from '../input';
 import type { FullPerson } from '@/types/types';
+import { Label } from '@/components/ui/label';
 
 type RecordEditModalProps = {
   person: FullPerson;
@@ -28,6 +30,14 @@ export const RecordEditModal = ({ person }: RecordEditModalProps) => {
           <SheetTitle>Edit: {person.name}</SheetTitle>
           <SheetDescription>Make changes to the record here. Click save when you are finished.</SheetDescription>
         </SheetHeader>
+        <>
+        <div className="grid flex-1 auto-rows-min gap-6 px-4">
+          <div className="grid gap-3">
+            <Label htmlFor="sheet-demo-name">Name</Label>
+            <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
+          </div>
+          </div>
+          </>
         <SheetFooter>
           <Button type="submit">Save changes</Button>
           <SheetClose asChild>
