@@ -41,7 +41,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       postcode:     person.postcode ?? '',
       notes:        person.notes ?? '',
       nextTask:     person.nextTask ?? '',
-      taskDeadline: person.taskDeadline,
+      taskDeadline: person.taskDeadline ? new Date(person.taskDeadline as unknown as string) : undefined,
       status:       person.status,
       status2:      person.status2 ?? '',
     },
