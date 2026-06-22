@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Sheet,
   SheetClose,
@@ -8,17 +8,17 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { Button } from '@/components/ui/Button'
-import type { FullPerson } from '@/types/types'
-import { RecordEditForm } from './RecordEditForm'
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/Button';
+import type { FullPerson } from '@/types/types';
+import { RecordEditForm } from './RecordEditForm';
 
 type RecordEditModalProps = {
-  person: FullPerson
-}
+  person: FullPerson;
+};
 
 export const RecordEditModal = ({ person }: RecordEditModalProps) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <section>
@@ -42,5 +42,5 @@ export const RecordEditModal = ({ person }: RecordEditModalProps) => {
         </SheetContent>
       </Sheet>
     </section>
-  )
-}
+  );
+};
