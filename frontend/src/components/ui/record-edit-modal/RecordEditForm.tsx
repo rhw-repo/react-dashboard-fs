@@ -113,21 +113,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         )}
       </form.AppField>
 
-      <form.AppField name="notes">
-        {(field) => (
-          <FieldRow id={field.name} label="Notes">
-            <Input
-              id={field.name}
-              value={field.state.value}
-              onChange={(event) => field.handleChange(event.target.value)}
-              onBlur={field.handleBlur}
-              placeholder="Any additional notes"
-            />
-          </FieldRow>
-        )}
-      </form.AppField>
-
-      <form.AppField name="nextTask">
+<form.AppField name="nextTask">
         {(field) => (
           <FieldRow id={field.name} label="Next Task">
             <Input
