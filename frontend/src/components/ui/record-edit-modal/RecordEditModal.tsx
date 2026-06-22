@@ -20,9 +20,10 @@ type RecordEditModalProps = {
 export const RecordEditModal = ({ person }: RecordEditModalProps) => {
 
   return (
+    <section>
     <Sheet>
-      <SheetTrigger><Button variant="outline">Edit</Button></SheetTrigger>
-      <SheetContent side='top'>
+      <SheetTrigger asChild><Button variant="outline">Edit</Button></SheetTrigger>
+      <SheetContent side='top' className="mx-auto my-12 max-w-550 overflow-auto">
         <SheetHeader>
           <SheetTitle>Edit: {person.name}</SheetTitle>
           <SheetDescription>Make changes to the record here. Click save when you are finished.</SheetDescription>
@@ -30,8 +31,18 @@ export const RecordEditModal = ({ person }: RecordEditModalProps) => {
         <>
         <div className="grid flex-1 auto-rows-min gap-6 px-4">
           <div className="grid gap-3">
-            <Label htmlFor="sheet-demo-name">Name</Label>
-            <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" defaultValue="" />
+            <Label htmlFor="address">Address</Label>
+            <Input id="address" defaultValue="" />
+            <Label htmlFor="postcode">Postcode</Label>
+            <Input id="postcdoe" defaultValue="" />
+            <Label htmlFor="notes">Notes</Label>
+            <Input id="notes" defaultValue="" />
+            <Label htmlFor="nextTask">Next Task</Label>
+            <Input id="nextTask" defaultValue="" />
+            <Label htmlFor="taskDeadline">Task Deadline</Label>
+            <Input id="taskDeadline" defaultValue="" />
           </div>
           </div>
           </>
@@ -43,6 +54,7 @@ export const RecordEditModal = ({ person }: RecordEditModalProps) => {
         </SheetFooter>
       </SheetContent>
     </Sheet>
+    </section>
   );
 };
 
