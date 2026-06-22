@@ -54,10 +54,16 @@ export function getColumns(): ColumnDef<Person>[] {
       id: 'taskDeadline',
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
-      cell: (info) => {
+      /*cell: (info) => {
         const taskDeadline = info.getValue();
         if (!taskDeadline) return 'N/A';
         return taskDeadline;
+      },*/
+      cell: (cellContext) => {
+        const cellValue = cellContext.getValue();
+        if (!cellValue) return 'N/A';
+        const parsedDate = cellValue instanceof Date ? cellValue : new Date(cellValue as string);
+        return isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
       },
       enableSorting: true,
       size: 70,

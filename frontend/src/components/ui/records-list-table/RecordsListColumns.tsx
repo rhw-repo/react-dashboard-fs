@@ -83,11 +83,11 @@ export function getColumns(
       id: 'address',
       accessorKey: 'address',
       header: 'Address',
-     // cell: ({ row }) => row.original.address,
+      // cell: ({ row }) => row.original.address,
       cell: (info) => {
-      const address = info.getValue(); 
-      if (!address) return 'N/A';
-      return address;
+        const address = info.getValue();
+        if (!address) return 'N/A';
+        return address;
       },
       enableSorting: true,
       size: 200,
@@ -100,9 +100,9 @@ export function getColumns(
       header: 'Postcode',
       //cell: ({ row }) => row.original.postcode,
       cell: (info) => {
-      const postcode = info.getValue(); 
-      if (!postcode) return 'N/A';
-      return postcode;
+        const postcode = info.getValue();
+        if (!postcode) return 'N/A';
+        return postcode;
       },
       enableSorting: true,
       size: 80,
@@ -115,9 +115,9 @@ export function getColumns(
       header: 'Notes',
       //cell: ({ row }) => row.original.notes,
       cell: (info) => {
-      const notes = info.getValue(); 
-      if (!notes) return 'Unassigned';
-      return notes;
+        const notes = info.getValue();
+        if (!notes) return 'Unassigned';
+        return notes;
       },
       enableSorting: true,
       size: 900,
@@ -130,9 +130,9 @@ export function getColumns(
       header: 'Next Task',
       //cell: ({ row }) => row.original.nextTask,
       cell: (info) => {
-      const task = info.getValue(); 
-      if (!task) return 'Unassigned';
-      return task;
+        const task = info.getValue();
+        if (!task) return 'Unassigned';
+        return task;
       },
       enableSorting: true,
       size: 300,
@@ -144,11 +144,18 @@ export function getColumns(
       accessorKey: 'taskDeadline',
       header: 'Task Deadline',
       //cell: ({ row }) => row.original.taskDeadline,
-      cell: (info) => {
+      /*cell: (info) => {
       const taskDeadline = info.getValue(); 
       if (!taskDeadline) return 'N/A';
       return taskDeadline;
+      },*/
+      cell: (cellContext) => {
+        const cellValue = cellContext.getValue();
+        if (!cellValue) return 'N/A';
+        const parsedDate = cellValue instanceof Date ? cellValue : new Date(cellValue as string);
+        return isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
       },
+
       enableSorting: true,
       size: 80,
       minSize: 80,
