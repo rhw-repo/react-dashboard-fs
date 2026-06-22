@@ -1,6 +1,6 @@
 'use no memo';
 import { useQuery } from '@tanstack/react-query';
-import type { Person } from '../../../types/types';
+import type { FullPerson } from '../../../types/types';
 import { fetchData } from '../utils/fetchData';
 //import { person } from '../../../data/data';
 import { RecordsListTable } from './RecordsListTable';
@@ -9,14 +9,14 @@ import EmptyLoadingSpinner from '../loading-fallback-ui/EmptyLoadingSpinner';
 import { Button } from '../Button';
 
 // Fallback in case undefined during loading following the useQuery call
-const EMPTY_DATA: Person[] = [];
+const EMPTY_DATA: FullPerson[] = [];
 
 export default function RecordsListTablePage() {
   'use no memo';
 
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['recordsListData'],
-    queryFn: ({ signal }) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
+    queryFn: ({ signal }) => fetchData<FullPerson[]>('/data/asset/data/mock-table-data.json', signal),
     // Uncomment for polling
     /*
     refetchInterval: 15_000,

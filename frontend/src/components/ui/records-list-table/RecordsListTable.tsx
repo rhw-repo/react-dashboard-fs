@@ -10,7 +10,7 @@ import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Button } from '@/components/ui/Button';
 //import styles from './RecordsListTable.module.css';
 import { getColumns } from './RecordsListColumns';
-import type { Person } from '../../../types/types';
+import type { FullPerson } from '../../../types/types';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
@@ -29,11 +29,11 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
 // Type-safe column visibility configuration
-type ColumnId = 'select' | 'status' | 'name' | 'nextTask' | 'taskDeadline' | 'status2';
+type ColumnId = 'select' | 'edit' | 'status' | 'name' | 'address' | 'postcode' | 'notes' | 'nextTask' | 'taskDeadline' | 'status2';
 type SafeColumnVisibility = Partial<Record<ColumnId, boolean>>;
 
 interface DataTableProps {
-  data: Person[];
+  data: FullPerson[];
   initialColumnVisibility?: SafeColumnVisibility;
 }
 
@@ -99,7 +99,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
 
   const columns = getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow);
 
-  const table = useReactTable<Person>({
+  const table = useReactTable<FullPerson>({
     columns,
     data,
     state: { sorting },
