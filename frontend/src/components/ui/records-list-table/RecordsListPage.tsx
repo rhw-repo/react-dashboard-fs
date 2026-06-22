@@ -6,6 +6,7 @@ import { fetchData } from '../utils/fetchData';
 import { RecordsListTable } from './RecordsListTable';
 import Navbar from '../navbar/Navbar';
 import EmptyLoadingSpinner from '../loading-fallback-ui/EmptyLoadingSpinner';
+import { Button } from '../Button';
 
 // Fallback in case undefined during loading following the useQuery call
 const EMPTY_DATA: Person[] = [];
@@ -53,6 +54,7 @@ export default function RecordsListTablePage() {
         <Navbar />
       </aside>
       <main className="col-start-2 place-content-center">
+        <Button variant="outline" className="m-4">Archive</Button>
         <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
       </main>
     </div>
