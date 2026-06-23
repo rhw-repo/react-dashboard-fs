@@ -10,7 +10,7 @@ function Table({ className, responsiveWidth = true, ...props }: TableProps) {
   return (
     <div
       data-slot="table-container"
-      className="relative overflow-hidden overflow-x-auto rounded-sm border border-neutral-50/50 shadow-xl/50 shadow-indigo-500/50"
+      className="relative overflow-hidden overflow-x-auto rounded-sm border border-neutral-50/50 shadow-xl/50 shadow-indigo-500/50 mt-8"
     >
       <table
         data-slot="table"

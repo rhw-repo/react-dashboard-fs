@@ -53,8 +53,8 @@ export default function RecordsListTablePage() {
       <aside className="justify-self-end">
         <Navbar />
       </aside>
-      <main className="col-start-2 place-content-center">
-        <Button variant="outline" className="m-4">Archive</Button>
+      <main className="col-start-2 place-content-center justify-self-center">
+        <Button variant="outline" className="mx-4">Archive</Button>
         <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
       </main>
     </div>
