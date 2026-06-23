@@ -142,7 +142,7 @@ export function getColumns(
     {
       id: 'taskDeadline',
       accessorKey: 'taskDeadline',
-      header: 'Task Deadline',
+      header: 'Deadline',
       //cell: ({ row }) => row.original.taskDeadline,
       /*cell: (info) => {
       const taskDeadline = info.getValue(); 

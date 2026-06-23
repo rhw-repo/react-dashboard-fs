@@ -130,7 +130,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         {(field) => {
           const error = getOnDynamicError(field.state.meta.errorMap)
           return (
-            <FieldRow id={field.name} label="Task Deadline" error={error}>
+            <FieldRow id={field.name} label="Deadline" error={error}>
               <Input
                 id={field.name}
                 type="date"

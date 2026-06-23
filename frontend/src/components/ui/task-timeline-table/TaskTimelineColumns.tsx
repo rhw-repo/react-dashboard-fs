@@ -53,7 +53,7 @@ export function getColumns(): ColumnDef<Person>[] {
     {
       id: 'taskDeadline',
       accessorKey: 'taskDeadline',
-      header: 'Task Deadline',
+      header: 'Deadline',
       /*cell: (info) => {
         const taskDeadline = info.getValue();
         if (!taskDeadline) return 'N/A';
