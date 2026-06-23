@@ -11,15 +11,18 @@ import RouteErrorFallback from './components/ui/error-fallback-ui/RouteErrorFall
 import ErrorBoundaryFallback from './components/ui/error-fallback-ui/ErrorBoundaryFallback';
 import { NotFoundPage } from './components/ui/error-fallback-ui/NotFoundPage';
 
+// Create a client
 const queryClient = new QueryClient();
 
+// TypeScript only:
 declare global {
   interface Window {
-    __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient;
+    __TANSTACK_QUERY_CLIENT__: import('@tanstack/react-query').QueryClient;
   }
 }
 window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 
+// Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {
   return (
     <>

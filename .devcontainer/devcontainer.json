@@ -26,6 +26,6 @@
         }
     },
     "remoteUser": "node",
-    "postStartCommand": "npm install",
-    "postAttachCommand": "npm run dev"
+    "postCreateCommand": "pnpm install",
+    "postAttachCommand": "pnpm run dev"
 }

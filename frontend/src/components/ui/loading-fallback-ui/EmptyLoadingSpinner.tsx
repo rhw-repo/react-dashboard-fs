@@ -1,5 +1,5 @@
 import { Spinner } from '@/components/ui/spinner';
-import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import { Empty,  EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 
 const EmptyLoadingSpinner = () => {
   return (
@@ -7,11 +7,11 @@ const EmptyLoadingSpinner = () => {
       <div className="flex items-center gap-4 [--radius:1.2rem]">
         <Empty className="w-full">
           <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <Spinner data-icon="inline-start" className="size-8" />
-            </EmptyMedia>
-            <EmptyTitle>Loading</EmptyTitle>
-            <EmptyDescription>Please wait.</EmptyDescription>
+              <EmptyMedia variant="icon">
+                <Spinner data-icon="inline-start" className="size-8" />
+              </EmptyMedia>
+              <EmptyTitle>Loading</EmptyTitle>
+              <EmptyDescription>Please wait.</EmptyDescription>
           </EmptyHeader>
         </Empty>
       </div>

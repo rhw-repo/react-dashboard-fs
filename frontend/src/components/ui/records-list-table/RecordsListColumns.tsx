@@ -5,6 +5,11 @@ import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import type { FullPerson } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
+import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
+
+/* 
+Absence of a value for status2 handled in StatusCell.tsx
+*/
 
 export function getColumns(
   selectedRows: Set<string>,
@@ -36,9 +41,18 @@ export function getColumns(
         </div>
       ),
       enableSorting: false,
-      size: 40,
-      minSize: 40,
-      maxSize: 40,
+      size: 60,
+      minSize: 60,
+      maxSize: 60,
+    },
+    {
+      id: 'edit',
+      header: '',
+      cell: ({ row }) => <RecordEditModal person={row.original} />,
+      enableSorting: false,
+      size: 80,
+      minSize: 80,
+      maxSize: 80,
     },
     {
       id: 'status',
@@ -69,7 +83,6 @@ export function getColumns(
       id: 'address',
       accessorKey: 'address',
       header: 'Address',
-      // cell: ({ row }) => row.original.address,
       cell: (info) => {
         const address = info.getValue();
         if (!address) return 'N/A';
@@ -104,9 +117,9 @@ export function getColumns(
         return notes;
       },
       enableSorting: true,
-      size: 900,
-      minSize: 900,
-      maxSize: 900,
+      size: 600,
+      minSize: 600,
+      maxSize: 600,
     },
     {
       id: 'nextTask',
@@ -125,26 +138,28 @@ export function getColumns(
     {
       id: 'taskDeadline',
       accessorKey: 'taskDeadline',
-      header: 'Task Deadline',
-      cell: (info) => {
-        const taskDeadline = info.getValue();
-        if (!taskDeadline) return 'N/A';
-        return taskDeadline;
+      header: 'Deadline',
+      cell: (cellContext) => {
+        const cellValue = cellContext.getValue();
+        if (!cellValue) return 'N/A';
+        const parsedDate = cellValue instanceof Date ? cellValue : new Date(cellValue as string);
+        return isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
       },
+
       enableSorting: true,
-      size: 80,
-      minSize: 80,
-      maxSize: 80,
+      size: 95,
+      minSize: 95,
+      maxSize: 95,
     },
     {
       id: 'status2',
       accessorKey: 'status2',
-      header: 'Status 2',
+      header: 'Updated Status',
       cell: StatusCell,
       enableSorting: true,
-      size: 60,
-      minSize: 60,
-      maxSize: 60,
+      size: 80,
+      minSize: 80,
+      maxSize: 80,
     },
   ];
 }

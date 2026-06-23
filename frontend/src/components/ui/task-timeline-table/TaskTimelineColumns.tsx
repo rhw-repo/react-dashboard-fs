@@ -4,6 +4,11 @@ import { Button } from '@/components/ui/Button';
 import type { Person } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from './StatusCell';
 
+/* Refactored: now use plain `ColumnDef<Person>[]` instead of `createColumnHelper`.
+ `DataTable` expects one consistent column value type across the `columns`
+ prop, but `createColumnHelper` infers a different `TValue` per column.
+ That mismatch causes a generic assignment error.*/
+
 export function getColumns(): ColumnDef<Person>[] {
   return [
     {
@@ -41,23 +46,24 @@ export function getColumns(): ColumnDef<Person>[] {
         return task;
       },
       enableSorting: true,
-      size: 300,
-      minSize: 300,
-      maxSize: 300,
+      size: 280,
+      minSize: 250,
+      maxSize: 280,
     },
     {
       id: 'taskDeadline',
       accessorKey: 'taskDeadline',
-      header: 'Task Deadline',
-      cell: (info) => {
-        const taskDeadline = info.getValue();
-        if (!taskDeadline) return 'N/A';
-        return taskDeadline;
+      header: 'Deadline',
+      cell: (cellContext) => {
+        const cellValue = cellContext.getValue();
+        if (!cellValue) return 'N/A';
+        const parsedDate = cellValue instanceof Date ? cellValue : new Date(cellValue as string);
+        return isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
       },
       enableSorting: true,
-      size: 70,
-      minSize: 70,
-      maxSize: 70,
+      size: 95,
+      minSize: 95,
+      maxSize: 95,
     },
     {
       id: 'status2',
