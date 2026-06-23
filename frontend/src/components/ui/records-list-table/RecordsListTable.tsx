@@ -8,7 +8,7 @@ import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
 import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Button } from '@/components/ui/Button';
 import { getColumns } from './RecordsListColumns';
-import type { Person } from '../../../types/types';
+import type { FullPerson } from '../../../types/types';
 
 import {
   type SortingState,
@@ -22,11 +22,11 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
 // Type-safe column visibility configuration
-type ColumnId = 'select' | 'status' | 'name' | 'nextTask' | 'taskDeadline' | 'status2';
+type ColumnId = 'select' | 'edit' | 'status' | 'name' | 'address' | 'postcode' | 'notes' | 'nextTask' | 'taskDeadline' | 'status2';
 type SafeColumnVisibility = Partial<Record<ColumnId, boolean>>;
 
 interface DataTableProps {
-  data: Person[];
+  data: FullPerson[];
   initialColumnVisibility?: SafeColumnVisibility;
 }
 
@@ -92,7 +92,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
 
   const columns = getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow);
 
-  const table = useReactTable<Person>({
+  const table = useReactTable<FullPerson>({
     columns,
     data,
     state: { sorting },

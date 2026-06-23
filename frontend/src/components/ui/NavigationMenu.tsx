@@ -18,7 +18,7 @@ function NavigationMenu({
       data-slot="navigation-menu"
       data-viewport={viewport}
       className={cn(
-        'group/navigation-menu relative flex h-full w-36 flex-col justify-start bg-linear-to-tr from-violet-900 to-indigo-600 px-2 shadow-lg shadow-violet-600/90 [clip-path:inset(-100px_-100px_0px_-100px)]',
+        'group/navigation-menu relative flex h-full w-fit flex-col justify-start bg-linear-to-tr from-violet-900 to-indigo-600 shadow-lg shadow-violet-600/90 px-2 [clip-path:inset(-100px_-100px_0px_-100px)]',
         className,
       )}
       {...props}
@@ -88,7 +88,7 @@ function NavigationMenuViewport({
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          'origin-top-center relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-20 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:zoom-in-90 md:w-(--radix-navigation-menu-viewport-width)',
+          'origin-top-center relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:zoom-in-90 md:w-(--radix-navigation-menu-viewport-width)',
           className,
         )}
         {...props}
@@ -102,7 +102,7 @@ function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "relative flex w-full flex-col gap-1 rounded-sm px-3 pt-12 pb-4 text-sm transition-all outline-none before:absolute before:inset-x-0 before:inset-y-0 before:-z-10 before:rounded-sm before:transition-all hover:text-accent-foreground hover:before:bg-accent focus:text-accent-foreground focus:before:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 data-[active=true]:text-accent-foreground data-[active=true]:before:bg-accent/50 data-[active=true]:hover:before:bg-accent data-[active=true]:focus:before:bg-accent max-[364px]:items-center max-[364px]:text-center sm:text-base [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+               "relative flex w-full flex-col gap-1 rounded-sm px-2 pt-12 pb-4 text-sm transition-all outline-none before:absolute before:inset-x-0 before:inset-y-0 before:-z-10 before:rounded-sm before:transition-all hover:text-accent-foreground hover:before:bg-accent focus:text-accent-foreground focus:before:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 data-[active=true]:text-accent-foreground data-[active=true]:before:bg-accent/50 data-[active=true]:hover:before:bg-accent data-[active=true]:focus:before:bg-accent max-[364px]:items-center max-[364px]:text-center sm:text-base [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
         className,
       )}
       {...props}

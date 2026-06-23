@@ -1,7 +1,7 @@
 {
     "name": "React Dashboard Frontend",
     "build": {
-        "dockerfile": "../frontend/Dockerfile",
+        "dockerfile": "../frontend/Dockerfile.dev",
         "context": "../frontend"
     },
     "workspaceFolder": "/workspaces/react-dashboard-fs/frontend",
@@ -26,6 +26,6 @@
         }
     },
     "remoteUser": "node",
-    "postStartCommand": "npm install",
-    "postAttachCommand": "npm run dev"
+    "postCreateCommand": "pnpm install",
+    "postAttachCommand": "pnpm run dev"
 }
