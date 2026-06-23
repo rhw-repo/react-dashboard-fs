@@ -172,7 +172,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       >
         {({ canSubmit, isSubmitting, isDirty }) => (
           <Button
-          variant="save"
+            variant="submit"
             type="submit"
             disabled={!canSubmit || isSubmitting || !isDirty}
             className="w-full sm:w-auto"
