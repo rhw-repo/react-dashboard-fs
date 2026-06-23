@@ -11,11 +11,13 @@ For a Financial Consultancy.
 - `React`
 - `TypeScript`
 - `Tanstack Query`
+- `Tanstack Form`
 - `Tailwind CSS`
 - `shadcn/ui`
 - `ECharts`
 - `vitest`
-- `Dev Containers (Docker, VS Code)`
+- `Dev Containers`
+- `Docker`
 - `React Testing Library`
 - `Playwright`
 
@@ -28,7 +30,7 @@ For a Financial Consultancy.
 
 ### Solutions:
 
-1. Implementing `shadcn/ui` Task Dashboard
+1. Implementing `shadcn/ui` Data Table
 
 - faster table generation whilst retaining control over all code, fully modifiable
 - uses Tanstack Table (robust, tested solution)
@@ -50,17 +52,21 @@ Installation & config:
 
 - Vite, React and TypeScript
 - React Router, React Query, component-library toolkit (shadcn), ECharts
-- Switched to developing in Docker container utilizing DevContainers as extension in the editor
+- Switched to developing in Docker container utilizing DevContainers as extension in the editor (with Docker for staging deployment) + pnpm
 
 Implementation:
 
 - Four tables with mock data
 - ECharts stacked series chart with mock data
+- Modal with a Tanstack Form started to edit single table entries
+- Layout for archival feature which will archive single or multiple table entries
 - Vertical navigation menu
+- Tanstack Query for data fetching with polling tested with mock backend
 - Custom button with animation as per client request demo display for coleague
 - Template to be used later for log in and sign up pages (shadcn Card)
 - Kanban provider selected
 - Placeholder image for the kanban board to demo layout for coleague
+- Document upload storage S3 provider Garage agreed with team
 
 Testing:
 
@@ -72,26 +78,27 @@ Staging:
 
 ### Next sprints
 
+- Archive feature
+- Document upload feature in Tanstack Form
+- Completion of form
+
 Research & Team Discussion:
 
-- Websockets for synchronization database and UI
 - Completion of login / signup with Google SSO
 - Links to be finalised with team (currently mix of genuine pages / display of certain components)
-- Final color theme
 - Link to Kanban board or other UI solution
 
 Implementation:
 
-- Updated links in vertical navigation menu
 - Kanban board
-- integration with server side & websockets implentation for synchronization database and UI
-- Color theme
+- Integration with server (Postgres + PHP)
+- Testing polling and performance (synchronizes database and UI)
 - Possiblity to DRY Tailwind utility classes with Taiwind Variants (TBC)
 
 Testing:
 
-- integration testing with React Testing Library
-- end to end testing with Playwright
+- Integration testing with React Testing Library
+- End to end testing with Playwright
 
 ---
 
