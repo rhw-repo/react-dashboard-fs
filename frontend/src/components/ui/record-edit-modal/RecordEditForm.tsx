@@ -42,7 +42,6 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       notes:        person.notes ?? '',
       nextTask:     person.nextTask ?? '',
       taskDeadline: person.taskDeadline ? new Date(person.taskDeadline as unknown as string) : undefined,
-      status:       person.status,
       status2:      person.status2 ?? '',
     },
     validationLogic: revalidateLogic({
@@ -150,25 +149,6 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         }}
       </form.AppField>
 
-      <form.AppField name="status">
-        {(field) => {
-          const error = getOnDynamicError(field.state.meta.errorMap)
-          return (
-            <FieldRow id={field.name} label="Status" error={error}>
-              <StatusSelect
-                id={field.name}
-                value={field.state.value}
-                onChange={(selectedValue) => field.handleChange(selectedValue as StatusValue)}
-                onBlur={field.handleBlur}
-                required
-                invalid={!!error}
-                aria-describedby={error ? `${field.name}-error` : undefined}
-              />
-            </FieldRow>
-          )
-        }}
-      </form.AppField>
-
       <form.AppField name="status2">
         {(field) => (
           <FieldRow id={field.name} label="Status 2">
@@ -192,6 +172,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       >
         {({ canSubmit, isSubmitting, isDirty }) => (
           <Button
+          variant="save"
             type="submit"
             disabled={!canSubmit || isSubmitting || !isDirty}
             className="w-full sm:w-auto"

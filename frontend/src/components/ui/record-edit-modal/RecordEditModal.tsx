@@ -26,8 +26,8 @@ export const RecordEditModal = ({ person }: RecordEditModalProps) => {
         <SheetTrigger asChild>
           <Button variant="outline">Edit</Button>
         </SheetTrigger>
-        <SheetContent side="top" className="mx-auto my-12 max-w-550 overflow-auto">
-          <SheetHeader>
+        <SheetContent side="top" className="flex place-content-center mx-auto my-60 max-w-200 overflow-auto dark:shadow-xl/50 dark:shadow-indigo-500/50">
+          <SheetHeader className='items-center'>
             <SheetTitle>Edit: {person.name}</SheetTitle>
             <SheetDescription>Make changes to the record here. Click save when you are finished.</SheetDescription>
           </SheetHeader>
