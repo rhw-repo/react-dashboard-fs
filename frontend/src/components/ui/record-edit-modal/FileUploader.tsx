@@ -1,12 +1,31 @@
+import { type ChangeEvent, useState } from 'react';
+
 const FileUploader = () => {
-    return (
-        <div className="m-12">
-            <input
-                type="file"
-                className="text-sm text-white file:mr-3 file:px-4 file:py-2 file:rounded-md file:border file:border-violet-700 file:bg-transparent file:text-sm file:text-white file:cursor-pointer hover:file:bg-accent"
-            />
+  const [file, setFile] = useState<File | null>(null);
+
+  function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  }
+
+  return (
+    <div className="m-12 space-y-2">
+      <input
+        type="file"
+        onChange={handleFileChange}
+        className="text-sm text-white file:mr-3 file:cursor-pointer file:rounded-md file:border file:border-violet-700 file:bg-transparent file:px-4 file:py-2 file:text-sm file:text-white hover:file:bg-accent"
+      />
+
+      {file && (
+        <div className="mb-4 text-sm">
+          <p>Filename: {file.name}</p>
+          <p>Size: {file.size}</p>
+          <p>Type: {file.type}</p>
         </div>
-    );
-}
+      )}
+    </div>
+  );
+};
 
 export default FileUploader;
