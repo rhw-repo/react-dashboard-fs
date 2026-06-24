@@ -5,7 +5,7 @@ type UploadStatus ="idle" | "uploading" | "success" | "error";
 
 const FileUploader = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState("idle");
+  const [status, _setStatus] = useState<UploadStatus>("idle");
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
