@@ -1,7 +1,11 @@
 import { type ChangeEvent, useState } from 'react';
+import { Button } from '../Button';
+
+type UploadStatus ="idle" | "uploading" | "success" | "error";  
 
 const FileUploader = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [status, setStatus] = useState("idle");
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -24,6 +28,8 @@ const FileUploader = () => {
           <p>Type: {file.type}</p>
         </div>
       )}
+      {file && status !== "uploading" && <Button variant={'submit'}>Upload</Button>
+      }
     </div>
   );
 };
