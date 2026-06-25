@@ -6,6 +6,7 @@ type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 const FileUploader = () => {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<UploadStatus>('idle');
+  //const [uploadProgress, setUploadProgress] = useState(0);
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -48,7 +49,11 @@ const FileUploader = () => {
           <p>Type: {file.type}</p>
         </div>
       )}
-      {file && status !== 'uploading' && <Button variant={'submit'} onClick={handleFileUpload}>Upload</Button>}
+      {file && status !== 'uploading' && (
+        <Button variant={'submit'} onClick={() => void handleFileUpload()}>
+          Upload
+        </Button>
+      )}
       {status === "success" && (
         <p className="mt-2 text-sm text-green-600">
           File uploaded
