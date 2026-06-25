@@ -1,15 +1,35 @@
 import { type ChangeEvent, useState } from 'react';
 import { Button } from '../Button';
 
-type UploadStatus ="idle" | "uploading" | "success" | "error";  
+type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 
 const FileUploader = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<UploadStatus>("idle");
+  const [status, setStatus] = useState<UploadStatus>('idle');
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       setFile(e.target.files[0]);
+    }
+  }
+
+  async function handleFileUpload() {
+    if (!file) return;
+
+    setStatus('uploading');
+
+    //Create formData object to be able to send POST request
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      await fetch('https://httpbin.org/post', {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        method: 'POST',
+        body: formData,
+      });
+      setStatus("success");
+    } catch {setStatus("error");
     }
   }
 
@@ -28,8 +48,19 @@ const FileUploader = () => {
           <p>Type: {file.type}</p>
         </div>
       )}
-      {file && status !== "uploading" && <Button variant={'submit'}>Upload</Button>
-      }
+      {file && status !== 'uploading' && <Button variant={'submit'} onClick={handleFileUpload}>Upload</Button>}
+      {status === "success" && (
+        <p className="mt-2 text-sm text-green-600">
+          File uploaded
+        </p>
+      )}
+
+      {status === "error" && (
+        <p className="mt-2 text-sm text-red-600">
+          Upload failed. Please try again.
+        </p>
+      )}
+
     </div>
   );
 };
