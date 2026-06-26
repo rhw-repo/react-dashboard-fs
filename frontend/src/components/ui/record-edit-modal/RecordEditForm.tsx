@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { revalidateLogic } from '@tanstack/react-form'
 import { useAppForm } from './form-context'
 import { recordSchema } from '@/schemas/person'
@@ -6,6 +7,8 @@ import { Label } from '@/components/ui/Label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
+import { FileUploader } from './FileUploader'
+import type { UploadedFile } from './FileUploader'
 
 type StatusValue = FullPerson['status']
 
@@ -34,6 +37,8 @@ function dateToInputValue(date: Date | string | undefined): string {
 }
 
 export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
+  const [attachedFiles, setAttachedFiles] = useState<UploadedFile[]>([])
+
   const form = useAppForm({
     defaultValues: {
       name:         person.name,
@@ -50,7 +55,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     }),
     validators: { onDynamic: recordSchema },
     onSubmit: ({ value }) => {
-      console.log('Saving record:', value)
+      console.log('Saving record:', value, { attachedFiles })
       onSuccess()
     },
   })
@@ -162,6 +167,8 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
           </FieldRow>
         )}
       </form.AppField>
+
+      <FileUploader person={person} onUploadComplete={setAttachedFiles} />
 
       <form.Subscribe
         selector={(formState) => ({
