@@ -1,6 +1,6 @@
 import '@uppy/react/css/style.css'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import {
@@ -40,8 +40,6 @@ export function FileUploader({ person, onUploadComplete }: FileUploaderProps) {
     }),
   )
 
-  useEffect(() => () => uppy.destroy(), [uppy])
-
   const fileCount = useUppyState(uppy, (state) => Object.keys(state.files).length)
   const [status, setStatus] = useState<UploadStatus>('idle')
 
@@ -66,7 +64,7 @@ export function FileUploader({ person, onUploadComplete }: FileUploaderProps) {
   })
 
   return (
-    <section className="mt-6 space-y-3">
+    <section className="mt-6 space-y-3 [--uppy-color-gray-50:transparent] [--uppy-color-gray-300:var(--color-indigo-500)] [--uppy-color-gray-500:var(--color-neutral-50)] [--uppy-color-gray-600:var(--color-neutral-50)] [--uppy-color-blue-50:transparent]">
       <UppyContextProvider uppy={uppy}>
         <Dropzone height="180px" note="Images, PDFs and documents up to 50 MB" />
         <FilesList />
