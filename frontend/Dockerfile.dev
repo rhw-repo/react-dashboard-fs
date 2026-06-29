@@ -9,6 +9,9 @@ RUN apk update && apk add --no-cache git
 # Enable pnpm via corepack (bundled with Node 24)
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --ignore-scripts && pnpm rebuild @swc/core esbuild
+
 EXPOSE 5173
 
 CMD ["pnpm", "run", "dev", "--", "--host"]
