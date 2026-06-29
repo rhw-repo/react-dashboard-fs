@@ -1,78 +1,100 @@
-import { useState } from 'react'
-import { revalidateLogic } from '@tanstack/react-form'
-import { useAppForm } from './form-context'
-import { recordSchema } from '@/schemas/person'
-import type { FullPerson } from '@/types/types'
-import { Label } from '@/components/ui/Label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/Button'
-import { cn } from '@/lib/utils'
-import { FileUploader } from './FileUploader'
-import type { UploadedFile } from './FileUploader'
+import { useState } from 'react';
+import Uppy from '@uppy/core';
+import XHRUpload from '@uppy/xhr-upload';
+import { useUppyState } from '@uppy/react';
+import { revalidateLogic } from '@tanstack/react-form';
+import { useAppForm } from './form-context';
+import { recordSchema } from '@/schemas/person';
+import type { FullPerson } from '@/types/types';
+import { Label } from '@/components/ui/Label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/Button';
+import { cn } from '@/lib/utils';
+import { FileUploader } from './FileUploader';
+import type { UploadedFile } from './FileUploader';
 
-type StatusValue = FullPerson['status']
+type StatusValue = FullPerson['status'];
 
-const STATUS_OPTIONS: StatusValue[] = ['bronze', 'silver', 'gold', 'do not contact']
+const STATUS_OPTIONS: StatusValue[] = ['bronze', 'silver', 'gold', 'do not contact'];
 
 type RecordEditFormProps = {
-  person: FullPerson
-  onSuccess: () => void
-}
+  person: FullPerson;
+  onSuccess: () => void;
+};
 
 function getOnDynamicError(fieldErrorMap: Record<string, unknown>): string | undefined {
-  const dynamicErrors = fieldErrorMap['onDynamic']
-  if (!Array.isArray(dynamicErrors) || dynamicErrors.length === 0) return undefined
-  const firstError: unknown = dynamicErrors[0]
-  if (typeof firstError === 'string') return firstError
+  const dynamicErrors = fieldErrorMap['onDynamic'];
+  if (!Array.isArray(dynamicErrors) || dynamicErrors.length === 0) return undefined;
+  const firstError: unknown = dynamicErrors[0];
+  if (typeof firstError === 'string') return firstError;
   if (firstError !== null && typeof firstError === 'object' && 'message' in firstError) {
-    return String(firstError.message)
+    return String(firstError.message);
   }
-  return undefined
+  return undefined;
 }
 
 function dateToInputValue(date: Date | string | undefined): string {
-  if (!date) return ''
-  const dateObject = date instanceof Date ? date : new Date(date)
-  return isNaN(dateObject.getTime()) ? '' : dateObject.toISOString().split('T')[0]
+  if (!date) return '';
+  const dateObject = date instanceof Date ? date : new Date(date);
+  return isNaN(dateObject.getTime()) ? '' : dateObject.toISOString().split('T')[0];
 }
 
 export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
-  const [attachedFiles, setAttachedFiles] = useState<UploadedFile[]>([])
+  const [uppy] = useState(() =>
+    new Uppy({
+      id: `record-uploader-${person.id}`,
+      autoProceed: false,
+      restrictions: { maxFileSize: 50 * 1024 * 1024 },
+    }).use(XHRUpload, { endpoint: 'https://httpbin.org/post' }),
+  );
+
+  const fileCount = useUppyState(uppy, (state) => Object.keys(state.files).length);
 
   const form = useAppForm({
     defaultValues: {
-      name:         person.name,
-      address:      person.address ?? '',
-      postcode:     person.postcode ?? '',
-      notes:        person.notes ?? '',
-      nextTask:     person.nextTask ?? '',
+      name: person.name,
+      address: person.address ?? '',
+      postcode: person.postcode ?? '',
+      notes: person.notes ?? '',
+      nextTask: person.nextTask ?? '',
       taskDeadline: person.taskDeadline ? new Date(person.taskDeadline as unknown as string) : undefined,
-      status2:      person.status2 ?? '',
+      status2: person.status2 ?? '',
     },
     validationLogic: revalidateLogic({
       mode: 'submit',
       modeAfterSubmission: 'change',
     }),
     validators: { onDynamic: recordSchema },
-    onSubmit: ({ value }) => {
-      console.log('Saving record:', value, { attachedFiles })
-      onSuccess()
+    onSubmit: async ({ value }) => {
+      let uploadedFiles: UploadedFile[] = [];
+      if (uppy.getFiles().length > 0) {
+        const result = await uppy.upload();
+        if (!result || (result.failed?.length ?? 0) > 0) return;
+        uploadedFiles = (result.successful ?? []).map((uploadedFile) => ({
+          uploadURL: uploadedFile.uploadURL ?? '',
+          fileName: uploadedFile.name,
+          fileType: uploadedFile.type ?? '',
+          fileSize: uploadedFile.size ?? 0,
+        }));
+      }
+      console.log('Saving record:', value, { uploadedFiles });
+      onSuccess();
     },
-  })
+  });
 
   return (
     <form
       onSubmit={(event) => {
-        event.preventDefault()
-        event.stopPropagation()
-        void form.handleSubmit()
+        event.preventDefault();
+        event.stopPropagation();
+        void form.handleSubmit();
       }}
       noValidate
       className="grid gap-5"
     >
       <form.AppField name="name">
         {(field) => {
-          const error = getOnDynamicError(field.state.meta.errorMap)
+          const error = getOnDynamicError(field.state.meta.errorMap);
           return (
             <FieldRow id={field.name} label="Name" error={error}>
               <Input
@@ -85,7 +107,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
                 placeholder="Full name"
               />
             </FieldRow>
-          )
+          );
         }}
       </form.AppField>
 
@@ -117,7 +139,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         )}
       </form.AppField>
 
-<form.AppField name="nextTask">
+      <form.AppField name="nextTask">
         {(field) => (
           <FieldRow id={field.name} label="Next Task">
             <Input
@@ -133,24 +155,20 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
 
       <form.AppField name="taskDeadline">
         {(field) => {
-          const error = getOnDynamicError(field.state.meta.errorMap)
+          const error = getOnDynamicError(field.state.meta.errorMap);
           return (
             <FieldRow id={field.name} label="Deadline" error={error}>
               <Input
                 id={field.name}
                 type="date"
                 value={dateToInputValue(field.state.value)}
-                onChange={(event) =>
-                  field.handleChange(
-                    event.target.value ? new Date(event.target.value) : undefined,
-                  )
-                }
+                onChange={(event) => field.handleChange(event.target.value ? new Date(event.target.value) : undefined)}
                 onBlur={field.handleBlur}
                 aria-invalid={error ? true : undefined}
                 aria-describedby={error ? `${field.name}-error` : undefined}
               />
             </FieldRow>
-          )
+          );
         }}
       </form.AppField>
 
@@ -168,20 +186,20 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         )}
       </form.AppField>
 
-      <FileUploader person={person} onUploadComplete={setAttachedFiles} />
+      <FileUploader uppy={uppy} />
 
       <form.Subscribe
         selector={(formState) => ({
-          canSubmit:    formState.canSubmit,
+          canSubmit: formState.canSubmit,
           isSubmitting: formState.isSubmitting,
-          isDirty:      formState.isDirty,
+          isDirty: formState.isDirty,
         })}
       >
         {({ canSubmit, isSubmitting, isDirty }) => (
           <Button
             variant="submit"
             type="submit"
-            disabled={!canSubmit || isSubmitting || !isDirty}
+            disabled={!canSubmit || isSubmitting || (!isDirty && fileCount === 0)}
             className="w-full sm:w-auto"
           >
             {isSubmitting ? 'Saving…' : 'Save changes'}
@@ -189,17 +207,17 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         )}
       </form.Subscribe>
     </form>
-  )
+  );
 }
 
 // ── Field wrapper ─────────────────────────────────────────────────────────────
 
 type FieldRowProps = {
-  id: string
-  label: string
-  error?: string
-  children: React.ReactNode
-}
+  id: string;
+  label: string;
+  error?: string;
+  children: React.ReactNode;
+};
 
 function FieldRow({ id, label, error, children }: FieldRowProps) {
   return (
@@ -207,26 +225,26 @@ function FieldRow({ id, label, error, children }: FieldRowProps) {
       <Label htmlFor={id}>{label}</Label>
       {children}
       {error && (
-        <p id={`${id}-error`} role="alert" className="text-destructive text-xs">
+        <p id={`${id}-error`} role="alert" className="text-xs text-destructive">
           {error}
         </p>
       )}
     </div>
-  )
+  );
 }
 
 // ── Status select ─────────────────────────────────────────────────────────────
 
 type StatusSelectProps = {
-  id: string
-  value: string
-  onChange: (selectedValue: string) => void
-  onBlur: () => void
-  required?: boolean
-  includeBlank?: boolean
-  invalid?: boolean
-  'aria-describedby'?: string
-}
+  id: string;
+  value: string;
+  onChange: (selectedValue: string) => void;
+  onBlur: () => void;
+  required?: boolean;
+  includeBlank?: boolean;
+  invalid?: boolean;
+  'aria-describedby'?: string;
+};
 
 function StatusSelect({
   id,
@@ -248,9 +266,9 @@ function StatusSelect({
       aria-invalid={invalid ? true : undefined}
       aria-describedby={describedBy}
       className={cn(
-        'border-input h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-[color,box-shadow]',
-        'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-        invalid && 'border-destructive ring-destructive/20 ring-[3px]',
+        'h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none',
+        'focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
+        invalid && 'border-destructive ring-[3px] ring-destructive/20',
         'disabled:cursor-not-allowed disabled:opacity-50',
       )}
     >
@@ -261,5 +279,5 @@ function StatusSelect({
         </option>
       ))}
     </select>
-  )
+  );
 }
