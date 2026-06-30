@@ -9,6 +9,5 @@ export const recordSchema = z.object({
   notes: z.string(),
   nextTask: z.string(),
   taskDeadline: z.union([z.date(), z.undefined()]),
-  status: statusEnum,
   status2: z.union([z.literal(''), statusEnum]),
 });

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Uppy from '@uppy/core';
-import XHRUpload from '@uppy/xhr-upload';
 import { useUppyState } from '@uppy/react';
 import { revalidateLogic } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
@@ -12,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { FileUploader } from './FileUploader';
-import type { UploadedFile } from './FileUploader';
 import { API_ENDPOINTS } from '@/components/ui/utils/endpoints';
 
 type StatusValue = FullPerson['status'];
@@ -47,29 +45,16 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       id: `record-uploader-${person.id}`,
       autoProceed: false,
       restrictions: { maxFileSize: 50 * 1024 * 1024 },
-    }).use(XHRUpload, { endpoint: 'https://httpbin.org/post' }),
+    }),
   );
 
   const fileCount = useUppyState(uppy, (state) => Object.keys(state.files).length);
 
   const mutation = useMutation({
-    mutationFn: async (payload: {
-      name: string;
-      address: string;
-      postcode: string;
-      notes: string;
-      nextTask: string;
-      taskDeadline: Date | undefined;
-      status2: string;
-      uploadedFiles: UploadedFile[];
-    }) => {
+    mutationFn: async (formData: FormData) => {
       const res = await fetch(`${API_ENDPOINTS.people}/${person.id}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...payload,
-          taskDeadline: payload.taskDeadline?.toISOString() ?? null,
-        }),
+        body: formData,
       });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       return res.json() as Promise<FullPerson>;
@@ -93,19 +78,19 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     }),
     validators: { onDynamic: recordSchema },
     onSubmit: async ({ value }) => {
-      let uploadedFiles: UploadedFile[] = [];
-      if (uppy.getFiles().length > 0) {
-        const result = await uppy.upload();
-        if (!result || (result.failed?.length ?? 0) > 0) return;
-        uploadedFiles = (result.successful ?? []).map((uploadedFile) => ({
-          uploadURL: uploadedFile.uploadURL ?? '',
-          fileName: uploadedFile.name,
-          fileType: uploadedFile.type ?? '',
-          fileSize: uploadedFile.size ?? 0,
-        }));
+      const formData = new FormData();
+      formData.append('name', value.name);
+      formData.append('address', value.address);
+      formData.append('postcode', value.postcode);
+      formData.append('notes', value.notes);
+      formData.append('nextTask', value.nextTask);
+      if (value.taskDeadline) formData.append('taskDeadline', value.taskDeadline.toISOString());
+      formData.append('status2', value.status2);
+      for (const file of uppy.getFiles()) {
+        formData.append('files', file.data as File, file.name);
       }
       try {
-        await mutation.mutateAsync({ ...value, uploadedFiles });
+        await mutation.mutateAsync(formData);
       } catch {
         // error state available via mutation.isError / mutation.error
       }
