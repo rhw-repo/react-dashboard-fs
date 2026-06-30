@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { FullPerson } from '../../../types/types';
 import { fetchData } from '../utils/fetchData';
+import { API_ENDPOINTS } from '../utils/endpoints';
 //import { person } from '../../../data/data';
 import { RecordsListTable } from './RecordsListTable';
 import Navbar from '../navbar/Navbar';
@@ -15,13 +16,10 @@ export default function RecordsListTablePage() {
   'use no memo';
 
   const { data: fetchedData, isLoading } = useQuery({
-    queryKey: ['recordsListData'],
-    queryFn: ({ signal }) => fetchData<FullPerson[]>('/data/asset/data/mock-table-data.json', signal),
-    // Uncomment for polling
-    /*
+    queryKey: ['people'],
+    queryFn: ({ signal }) => fetchData<FullPerson[]>(API_ENDPOINTS.people, signal),
     refetchInterval: 15_000,
     refetchIntervalInBackground: true,
-    */
     throwOnError: true,
   });
 

@@ -6,8 +6,11 @@ WORKDIR /usr/src/app
 
 RUN apk update && apk add --no-cache git
 
-# Enable pnpm via corepack (bundled with Node 24)
+# Enable pnpm via corepack (bundled with Node 24) for both root and the node user
 RUN corepack enable && corepack prepare pnpm@latest --activate
+USER node
+RUN corepack prepare pnpm@latest --activate
+USER root
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --ignore-scripts && pnpm rebuild @swc/core esbuild
