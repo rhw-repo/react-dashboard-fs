@@ -3,6 +3,7 @@ import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
 import { useUppyState } from '@uppy/react';
 import { revalidateLogic } from '@tanstack/react-form';
+import { useMutation } from '@tanstack/react-query';
 import { useAppForm } from './form-context';
 import { recordSchema } from '@/schemas/person';
 import type { FullPerson } from '@/types/types';
@@ -12,6 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { FileUploader } from './FileUploader';
 import type { UploadedFile } from './FileUploader';
+import { API_ENDPOINTS } from '@/components/ui/utils/endpoints';
 
 type StatusValue = FullPerson['status'];
 
@@ -50,6 +52,31 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
 
   const fileCount = useUppyState(uppy, (state) => Object.keys(state.files).length);
 
+  const mutation = useMutation({
+    mutationFn: async (payload: {
+      name: string;
+      address: string;
+      postcode: string;
+      notes: string;
+      nextTask: string;
+      taskDeadline: Date | undefined;
+      status2: string;
+      uploadedFiles: UploadedFile[];
+    }) => {
+      const res = await fetch(`${API_ENDPOINTS.people}/${person.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...payload,
+          taskDeadline: payload.taskDeadline?.toISOString() ?? null,
+        }),
+      });
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      return res.json() as Promise<FullPerson>;
+    },
+    onSuccess: () => onSuccess(),
+  });
+
   const form = useAppForm({
     defaultValues: {
       name: person.name,
@@ -77,8 +104,11 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
           fileSize: uploadedFile.size ?? 0,
         }));
       }
-      console.log('Saving record:', value, { uploadedFiles });
-      onSuccess();
+      try {
+        await mutation.mutateAsync({ ...value, uploadedFiles });
+      } catch {
+        // error state available via mutation.isError / mutation.error
+      }
     },
   });
 
