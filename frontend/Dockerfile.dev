@@ -6,13 +6,16 @@ WORKDIR /usr/src/app
 
 RUN apk update && apk add --no-cache git
 
-# Enable pnpm via corepack (bundled with Node 24) for both root and the node user
-RUN corepack enable && corepack prepare pnpm@latest --activate
+COPY package.json pnpm-lock.yaml ./
+
+# Enable pnpm via corepack (bundled with Node 24) for both root and the node user.
+# Version comes from package.json's "packageManager" field (set via `corepack use pnpm@...`),
+# so there's one source of truth instead of a version pinned separately here.
+RUN corepack enable && corepack prepare --activate
 USER node
-RUN corepack prepare pnpm@latest --activate
+RUN corepack prepare --activate
 USER root
 
-COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --ignore-scripts && pnpm rebuild @swc/core esbuild
 
 EXPOSE 5173

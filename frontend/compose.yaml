@@ -24,6 +24,12 @@ services:
       - /usr/src/app/node_modules
     stdin_open: true
     tty: true
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5173"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
     networks:
       - dev-bridge-network
 
