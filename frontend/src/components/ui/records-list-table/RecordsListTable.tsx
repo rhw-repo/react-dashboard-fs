@@ -47,7 +47,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set());
 
-  const pageRowIds = React.useMemo(() => data.map((row) => row.id), [data]);
+  const pageRowIds = React.useMemo(() => data.map((row) => row._id), [data]);
   const pageIdSet = React.useMemo(() => new Set(pageRowIds), [pageRowIds]);
 
   React.useEffect(() => {
@@ -168,7 +168,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                 <TableBody>
                   {rows.length > 0 ? (
                     rows.map((row) => {
-                      const id = row.original.id;
+                      const id = row.original._id;
                       const isSelected = selectedRows.has(id);
 
                       return (

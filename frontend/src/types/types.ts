@@ -1,10 +1,16 @@
 export type Person = {
-  id: string;
+  _id: string;
   name: string;
   nextTask?: string;
   taskDeadline?: Date;
   status: 'bronze' | 'silver' | 'gold' | 'do not contact';
   status2?: 'bronze' | 'silver' | 'gold' | 'do not contact';
+};
+
+export type PersonFile = {
+  fileName: string;
+  fileType: string;
+  fileSize: number;
 };
 
 /**
@@ -17,4 +23,5 @@ export type FullPerson = Person & {
   email?: string;
   postcode?: string;
   notes?: string;
+  files?: PersonFile[];
 };

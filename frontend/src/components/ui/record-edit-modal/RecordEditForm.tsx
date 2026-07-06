@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Uppy from '@uppy/core';
 import { useUppyState } from '@uppy/react';
 import { revalidateLogic } from '@tanstack/react-form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppForm } from './form-context';
 import { recordSchema } from '@/schemas/person';
 import type { FullPerson } from '@/types/types';
@@ -39,10 +39,17 @@ function dateToInputValue(date: Date | string | undefined): string {
   return isNaN(dateObject.getTime()) ? '' : dateObject.toISOString().split('T')[0];
 }
 
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  const kilobytes = bytes / 1024;
+  if (kilobytes < 1024) return `${kilobytes.toFixed(1)} KB`;
+  return `${(kilobytes / 1024).toFixed(1)} MB`;
+}
+
 export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
   const [uppy] = useState(() =>
     new Uppy({
-      id: `record-uploader-${person.id}`,
+      id: `record-uploader-${person._id}`,
       autoProceed: false,
       restrictions: { maxFileSize: 50 * 1024 * 1024 },
     }),
@@ -50,16 +57,21 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
 
   const fileCount = useUppyState(uppy, (state) => Object.keys(state.files).length);
 
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const res = await fetch(`${API_ENDPOINTS.people}/${person.id}`, {
+      const res = await fetch(`${API_ENDPOINTS.people}/${person._id}`, {
         method: 'POST',
         body: formData,
       });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       return res.json() as Promise<FullPerson>;
     },
-    onSuccess: () => onSuccess(),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['people'] });
+      onSuccess();
+    },
   });
 
   const form = useAppForm({
@@ -200,6 +212,20 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
           </FieldRow>
         )}
       </form.AppField>
+
+      {person.files && person.files.length > 0 && (
+        <div className="grid gap-1.5">
+          <Label>Existing files</Label>
+          <ul className="grid gap-1 rounded-md border border-input px-3 py-2 text-sm">
+            {person.files.map((file, index) => (
+              <li key={`${file.fileName}-${index}`} className="flex items-center justify-between gap-2">
+                <span className="truncate">{file.fileName}</span>
+                <span className="shrink-0 text-xs text-muted-foreground">{formatFileSize(file.fileSize)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <FileUploader uppy={uppy} />
 

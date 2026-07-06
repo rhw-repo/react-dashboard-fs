@@ -33,10 +33,10 @@ export function getColumns(
       cell: ({ row }) => (
         <div className="flex h-full w-full items-center justify-center">
           <Checkbox
-            checked={selectedRows.has(row.original.id)}
-            onCheckedChange={(checked) => onSelectRow(row.original.id, checked === true)}
+            checked={selectedRows.has(row.original._id)}
+            onCheckedChange={(checked) => onSelectRow(row.original._id, checked === true)}
             className="rounded-sm"
-            aria-label={`Select row ${row.original.id}`}
+            aria-label={`Select row ${row.original._id}`}
           />
         </div>
       ),
