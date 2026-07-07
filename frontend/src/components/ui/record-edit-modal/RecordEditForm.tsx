@@ -79,7 +79,6 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       name: person.name,
       address: person.address ?? '',
       postcode: person.postcode ?? '',
-      notes: person.notes ?? '',
       nextTask: person.nextTask ?? '',
       taskDeadline: person.taskDeadline ? new Date(person.taskDeadline as unknown as string) : undefined,
       status2: person.status2 ?? '',
@@ -94,7 +93,6 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       formData.append('name', value.name);
       formData.append('address', value.address);
       formData.append('postcode', value.postcode);
-      formData.append('notes', value.notes);
       formData.append('nextTask', value.nextTask);
       if (value.taskDeadline) formData.append('taskDeadline', value.taskDeadline.toISOString());
       formData.append('status2', value.status2);
@@ -213,11 +211,11 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         )}
       </form.AppField>
 
-      {person.files && person.files.length > 0 && (
+      {person.notes && person.notes.length > 0 && (
         <div className="grid gap-1.5">
           <Label>Existing files</Label>
           <ul className="grid gap-1 rounded-md border border-input px-3 py-2 text-sm">
-            {person.files.map((file, index) => (
+            {person.notes.map((file, index) => (
               <li key={`${file.fileName}-${index}`} className="flex items-center justify-between gap-2">
                 <span className="truncate">{file.fileName}</span>
                 <span className="shrink-0 text-xs text-muted-foreground">{formatFileSize(file.fileSize)}</span>

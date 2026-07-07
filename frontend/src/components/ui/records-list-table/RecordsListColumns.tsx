@@ -112,9 +112,9 @@ export function getColumns(
       accessorKey: 'notes',
       header: 'Notes',
       cell: (info) => {
-        const notes = info.getValue();
-        if (!notes) return 'Unassigned';
-        return notes;
+        const notes = info.getValue() as FullPerson['notes'];
+        if (!notes || notes.length === 0) return 'Unassigned';
+        return notes.map((file) => file.fileName).join(' ');
       },
       enableSorting: true,
       size: 600,
