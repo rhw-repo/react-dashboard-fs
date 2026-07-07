@@ -6,7 +6,7 @@
    https://github.com/facebook/react/issues/33057
 */
 import * as React from 'react';
-import type { CheckedState } from '@radix-ui/react-checkbox';
+import type { Checkbox as CheckboxPrimitive } from 'radix-ui';
 import { Button } from '@/components/ui/Button';
 //import styles from './RecordsListTable.module.css';
 import { getColumns } from './RecordsListColumns';
@@ -37,7 +37,7 @@ interface DataTableProps {
   initialColumnVisibility?: SafeColumnVisibility;
 }
 
-function getSelectAllState(pageCount: number, selectedInPageCount: number): CheckedState {
+function getSelectAllState(pageCount: number, selectedInPageCount: number): CheckboxPrimitive.CheckedState {
   if (pageCount === 0 || selectedInPageCount === 0) return false;
   if (selectedInPageCount === pageCount) return true;
   return 'indeterminate';
@@ -74,7 +74,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
 
   const selectAllState = getSelectAllState(pageCount, selectedInPageCount);
 
-  const handleSelectAll = (checked: CheckedState) => {
+  const handleSelectAll = (checked: CheckboxPrimitive.CheckedState) => {
     if (checked === 'indeterminate') return;
 
     setSelectedRows((prev) => {
@@ -151,7 +151,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                       {headerGroup.headers.map((header) => (
                         <TableHead
                           key={header.id}
-                          className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0 [&:has([role=checkbox])]:px-0"
+                            className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0 has-[[role=checkbox]]:px-0"
                           style={{
                             width: `${header.column.columnDef.size}px`,
                           }}

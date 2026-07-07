@@ -1,11 +1,12 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import type { CheckedState } from '@radix-ui/react-checkbox';
+import type { Checkbox as CheckboxPrimitive } from 'radix-ui';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import type { FullPerson } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
 import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
+import { FileTypeIcon } from './fileTypeIcon';
 
 /* 
 Absence of a value for status2 handled in StatusCell.tsx
@@ -13,8 +14,8 @@ Absence of a value for status2 handled in StatusCell.tsx
 
 export function getColumns(
   selectedRows: Set<string>,
-  selectAllState: CheckedState,
-  onSelectAll: (checked: CheckedState) => void,
+  selectAllState: CheckboxPrimitive.CheckedState,
+  onSelectAll: (checked: CheckboxPrimitive.CheckedState) => void,
   onSelectRow: (id: string, isChecked: boolean) => void,
 ): ColumnDef<FullPerson>[] {
   return [
@@ -114,7 +115,16 @@ export function getColumns(
       cell: (info) => {
         const notes = info.getValue() as FullPerson['notes'];
         if (!notes || notes.length === 0) return 'Unassigned';
-        return notes.map((file) => file.fileName).join(' ');
+        return (
+          <div className="flex flex-col gap-2">
+            {notes.map((file) => (
+              <span key={file.fileName} className="flex items-center gap-2">
+                <FileTypeIcon fileType={file.fileType} />
+                {file.fileName}
+              </span>
+            ))}
+          </div>
+        );
       },
       enableSorting: true,
       size: 600,
