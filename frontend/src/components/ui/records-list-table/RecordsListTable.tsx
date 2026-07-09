@@ -180,17 +180,22 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                           }
                         >
                           {row.getVisibleCells().map((cell) => {
+                            const isStatusColumn = cell.column.id === 'status' || cell.column.id === 'status2';
                             return (
                               <TableCell
                                 key={cell.id}
-                                className={`border-x border-neutral-50/50 first:border-l-0 last:border-r-0`}
+                                className={`border-x border-neutral-50/50 first:border-l-0 last:border-r-0 ${isStatusColumn ? 'overflow-visible!' : ''}`}
                                 style={{
                                   width: `${cell.column.columnDef.size}px`,
                                 }}
                               >
-                                <div className="truncate">
-                                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </div>
+                                {isStatusColumn ? (
+                                  flexRender(cell.column.columnDef.cell, cell.getContext())
+                                ) : (
+                                  <div className="truncate">
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                  </div>
+                                )}
                               </TableCell>
                             );
                           })}
