@@ -19,6 +19,7 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         submit:
           'bg-indigo-500 shadow-xs hover:bg-indigo-700 dark:shadow-xl/50 dark:shadow-indigo-500/50 hover:text-accent-foreground',
+        remove: 'text-base text-blue-500 bg-background',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',
