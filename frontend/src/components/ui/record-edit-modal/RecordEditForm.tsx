@@ -108,6 +108,13 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     },
   });
 
+  // TODO: COMPLETE Maintain state for files already attached to the record
+  //  const [files, setFiles] = useState(person.notes);
+
+  // const deleteFile = (index) => {
+  // setFiles(prevState) => prevState.filter((file, i) => ! === index);
+  //}
+
   return (
     <form
       onSubmit={(event) => {
@@ -221,7 +228,9 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
                 <li key={`${file.fileName}-${index}`} className="flex items-center justify-between gap-2">
                   <span className="truncate">{file.fileName}</span>
                   <span className="shrink-0 text-base text-muted-foreground">{formatFileSize(file.fileSize)}</span>
-                  <Button variant={'remove'}>remove</Button>
+                  <Button variant={'remove'} type="button">
+                    remove
+                  </Button>
                 </li>
               </>
             ))}
