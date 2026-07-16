@@ -4,19 +4,21 @@ FROM node:24-alpine
 
 WORKDIR /usr/src/app
 
-RUN apk update && apk add --no-cache git
+RUN apk update && apk add --no-cache git && corepack enable
 
-COPY package.json pnpm-lock.yaml ./
+COPY --chown=node:node package.json pnpm-lock.yaml ./
 
-# Enable pnpm via corepack (bundled with Node 24) for both root and the node user.
-# Version comes from package.json's "packageManager" field (set via `corepack use pnpm@...`),
-# so there's one source of truth instead of a version pinned separately here.
-RUN corepack enable && corepack prepare --activate
+# corepack prepare --activate reads the "packageManager" field from
+# package.json (set via `corepack use pnpm@...`, so there's one source of
+# truth instead of a version pinned separately here) — needs to run after
+# the COPY above. Also hand WORKDIR (created by root) to the node user
+# (uid 1000, provided by the base image) so install and the running dev
+# server stay unprivileged.
+RUN corepack prepare --activate && chown node:node /usr/src/app
+
 USER node
-RUN corepack prepare --activate
-USER root
-
-RUN pnpm install --ignore-scripts && pnpm rebuild @swc/core esbuild
+RUN corepack prepare --activate \
+  && pnpm install --ignore-scripts && pnpm rebuild @swc/core esbuild
 
 EXPOSE 5173
 
