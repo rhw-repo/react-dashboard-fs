@@ -10,8 +10,9 @@ For a Financial Consultancy.
 
 - `React`
 - `TypeScript`
-- `Tanstack Query`
-- `Tanstack Form`
+- `TanStack Query`
+- `TanStack Form`
+- `Uppy`
 - `Tailwind CSS`
 - `shadcn/ui`
 - `ECharts`
@@ -32,17 +33,17 @@ For a Financial Consultancy.
 
 1. Implementing `shadcn/ui` Data Table
 
-- faster table generation whilst retaining control over all code, fully modifiable
-- uses Tanstack Table (robust, tested solution)
-- using other `shadcn/ui` components for faster templating
+- Faster table generation whilst retaining control over all code, fully modifiable
+- Uses TanStack Table (robust, tested solution)
+- Using other `shadcn/ui` components for faster templating
 
 2. `Tailwind CSS` for quicker uniform & polished UI styling
 
 - Blend with modular vanilla CSS if required to retain full control over the design
 
-3. Implementing `Tanstack Query` (React Query)
+3. Implementing `TanStack Query` (React Query)
 
-- automate data fetching, caching and error / loading state
+- Automate data fetching, caching and error / loading state
 
 ---
 
@@ -50,23 +51,25 @@ For a Financial Consultancy.
 
 Installation & config:
 
-- Vite, React and TypeScript
-- React Router, React Query, component-library toolkit (shadcn), ECharts
-- Switched to developing in Docker container utilizing DevContainers as extension in the editor (with Docker for staging deployment) + pnpm
+- Vite, React and TypeScript + pnpm
+- React Router, TanStack Query, shadcn, ECharts, TanStack Form, Uppy
+- Dev Containers for development, Docker containers for tests with mock backend service (Express & MongoDB) & deployment
 
 Implementation:
 
+- Vertical navigation menu
 - Four tables with mock data
 - ECharts stacked series chart with mock data
-- Modal with a Tanstack Form started to edit single table entries
+- Modal with a TanStack Form to edit single table entries
 - Layout for archival feature which will archive single or multiple table entries
-- Vertical navigation menu
-- Tanstack Query for data fetching with polling tested with mock backend
-- Custom button with animation as per client request demo display for coleague
+- TanStack Query for data fetching with polling (mock backend service connected via Docker network)
+- Separate animated button component
 - Template to be used later for log in and sign up pages (shadcn Card)
 - Kanban provider selected
 - Placeholder image for the kanban board to demo layout for coleague
-- Document upload storage S3 provider Garage agreed with team
+- Research: document upload storage S3 provider Garage agreed with coleague
+- Form architecture agreed (archival feature for existing files with a separate request for S3 bucket, new file uploads with Uppy, edit all fields)
+- Branch using Uppy within a TanStack Form component, connected to mock backend service
 
 Testing:
 
@@ -78,9 +81,8 @@ Staging:
 
 ### Next sprints
 
+- Completion of form component
 - Archive feature
-- Document upload feature in Tanstack Form
-- Completion of form
 
 Research & Team Discussion:
 
@@ -92,7 +94,6 @@ Implementation:
 
 - Kanban board
 - Integration with server (Postgres + PHP)
-- Testing polling and performance (synchronizes database and UI)
 - Possiblity to DRY Tailwind utility classes with Taiwind Variants (TBC)
 
 Testing:
