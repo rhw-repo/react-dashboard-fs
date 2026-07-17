@@ -7,8 +7,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve with Nginx
-FROM nginx:alpine
-USER nginx
+FROM nginxinc/nginx-unprivileged:1.29.4-alpine3.23
 # Copy the built assets from the builder stage
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 
