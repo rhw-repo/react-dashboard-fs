@@ -4,6 +4,8 @@ import { Checkbox as CheckboxPrimitive } from 'radix-ui';
 
 import { cn } from '@/lib/utils';
 
+type CheckedState = boolean | 'indeterminate';
+
 function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
   return (
     <CheckboxPrimitive.Root
@@ -26,3 +28,4 @@ function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxP
 }
 
 export { Checkbox };
+export type { CheckedState };

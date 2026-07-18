@@ -5,7 +5,7 @@ import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
 import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
-import type { CheckedState } from '@radix-ui/react-checkbox';
+import { type CheckedState } from '@/components/ui/Checkbox';
 import { Button } from '@/components/ui/Button';
 import { getColumns } from './RecordsListColumns';
 import type { FullPerson } from '../../../types/types';
@@ -22,7 +22,17 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
 // Type-safe column visibility configuration
-type ColumnId = 'select' | 'edit' | 'status' | 'name' | 'address' | 'postcode' | 'notes' | 'nextTask' | 'taskDeadline' | 'status2';
+type ColumnId =
+  | 'select'
+  | 'edit'
+  | 'status'
+  | 'name'
+  | 'address'
+  | 'postcode'
+  | 'notes'
+  | 'nextTask'
+  | 'taskDeadline'
+  | 'status2';
 type SafeColumnVisibility = Partial<Record<ColumnId, boolean>>;
 
 interface DataTableProps {
@@ -36,7 +46,7 @@ function getSelectAllState(pageCount: number, selectedInPageCount: number): Chec
   return 'indeterminate';
 }
 
-export function RecordsListTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
+export function RecordsListTable({ data, initialColumnVisibility }: Readonly<DataTableProps>): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set());
 
@@ -144,7 +154,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                       {headerGroup.headers.map((header) => (
                         <TableHead
                           key={header.id}
-                          className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0 [&:has([role=checkbox])]:px-0"
+                          className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0 has-[[role=checkbox]]:px-0"
                           style={{
                             width: `${header.column.columnDef.size}px`,
                           }}
