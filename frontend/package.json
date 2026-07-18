@@ -34,7 +34,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-error-boundary": "^6.1.1",
-    "react-router": "^7.13.1",
+    "react-router": "^7.18.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "zod": "^4.4.3"
@@ -58,5 +58,17 @@
     "vite": "^7.2.4",
     "vitest": "^4.1.2"
   },
-  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
+  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531",
+  "overrides": {
+    "js-yaml": ">=4.2.0",
+    "esbuild": ">=0.28.1",
+    "@babel/core": ">=7.29.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "js-yaml": ">=4.2.0",
+      "esbuild": ">=0.28.1",
+      "@babel/core": ">=7.29.6"
+    }
+  }
 }
