@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 RUN apk update && apk add --no-cache git
 
 # Enable pnpm via corepack (bundled with Node 24)
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@latest-11 --activate
 
 EXPOSE 5173
 

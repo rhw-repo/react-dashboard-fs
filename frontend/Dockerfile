@@ -1,6 +1,6 @@
 FROM node:24-alpine AS builder
 WORKDIR /usr/src/app
-RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
+RUN corepack enable && corepack prepare pnpm@latest-11 --activate
 RUN chown node:node /usr/src/app
 USER node
 COPY --chown=node:node package.json pnpm-lock.yaml pnpm-workspace.yaml ./
