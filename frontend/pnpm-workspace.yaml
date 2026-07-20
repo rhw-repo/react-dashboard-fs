@@ -1,2 +1,7 @@
 packages:
   - '.'
+
+minimumReleaseAge: 2880
+minimumReleaseAgeIgnoreMissingTime: false
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
