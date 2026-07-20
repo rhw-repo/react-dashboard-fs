@@ -1,11 +1,12 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import type { CheckedState } from '@radix-ui/react-checkbox';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import type { FullPerson } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
 import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
+
+export type CheckedState = boolean | 'indeterminate';
 
 /* 
 Absence of a value for status2 handled in StatusCell.tsx
@@ -143,7 +144,7 @@ export function getColumns(
         const cellValue = cellContext.getValue();
         if (!cellValue) return 'N/A';
         const parsedDate = cellValue instanceof Date ? cellValue : new Date(cellValue as string);
-        return isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
+        return Number.isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
       },
 
       enableSorting: true,

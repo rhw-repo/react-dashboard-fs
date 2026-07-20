@@ -6,10 +6,9 @@
    https://github.com/facebook/react/issues/33057
 */
 import * as React from 'react';
-import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Button } from '@/components/ui/Button';
 //import styles from './RecordsListTable.module.css';
-import { getColumns } from './RecordsListColumns';
+import { getColumns, type CheckedState } from './RecordsListColumns';
 import type { FullPerson } from '../../../types/types';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
