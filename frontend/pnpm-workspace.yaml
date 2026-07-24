@@ -1,2 +1,11 @@
+minimumReleaseAge: 2880
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
+
 packages:
   - '.'
+
+overrides:
+  js-yaml: '>=4.2.0'
+  esbuild: '>=0.28.1'
+  '@babel/core': '>=7.29.6'
