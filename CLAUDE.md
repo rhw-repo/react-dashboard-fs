@@ -84,7 +84,7 @@ Both table files are marked `'use no memo'` to opt out of React Compiler memoisa
 
 - `form-context.ts` creates a typed `useAppForm` hook via `createFormHook` / `createFormHookContexts` from TanStack Form.
 - `RecordEditForm` instantiates a bare Uppy instance (no uploader plugin, `autoProceed: false`) via `useState` so it is stable across renders. It's used purely to stage files client-side (`useUppyState` reads file count for the submit-button guard). On submit, staged files are pulled with `uppy.getFiles()` and appended directly to a native `FormData` alongside the form fields; there is no separate upload step. The combined `FormData` is POSTed with `useMutation`/`mutateAsync` to `${API_ENDPOINTS.people}/${person._id}`, and on success the `people` query is invalidated.
-- Files already attached to the record (`person.notes`) are rendered read-only above the dropzone (name + formatted size) — there is no delete-existing-file affordance by design (per team decision).
+- Files already attached to the record (`person.notes`) are rendered above the dropzone (name + formatted size) with a "remove" button. The remove is a soft/archive delete handled by the backend — the file is never erased from the S3 bucket or its name from the database, so from the frontend's perspective this is just a UI-perceived removal. Client-side state/wiring for this (`RecordEditForm.tsx`) is still in progress (see TODO in source).
 - `FileUploader` is a dumb display component: receives the Uppy instance as a prop and renders `<Dropzone>` + `<FilesList>` from `@uppy/react`.
 - Validation uses `revalidateLogic` with `mode: 'submit'` / `modeAfterSubmission: 'change'`, and a dynamic Zod validator.
 
@@ -123,6 +123,6 @@ Unit tests live in `frontend/tests/unit-tests/` and use Vitest with `globals: tr
 
 - `dev` — source of truth for active development
 - `main` — integration branch, synced from dev via merge
-- `dev-staging-second-phase` — deployed to Railway (builds from `frontend/Dockerfile` with `npm run build`)
+- `dev-update-df-test` — deployed to Railway (builds from `frontend/Dockerfile` with `npm run build`)
 
 Prefer regular merges over squash merges; squash history has caused "both added" conflicts on re-merge in the past.
