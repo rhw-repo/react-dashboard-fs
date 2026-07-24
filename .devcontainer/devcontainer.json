@@ -1,8 +1,18 @@
 {
     "name": "React Dashboard Frontend",
-    "build": {
-        "dockerfile": "../frontend/Dockerfile.dev",
-        "context": "../frontend"
+    "image": "mcr.microsoft.com/devcontainers/typescript-node",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:4": {
+            "moby": false
+        },
+        "ghcr.io/stu-bell/devcontainer-features/claude-code:0": {},
+        "ghcr.io/w3cj/devcontainer-features/firewall:latest": {
+            "githubIps": true,
+            "claudeCode": true
+        }
     },
     "workspaceFolder": "/workspaces/react-dashboard-fs/frontend",
     "forwardPorts": [
@@ -18,7 +28,8 @@
         "vscode": {
             "extensions": [
                 "dbaeumer.vscode-eslint",
-                "esbenp.prettier-vscode"
+                "esbenp.prettier-vscode",
+                "anthropic.claude-code"
             ],
             "settings": {
                 "editor.formatOnSave": true
@@ -26,6 +37,10 @@
         }
     },
     "remoteUser": "node",
+    "initializeCommand": "docker network create dev-bridge-network 2>/dev/null || true",
+    "runArgs": [
+        "--network=dev-bridge-network"
+    ],
     "postCreateCommand": "pnpm install",
-    "postAttachCommand": "pnpm run dev"
+    "postAttachCommand": "pnpm run dev -- --host"
 }
