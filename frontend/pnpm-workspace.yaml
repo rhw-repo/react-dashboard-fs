@@ -9,3 +9,8 @@ overrides:
   js-yaml: '>=4.2.0'
   esbuild: '>=0.28.1'
   '@babel/core': '>=7.29.6'
+  semver: '>=7.7.3'
+
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
