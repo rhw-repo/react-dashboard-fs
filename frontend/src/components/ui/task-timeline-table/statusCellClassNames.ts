@@ -26,7 +26,7 @@ export function statusSquareClass(status: unknown): string {
     case 'gold':
       return 'flex items-center justify-center w-8 h-8 rounded-full bg-radial from-amber-200 to-amber-600 dark:shadow-l/50 dark:shadow-indigo-500/50';
     case 'do not contact':
-      return 'flex items-center justify-center w-8 h-8 rounded-full bg-radial from-red-600/30 to-red-950/40 text-purple-400 dark:shadow-l/50 dark:shadow-indigo-500/50';
+      return 'flex items-center justify-center w-8 h-8 rounded-full bg-radial from-red-200 to-red-600 text-purple-400 dark:shadow-l/50 dark:shadow-indigo-500/50';
     default:
       return 'flex items-center justify-center w-8 h-8 rounded-sm bg-slate-600/10 text-slate-200';
   }
