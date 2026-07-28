@@ -38,20 +38,20 @@ describe('RecordsListTable - Data Transformation', () => {
   });
 
   describe('statusSquareClass', () => {
-    it('returns bg-yellow-950 Tailwind utility class for status of bronze', () => {
-      expect(statusSquareClass('bronze')).toContain('bg-yellow-950');
+    it('returns a bronze radial gradient Tailwind utility class for status of bronze', () => {
+      expect(statusSquareClass('bronze')).toContain('bg-radial from-yellow-700 to-yellow-950');
     });
 
-    it('returns bg-mist-500 Tailwind utility class for status of silver', () => {
-      expect(statusSquareClass('silver')).toContain('bg-mist-500');
+    it('returns a silver radial gradient Tailwind utility class for status of silver', () => {
+      expect(statusSquareClass('silver')).toContain('bg-radial from-slate-300 to-slate-600');
     });
 
-    it('returns bg-amber-400 Tailwind utility class for status of gold', () => {
-      expect(statusSquareClass('gold')).toContain('bg-amber-400');
+    it('returns a gold radial gradient Tailwind utility class for status of gold', () => {
+      expect(statusSquareClass('gold')).toContain('bg-radial from-amber-200 to-amber-600');
     });
 
-    it('returns bg-red-600/20 and text-purple-400 Tailwind utility classes for status of "do not contact"', () => {
-      expect(statusSquareClass('do not contact')).toContain('bg-red-600/20');
+    it('returns a "do not contact" radial gradient and text-purple-400 Tailwind utility classes', () => {
+      expect(statusSquareClass('do not contact')).toContain('bg-radial from-red-600/30 to-red-950/40');
       expect(statusSquareClass('do not contact')).toContain('text-purple-400');
     });
 
