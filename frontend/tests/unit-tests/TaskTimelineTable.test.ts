@@ -112,18 +112,18 @@ describe('TaskTimelineTable - Data Transformation', () => {
       expect(col.maxSize).toBe(120);
     });
 
-    it('returns nextTask column with 300px width', () => {
+    it('returns nextTask column with 280px width', () => {
       const col = getColumns()[2];
-      expect(col.size).toBe(300);
-      expect(col.minSize).toBe(300);
-      expect(col.maxSize).toBe(300);
+      expect(col.size).toBe(280);
+      expect(col.minSize).toBe(250);
+      expect(col.maxSize).toBe(280);
     });
 
-    it('returns taskDeadline column with 70px width', () => {
+    it('returns taskDeadline column with 95px width', () => {
       const col = getColumns()[3];
-      expect(col.size).toBe(70);
-      expect(col.minSize).toBe(70);
-      expect(col.maxSize).toBe(70);
+      expect(col.size).toBe(95);
+      expect(col.minSize).toBe(95);
+      expect(col.maxSize).toBe(95);
     });
 
     it('returns status2 column with 60px width', () => {
@@ -133,9 +133,9 @@ describe('TaskTimelineTable - Data Transformation', () => {
       expect(col.maxSize).toBe(60);
     });
 
-    it('returns a total of 630px for all column widths added together', () => {
+    it('returns a total of 635px for all column widths added together', () => {
       const total = getColumns().reduce((sum, col) => sum + (col.size || 0), 0);
-      expect(total).toBe(630);
+      expect(total).toBe(635);
     });
 
     it('all columns have required properties', () => {

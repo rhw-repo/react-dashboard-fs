@@ -84,91 +84,109 @@ describe('RecordsListTable - Data Transformation', () => {
       const mockOnSelectAll = () => {};
       const mockOnSelectRow = () => {};
 
-    it('returns 5 columns', () => {
-      expect(getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow)).toHaveLength(9);
+    it('returns 10 columns', () => {
+      expect(getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow)).toHaveLength(10);
     });
 
     it('places columns in correct order', () => {
       const cols = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow));
-      expect(cols[1].id).toBe('status');
-      expect(cols[2].id).toBe('name');
-      expect(cols[3].id).toBe('address');
-      expect(cols[4].id).toBe('postcode');
-      expect(cols[5].id).toBe('notes');
+      expect(cols[0].id).toBe('select');
+      expect(cols[1].id).toBe('edit');
+      expect(cols[2].id).toBe('status');
+      expect(cols[3].id).toBe('name');
+      expect(cols[4].id).toBe('address');
+      expect(cols[5].id).toBe('postcode');
+      expect(cols[6].id).toBe('notes');
+      expect(cols[7].id).toBe('nextTask');
+      expect(cols[8].id).toBe('taskDeadline');
+      expect(cols[9].id).toBe('status2');
     });
 
-    it('makes all columns sortable except column with id of select', () => {
-     (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow)).filter(col => col.id !== 'select').forEach((col) => {
+    it('makes all columns sortable except columns with id of select or edit', () => {
+     (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow)).filter(col => col.id !== 'select' && col.id !== 'edit').forEach((col) => {
         expect(col.enableSorting).toBe(true);
       });
     });
 
-    it('returns select column with 40px width', () => {
-      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[0];
-      expect(col.size).toBe(40);
-      expect(col.minSize).toBe(40);
-      expect(col.maxSize).toBe(40);
+    it('disables sorting for select and edit columns', () => {
+      const cols = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow));
+      expect(cols[0].enableSorting).toBe(false);
+      expect(cols[1].enableSorting).toBe(false);
     });
 
-    it('returns status column with 80px width', () => {
+    it('returns select column with 60px width', () => {
+      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[0];
+      expect(col.size).toBe(60);
+      expect(col.minSize).toBe(60);
+      expect(col.maxSize).toBe(60);
+    });
+
+    it('returns edit column with 80px width', () => {
       const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[1];
       expect(col.size).toBe(80);
       expect(col.minSize).toBe(80);
       expect(col.maxSize).toBe(80);
     });
 
-    it('returns name column with 200px width', () => {
+    it('returns status column with 80px width', () => {
       const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[2];
-      expect(col.size).toBe(200);
-      expect(col.minSize).toBe(200);
-      expect(col.maxSize).toBe(200);
+      expect(col.size).toBe(80);
+      expect(col.minSize).toBe(80);
+      expect(col.maxSize).toBe(80);
     });
 
-    it('returns address column with 200px width', () => {
+    it('returns name column with 200px width', () => {
       const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[3];
       expect(col.size).toBe(200);
       expect(col.minSize).toBe(200);
       expect(col.maxSize).toBe(200);
     });
 
-    it('returns postcode column with 60px width', () => {
+    it('returns address column with 200px width', () => {
       const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[4];
+      expect(col.size).toBe(200);
+      expect(col.minSize).toBe(200);
+      expect(col.maxSize).toBe(200);
+    });
+
+    it('returns postcode column with 80px width', () => {
+      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[5];
       expect(col.size).toBe(80);
       expect(col.minSize).toBe(80);
       expect(col.maxSize).toBe(80);
     });
 
-    it('returns notes column with 900px width', () => {
-      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[5];
-      expect(col.size).toBe(900);
-      expect(col.minSize).toBe(900);
-      expect(col.maxSize).toBe(900);
+    it('returns notes column with 600px width', () => {
+      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[6];
+      expect(col.size).toBe(600);
+      expect(col.minSize).toBe(600);
+      expect(col.maxSize).toBe(600);
     });
 
     it('returns nextTask column with 300px width', () => {
-      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[6];
+      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[7];
       expect(col.size).toBe(300);
       expect(col.minSize).toBe(300);
       expect(col.maxSize).toBe(300);
     });
 
-    it('returns taskDeadline column with 80px width', () => {
-      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[7];
+    it('returns taskDeadline column with 95px width', () => {
+      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[8];
+      expect(col.size).toBe(95);
+      expect(col.minSize).toBe(95);
+      expect(col.maxSize).toBe(95);
+    });
+
+    it('returns status2 column with 80px width', () => {
+      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[9];
       expect(col.size).toBe(80);
       expect(col.minSize).toBe(80);
       expect(col.maxSize).toBe(80);
     });
 
-    it('returns status2 column with 60px width', () => {
-      const col = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow))[8];
-      expect(col.size).toBe(60);
-      expect(col.minSize).toBe(60);
-      expect(col.maxSize).toBe(60);
-    });
-
-    it('returns a total of 1940px for all column widths added together', () => {
+    it('returns a total of 1775px for all column widths added together', () => {
       const total = (getColumns(mockSelectedRows, mockSelectAllState, mockOnSelectAll, mockOnSelectRow)).reduce((sum, col) => sum + (col.size || 0), 0);
-      expect(total).toBe(1940);
+      expect(total).toBe(1775);
     });
 
     it('all columns have required properties', () => {
