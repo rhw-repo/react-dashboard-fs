@@ -113,7 +113,7 @@ export function getColumns(
       accessorKey: 'notes',
       header: 'Notes',
       cell: (info) => {
-        const notes = info.getValue() as FullPerson['notes'];
+        const notes = (info.getValue() as FullPerson['notes'])?.filter((file) => !file.archived);
         if (!notes || notes.length === 0) return 'Unassigned';
         return (
           <div className="flex flex-col gap-2">

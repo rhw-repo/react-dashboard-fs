@@ -8,9 +8,11 @@ export type Person = {
 };
 
 export type PersonFile = {
+  _id: string;
   fileName: string;
   fileType: string;
   fileSize: number;
+  archived?: boolean;
 };
 
 /**

@@ -75,6 +75,19 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     },
   });
 
+  const deleteFileMutation = useMutation({
+    mutationFn: async (fileId: string) => {
+      const res = await fetch(`${API_ENDPOINTS.people}/${person._id}/files/${fileId}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      return res.json() as Promise<FullPerson>;
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['people'] });
+    },
+  });
+
   const form = useAppForm({
     defaultValues: {
       name: person.name,
@@ -224,15 +237,20 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
           <Label>Existing files</Label>
           <ul className="grid gap-1 rounded-md border border-input px-3 py-2 text-sm">
             {person.notes.map((file, index) => (
-              <>
+              
                 <li key={`${file.fileName}-${index}`} className="flex items-center justify-between gap-2">
                   <span className="truncate">{file.fileName}</span>
                   <span className="shrink-0 text-base text-muted-foreground">{formatFileSize(file.fileSize)}</span>
-                  <Button variant={'remove'} type="button">
+                  <Button
+                    variant={'remove'}
+                    type="button"
+                    disabled={deleteFileMutation.isPending && deleteFileMutation.variables === file._id}
+                    onClick={() => deleteFileMutation.mutate(file._id)}
+                  >
                     remove
                   </Button>
                 </li>
-              </>
+              
             ))}
           </ul>
         </div>
