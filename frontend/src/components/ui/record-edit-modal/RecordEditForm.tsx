@@ -53,6 +53,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       new Uppy({
         id: `record-uploader-${person._id}`,
         autoProceed: true,
+        debug: true,
         restrictions: { maxFileSize: 50 * 1024 * 1024 },
       }).use(XHRUpload, {
         endpoint: `${API_ENDPOINTS.people}/${person._id}/files/stage`,
