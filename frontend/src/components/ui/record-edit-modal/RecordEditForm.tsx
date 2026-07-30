@@ -23,6 +23,16 @@ type RecordEditFormProps = {
   onSuccess: () => void;
 };
 
+type UpdatePersonPayload = {
+  name: string;
+  address: string;
+  postcode: string;
+  nextTask: string;
+  taskDeadline?: string;
+  status2: string;
+  stagingIds: string[];
+};
+
 function getOnDynamicError(fieldErrorMap: Record<string, unknown>): string | undefined {
   const dynamicErrors = fieldErrorMap['onDynamic'];
   if (!Array.isArray(dynamicErrors) || dynamicErrors.length === 0) return undefined;
@@ -71,10 +81,11 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (formData: FormData) => {
+    mutationFn: async (payload: UpdatePersonPayload) => {
       const res = await fetch(`${API_ENDPOINTS.people}/${person._id}`, {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       return res.json() as Promise<FullPerson>;
@@ -113,19 +124,23 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     }),
     validators: { onDynamic: recordSchema },
     onSubmit: async ({ value }) => {
-      const formData = new FormData();
-      formData.append('name', value.name);
-      formData.append('address', value.address);
-      formData.append('postcode', value.postcode);
-      formData.append('nextTask', value.nextTask);
-      if (value.taskDeadline) formData.append('taskDeadline', value.taskDeadline.toISOString());
-      formData.append('status2', value.status2);
-      for (const file of uppy.getFiles()) {
-        const stagingID = (file.response?.body as { stagingID?: string } | undefined)?.stagingID;
-        if (stagingID) formData.append('stagingIds', stagingID);
-      }
+      const stagingIds = uppy
+        .getFiles()
+        .map((file) => (file.response?.body as { stagingID?: string } | undefined)?.stagingID)
+        .filter((stagingID): stagingID is string => Boolean(stagingID));
+
+      const payload: UpdatePersonPayload = {
+        name: value.name,
+        address: value.address,
+        postcode: value.postcode,
+        nextTask: value.nextTask,
+        taskDeadline: value.taskDeadline ? value.taskDeadline.toISOString() : undefined,
+        status2: value.status2,
+        stagingIds,
+      };
+
       try {
-        await mutation.mutateAsync(formData);
+        await mutation.mutateAsync(payload);
       } catch {
         // error state available via mutation.isError / mutation.error
       }
