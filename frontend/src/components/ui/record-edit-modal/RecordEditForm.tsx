@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Uppy from '@uppy/core';
+import XHRUpload from '@uppy/xhr-upload';
 import { useUppyState } from '@uppy/react';
 import { revalidateLogic } from '@tanstack/react-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -51,12 +52,20 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     () =>
       new Uppy({
         id: `record-uploader-${person._id}`,
-        autoProceed: false,
+        autoProceed: true,
         restrictions: { maxFileSize: 50 * 1024 * 1024 },
+      }).use(XHRUpload, {
+        endpoint: `${API_ENDPOINTS.people}/${person._id}/files/stage`,
+        fieldName: 'file',
+        formData: true,
+        bundle: false,
       }),
   );
 
   const fileCount = useUppyState(uppy, (state) => Object.keys(state.files).length);
+  const isStagingFiles = useUppyState(uppy, (state) =>
+    Object.values(state.files).some((file) => !file.progress?.uploadComplete),
+  );
 
   const queryClient = useQueryClient();
 
@@ -111,7 +120,8 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       if (value.taskDeadline) formData.append('taskDeadline', value.taskDeadline.toISOString());
       formData.append('status2', value.status2);
       for (const file of uppy.getFiles()) {
-        formData.append('files', file.data as File, file.name);
+        const stagingID = (file.response?.body as { stagingID?: string } | undefined)?.stagingID;
+        if (stagingID) formData.append('stagingIds', stagingID);
       }
       try {
         await mutation.mutateAsync(formData);
@@ -121,12 +131,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     },
   });
 
-  // TODO: COMPLETE Maintain state for files already attached to the record
-  //  const [files, setFiles] = useState(person.notes);
-
-  // const deleteFile = (index) => {
-  // setFiles(prevState) => prevState.filter((file, i) => ! === index);
-  //}
+  const visibleNotes = person.notes?.filter((file) => !file.archived) ?? [];
 
   return (
     <form
@@ -232,25 +237,23 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
         )}
       </form.AppField>
 
-      {person.notes && person.notes.length > 0 && (
+      {visibleNotes.length > 0 && (
         <div className="grid gap-1.5">
           <Label>Existing files</Label>
           <ul className="grid gap-1 rounded-md border border-input px-3 py-2 text-sm">
-            {person.notes.map((file, index) => (
-              
-                <li key={`${file.fileName}-${index}`} className="flex items-center justify-between gap-2">
-                  <span className="truncate">{file.fileName}</span>
-                  <span className="shrink-0 text-base text-muted-foreground">{formatFileSize(file.fileSize)}</span>
-                  <Button
-                    variant={'remove'}
-                    type="button"
-                    disabled={deleteFileMutation.isPending && deleteFileMutation.variables === file._id}
-                    onClick={() => deleteFileMutation.mutate(file._id)}
-                  >
-                    remove
-                  </Button>
-                </li>
-              
+            {visibleNotes.map((file, index) => (
+              <li key={`${file.fileName}-${index}`} className="flex items-center justify-between gap-2">
+                <span className="truncate">{file.fileName}</span>
+                <span className="shrink-0 text-base text-muted-foreground">{formatFileSize(file.fileSize)}</span>
+                <Button
+                  variant={'remove'}
+                  type="button"
+                  disabled={deleteFileMutation.isPending && deleteFileMutation.variables === file._id}
+                  onClick={() => deleteFileMutation.mutate(file._id)}
+                >
+                  remove
+                </Button>
+              </li>
             ))}
           </ul>
         </div>
@@ -269,10 +272,10 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
           <Button
             variant="submit"
             type="submit"
-            disabled={!canSubmit || isSubmitting || (!isDirty && fileCount === 0)}
+            disabled={!canSubmit || isSubmitting || isStagingFiles || (!isDirty && fileCount === 0)}
             className="w-full sm:w-auto"
           >
-            {isSubmitting ? 'Saving…' : 'Save changes'}
+            {isStagingFiles ? 'Uploading…' : isSubmitting ? 'Saving…' : 'Save changes'}
           </Button>
         )}
       </form.Subscribe>
