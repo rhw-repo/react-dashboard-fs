@@ -108,6 +108,8 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
     },
   });
 
+  const [hasRemovedFile, setHasRemovedFile] = useState(false);
+
   const form = useAppForm({
     defaultValues: {
       name: person.name,
@@ -264,7 +266,10 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
                   variant={'remove'}
                   type="button"
                   disabled={deleteFileMutation.isPending && deleteFileMutation.variables === file._id}
-                  onClick={() => deleteFileMutation.mutate(file._id)}
+                  onClick={() => {
+                    deleteFileMutation.mutate(file._id);
+                    setHasRemovedFile(true);
+                  }}
                 >
                   remove
                 </Button>
@@ -287,7 +292,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
           <Button
             variant="submit"
             type="submit"
-            disabled={!canSubmit || isSubmitting || isStagingFiles || (!isDirty && fileCount === 0)}
+            disabled={!canSubmit || isSubmitting || isStagingFiles || (!isDirty && fileCount === 0 && !hasRemovedFile)}
             className="w-full sm:w-auto"
           >
             {isStagingFiles ? 'Uploading…' : isSubmitting ? 'Saving…' : 'Save changes'}

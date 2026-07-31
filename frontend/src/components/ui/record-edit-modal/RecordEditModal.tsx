@@ -52,7 +52,7 @@ export const RecordEditModal = ({ person, onClose }: RecordEditModalProps) => {
               <SheetDescription>Make changes to the record here. Click save when you are finished.</SheetDescription>
             </SheetHeader>
             <div className="px-4 py-6">
-              <RecordEditForm person={displayPerson} onSuccess={onClose} />
+              <RecordEditForm key={displayPerson._id} person={displayPerson} onSuccess={onClose} />
             </div>
             <SheetFooter>
               <SheetClose asChild>
