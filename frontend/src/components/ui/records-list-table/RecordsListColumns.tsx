@@ -1,21 +1,22 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import type { CheckedState } from '@radix-ui/react-checkbox';
+import type { Checkbox as CheckboxPrimitive } from 'radix-ui';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import type { FullPerson } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
-import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
+import { FileTypeIcon } from './fileTypeIcon';
 
-/* 
+/*
 Absence of a value for status2 handled in StatusCell.tsx
 */
 
 export function getColumns(
   selectedRows: Set<string>,
-  selectAllState: CheckedState,
-  onSelectAll: (checked: CheckedState) => void,
+  selectAllState: CheckboxPrimitive.CheckedState,
+  onSelectAll: (checked: CheckboxPrimitive.CheckedState) => void,
   onSelectRow: (id: string, isChecked: boolean) => void,
+  onEditRow: (person: FullPerson) => void,
 ): ColumnDef<FullPerson>[] {
   return [
     {
@@ -33,10 +34,10 @@ export function getColumns(
       cell: ({ row }) => (
         <div className="flex h-full w-full items-center justify-center">
           <Checkbox
-            checked={selectedRows.has(row.original.id)}
-            onCheckedChange={(checked) => onSelectRow(row.original.id, checked === true)}
+            checked={selectedRows.has(row.original._id)}
+            onCheckedChange={(checked) => onSelectRow(row.original._id, checked === true)}
             className="rounded-sm"
-            aria-label={`Select row ${row.original.id}`}
+            aria-label={`Select row ${row.original._id}`}
           />
         </div>
       ),
@@ -48,7 +49,11 @@ export function getColumns(
     {
       id: 'edit',
       header: '',
-      cell: ({ row }) => <RecordEditModal person={row.original} />,
+      cell: ({ row }) => (
+        <Button variant="outline" onClick={() => onEditRow(row.original)}>
+          Edit
+        </Button>
+      ),
       enableSorting: false,
       size: 80,
       minSize: 80,
@@ -112,9 +117,18 @@ export function getColumns(
       accessorKey: 'notes',
       header: 'Notes',
       cell: (info) => {
-        const notes = info.getValue();
-        if (!notes) return 'Unassigned';
-        return notes;
+        const notes = (info.getValue() as FullPerson['notes'])?.filter((file) => !file.archived);
+        if (!notes || notes.length === 0) return 'Unassigned';
+        return (
+          <div className="flex flex-col gap-2">
+            {notes.map((file) => (
+              <span key={file.fileName} className="flex items-center gap-2">
+                <FileTypeIcon fileType={file.fileType} />
+                {file.fileName}
+              </span>
+            ))}
+          </div>
+        );
       },
       enableSorting: true,
       size: 600,
@@ -143,7 +157,7 @@ export function getColumns(
         const cellValue = cellContext.getValue();
         if (!cellValue) return 'N/A';
         const parsedDate = cellValue instanceof Date ? cellValue : new Date(cellValue as string);
-        return isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
+        return Number.isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString();
       },
 
       enableSorting: true,

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /workspaces/react-dashboard-fs && ls -la && find . -maxdepth 2 -iname \"*model*\" -o -maxdepth 2 -iname \"*controller*\" 2>/dev/null | grep -v node_modules)",
+      "Read(//workspaces/react-dashboard-fs/**)"
+    ]
+  }
+}

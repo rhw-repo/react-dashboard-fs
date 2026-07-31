@@ -6,18 +6,16 @@ import { TaskTimelineTable } from './TaskTimelineTable';
 import EmptyLoadingSpinner from '../loading-fallback-ui/EmptyLoadingSpinner';
 import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
 import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
+import { API_ENDPOINTS } from '../utils/endpoints';
 
 const EMPTY_DATA: Person[] = [];
 
 export function TaskTimelineSection() {
   const { data: fetchedData, isLoading } = useQuery({
-    queryKey: ['timelineTasks'],
-    queryFn: ({ signal }) => fetchData<Person[]>('/data/asset/data/mock-table-data.json', signal),
-    // Uncomment for polling
-    /*
+    queryKey: ['people'],
+    queryFn: ({ signal }) => fetchData<Person[]>(API_ENDPOINTS.people, signal),
     refetchInterval: 15_000,
     refetchIntervalInBackground: true,
-    */
     throwOnError: true,
   });
 
