@@ -5,10 +5,9 @@ import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import type { FullPerson } from '../../../types/types';
 import { StatusCell, StatusCellWithText } from '../task-timeline-table/StatusCell';
-import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
 import { FileTypeIcon } from './fileTypeIcon';
 
-/* 
+/*
 Absence of a value for status2 handled in StatusCell.tsx
 */
 
@@ -17,6 +16,7 @@ export function getColumns(
   selectAllState: CheckboxPrimitive.CheckedState,
   onSelectAll: (checked: CheckboxPrimitive.CheckedState) => void,
   onSelectRow: (id: string, isChecked: boolean) => void,
+  onEditRow: (person: FullPerson) => void,
 ): ColumnDef<FullPerson>[] {
   return [
     {
@@ -49,7 +49,11 @@ export function getColumns(
     {
       id: 'edit',
       header: '',
-      cell: ({ row }) => <RecordEditModal person={row.original} />,
+      cell: ({ row }) => (
+        <Button variant="outline" onClick={() => onEditRow(row.original)}>
+          Edit
+        </Button>
+      ),
       enableSorting: false,
       size: 80,
       minSize: 80,

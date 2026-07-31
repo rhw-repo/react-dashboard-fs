@@ -70,6 +70,8 @@ function SheetContent({
           className
         )}
         {...props}
+        onPointerDownOutside={(event) => event.preventDefault()}
+        onFocusOutside={(event) => event.preventDefault()}
       >
         {children}
         {showCloseButton && (

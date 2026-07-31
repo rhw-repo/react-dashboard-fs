@@ -10,6 +10,7 @@ import type { Checkbox as CheckboxPrimitive } from 'radix-ui';
 import { Button } from '@/components/ui/Button';
 //import styles from './RecordsListTable.module.css';
 import { getColumns } from './RecordsListColumns';
+import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
 import type { FullPerson } from '../../../types/types';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -46,6 +47,8 @@ function getSelectAllState(pageCount: number, selectedInPageCount: number): Chec
 export function RecordsListTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set());
+  const [editingPersonId, setEditingPersonId] = React.useState<string | null>(null);
+  const editingPerson = editingPersonId ? (data.find((person) => person._id === editingPersonId) ?? null) : null;
 
   const pageRowIds = React.useMemo(() => data.map((row) => row._id), [data]);
   const pageIdSet = React.useMemo(() => new Set(pageRowIds), [pageRowIds]);
@@ -74,34 +77,45 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
 
   const selectAllState = getSelectAllState(pageCount, selectedInPageCount);
 
-  const handleSelectAll = (checked: CheckboxPrimitive.CheckedState) => {
-    if (checked === 'indeterminate') return;
+  const handleSelectAll = React.useCallback(
+    (checked: CheckboxPrimitive.CheckedState) => {
+      if (checked === 'indeterminate') return;
 
-    setSelectedRows((prev) => {
-      const next = new Set(prev);
-      if (checked === true) {
-        for (const id of pageRowIds) next.add(id);
-      } else {
-        for (const id of pageRowIds) next.delete(id);
-      }
-      return next;
-    });
-  };
+      setSelectedRows((prev) => {
+        const next = new Set(prev);
+        if (checked === true) {
+          for (const id of pageRowIds) next.add(id);
+        } else {
+          for (const id of pageRowIds) next.delete(id);
+        }
+        return next;
+      });
+    },
+    [pageRowIds],
+  );
 
-  const handleSelectRow = (id: string, isChecked: boolean) => {
+  const handleSelectRow = React.useCallback((id: string, isChecked: boolean) => {
     setSelectedRows((prev) => {
       const next = new Set(prev);
       if (isChecked) next.add(id);
       else next.delete(id);
       return next;
     });
-  };
+  }, []);
 
-  const columns = getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow);
+  const handleEditRow = React.useCallback((person: FullPerson) => {
+    setEditingPersonId(person._id);
+  }, []);
+
+  const columns = React.useMemo(
+    () => getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow, handleEditRow),
+    [selectedRows, selectAllState, handleSelectAll, handleSelectRow, handleEditRow],
+  );
 
   const table = useReactTable<FullPerson>({
     columns,
     data,
+    getRowId: (person) => person._id,
     state: { sorting },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -137,6 +151,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
           )}
         >
           <div>
+            <RecordEditModal person={editingPerson} onClose={() => setEditingPersonId(null)} />
             <div className="w-fit">
               {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
               <Table
