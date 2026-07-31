@@ -72,10 +72,10 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
       }),
   );
 
-  const fileCount = useUppyState(uppy, (state) => Object.keys(state.files).length);
-  const isStagingFiles = useUppyState(uppy, (state) =>
-    Object.values(state.files).some((file) => !file.progress?.uploadComplete),
-  );
+  const { fileCount, isStagingFiles } = useUppyState(uppy, (state) => ({
+    fileCount: Object.keys(state.files).length,
+    isStagingFiles: Object.values(state.files).some((file) => !file.progress?.uploadComplete),
+  }));
 
   const queryClient = useQueryClient();
 
