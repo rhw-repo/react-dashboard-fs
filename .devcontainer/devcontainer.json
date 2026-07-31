@@ -42,5 +42,5 @@
         "--network=dev-bridge-network"
     ],
     "postCreateCommand": "pnpm install",
-    "postAttachCommand": "pnpm run dev -- --host"
+    "postAttachCommand": "bash -c 'lsof -i:5173 -sTCP:LISTEN -t >/dev/null || pnpm run dev -- --host'"
 }
