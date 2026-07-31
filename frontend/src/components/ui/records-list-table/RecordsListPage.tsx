@@ -47,8 +47,8 @@ export default function RecordsListTablePage() {
   const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
-    <div className="mx-auto min-h-screen grid max-w-550 grid-cols-[1fr_9fr] overflow-auto py-10">
-      <aside className="justify-self-end">
+    <div className="mx-auto min-h-screen grid max-w-550 grid-cols-[1fr_9fr] overflow-auto">
+      <aside className="justify-self-start">
         <Navbar />
       </aside>
       <main className="col-start-2 place-content-center justify-self-center">
