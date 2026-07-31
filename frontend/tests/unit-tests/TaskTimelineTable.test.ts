@@ -38,20 +38,20 @@ describe('TaskTimelineTable - Data Transformation', () => {
   });
 
   describe('statusSquareClass', () => {
-    it('returns bg-yellow-950 Tailwind utility class for status of bronze', () => {
-      expect(statusSquareClass('bronze')).toContain('bg-yellow-950');
+    it('returns a bronze radial gradient Tailwind utility class for status of bronze', () => {
+      expect(statusSquareClass('bronze')).toContain('bg-radial from-yellow-700 to-yellow-950');
     });
 
-    it('returns bg-mist-500 Tailwind utility class for status of silver', () => {
-      expect(statusSquareClass('silver')).toContain('bg-mist-500');
+    it('returns a silver radial gradient Tailwind utility class for status of silver', () => {
+      expect(statusSquareClass('silver')).toContain('bg-radial from-slate-300 to-slate-600');
     });
 
-    it('returns bg-amber-400 Tailwind utility class for status of gold', () => {
-      expect(statusSquareClass('gold')).toContain('bg-amber-400');
+    it('returns a gold radial gradient Tailwind utility class for status of gold', () => {
+      expect(statusSquareClass('gold')).toContain('bg-radial from-amber-200 to-amber-600');
     });
 
-    it('returns bg-red-600/20 and text-purple-400 Tailwind utility classes for status of "do not contact"', () => {
-      expect(statusSquareClass('do not contact')).toContain('bg-red-600/20');
+    it('returns a "do not contact" radial gradient and text-purple-400 Tailwind utility classes', () => {
+      expect(statusSquareClass('do not contact')).toContain('bg-radial from-red-600/30 to-red-950/40');
       expect(statusSquareClass('do not contact')).toContain('text-purple-400');
     });
 
@@ -112,18 +112,18 @@ describe('TaskTimelineTable - Data Transformation', () => {
       expect(col.maxSize).toBe(120);
     });
 
-    it('returns nextTask column with 300px width', () => {
+    it('returns nextTask column with 280px width', () => {
       const col = getColumns()[2];
-      expect(col.size).toBe(300);
-      expect(col.minSize).toBe(300);
-      expect(col.maxSize).toBe(300);
+      expect(col.size).toBe(280);
+      expect(col.minSize).toBe(250);
+      expect(col.maxSize).toBe(280);
     });
 
-    it('returns taskDeadline column with 70px width', () => {
+    it('returns taskDeadline column with 95px width', () => {
       const col = getColumns()[3];
-      expect(col.size).toBe(70);
-      expect(col.minSize).toBe(70);
-      expect(col.maxSize).toBe(70);
+      expect(col.size).toBe(95);
+      expect(col.minSize).toBe(95);
+      expect(col.maxSize).toBe(95);
     });
 
     it('returns status2 column with 60px width', () => {
@@ -133,9 +133,9 @@ describe('TaskTimelineTable - Data Transformation', () => {
       expect(col.maxSize).toBe(60);
     });
 
-    it('returns a total of 630px for all column widths added together', () => {
+    it('returns a total of 635px for all column widths added together', () => {
       const total = getColumns().reduce((sum, col) => sum + (col.size || 0), 0);
-      expect(total).toBe(630);
+      expect(total).toBe(635);
     });
 
     it('all columns have required properties', () => {

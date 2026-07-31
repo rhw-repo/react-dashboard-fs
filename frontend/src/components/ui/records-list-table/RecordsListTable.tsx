@@ -6,15 +6,16 @@
    https://github.com/facebook/react/issues/33057
 */
 import * as React from 'react';
+import type { Checkbox as CheckboxPrimitive } from 'radix-ui';
 import { Button } from '@/components/ui/Button';
 //import styles from './RecordsListTable.module.css';
-import { getColumns, type CheckedState } from './RecordsListColumns';
+import { getColumns } from './RecordsListColumns';
+import { RecordEditModal } from '../record-edit-modal/RecordEditModal';
 import type { FullPerson } from '../../../types/types';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallbackUI } from '../error-fallback-ui/ErrorFallbackUI';
 import { GENERAL_ERROR_CONTENT } from '../error-fallback-ui/errorContent';
-
 
 import {
   type SortingState,
@@ -28,7 +29,8 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
 // Type-safe column visibility configuration
-type ColumnId = 'select' | 'edit' | 'status' | 'name' | 'address' | 'postcode' | 'notes' | 'nextTask' | 'taskDeadline' | 'status2';
+type ColumnId =
+  'select' | 'edit' | 'status' | 'name' | 'address' | 'postcode' | 'notes' | 'nextTask' | 'taskDeadline' | 'status2';
 type SafeColumnVisibility = Partial<Record<ColumnId, boolean>>;
 
 interface DataTableProps {
@@ -36,7 +38,7 @@ interface DataTableProps {
   initialColumnVisibility?: SafeColumnVisibility;
 }
 
-function getSelectAllState(pageCount: number, selectedInPageCount: number): CheckedState {
+function getSelectAllState(pageCount: number, selectedInPageCount: number): CheckboxPrimitive.CheckedState {
   if (pageCount === 0 || selectedInPageCount === 0) return false;
   if (selectedInPageCount === pageCount) return true;
   return 'indeterminate';
@@ -45,8 +47,10 @@ function getSelectAllState(pageCount: number, selectedInPageCount: number): Chec
 export function RecordsListTable({ data, initialColumnVisibility }: DataTableProps): React.ReactNode {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set());
+  const [editingPersonId, setEditingPersonId] = React.useState<string | null>(null);
+  const editingPerson = editingPersonId ? (data.find((person) => person._id === editingPersonId) ?? null) : null;
 
-  const pageRowIds = React.useMemo(() => data.map((row) => row.id), [data]);
+  const pageRowIds = React.useMemo(() => data.map((row) => row._id), [data]);
   const pageIdSet = React.useMemo(() => new Set(pageRowIds), [pageRowIds]);
 
   React.useEffect(() => {
@@ -73,34 +77,45 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
 
   const selectAllState = getSelectAllState(pageCount, selectedInPageCount);
 
-  const handleSelectAll = (checked: CheckedState) => {
-    if (checked === 'indeterminate') return;
+  const handleSelectAll = React.useCallback(
+    (checked: CheckboxPrimitive.CheckedState) => {
+      if (checked === 'indeterminate') return;
 
-    setSelectedRows((prev) => {
-      const next = new Set(prev);
-      if (checked === true) {
-        for (const id of pageRowIds) next.add(id);
-      } else {
-        for (const id of pageRowIds) next.delete(id);
-      }
-      return next;
-    });
-  };
+      setSelectedRows((prev) => {
+        const next = new Set(prev);
+        if (checked === true) {
+          for (const id of pageRowIds) next.add(id);
+        } else {
+          for (const id of pageRowIds) next.delete(id);
+        }
+        return next;
+      });
+    },
+    [pageRowIds],
+  );
 
-  const handleSelectRow = (id: string, isChecked: boolean) => {
+  const handleSelectRow = React.useCallback((id: string, isChecked: boolean) => {
     setSelectedRows((prev) => {
       const next = new Set(prev);
       if (isChecked) next.add(id);
       else next.delete(id);
       return next;
     });
-  };
+  }, []);
 
-  const columns = getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow);
+  const handleEditRow = React.useCallback((person: FullPerson) => {
+    setEditingPersonId(person._id);
+  }, []);
+
+  const columns = React.useMemo(
+    () => getColumns(selectedRows, selectAllState, handleSelectAll, handleSelectRow, handleEditRow),
+    [selectedRows, selectAllState, handleSelectAll, handleSelectRow, handleEditRow],
+  );
 
   const table = useReactTable<FullPerson>({
     columns,
     data,
+    getRowId: (person) => person._id,
     state: { sorting },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -136,6 +151,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
           )}
         >
           <div>
+            <RecordEditModal person={editingPerson} onClose={() => setEditingPersonId(null)} />
             <div className="w-fit">
               {/* Default: was stacked grid (mobile). from `lg:` revert to semantic table - TBC */}
               <Table
@@ -150,7 +166,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                       {headerGroup.headers.map((header) => (
                         <TableHead
                           key={header.id}
-                          className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0 [&:has([role=checkbox])]:px-0"
+                          className="border-x border-neutral-50/50 text-neutral-50 first:border-l-0 last:border-r-0 has-[[role=checkbox]]:px-0"
                           style={{
                             width: `${header.column.columnDef.size}px`,
                           }}
@@ -167,7 +183,7 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                 <TableBody>
                   {rows.length > 0 ? (
                     rows.map((row) => {
-                      const id = row.original.id;
+                      const id = row.original._id;
                       const isSelected = selectedRows.has(id);
 
                       return (
@@ -179,17 +195,22 @@ export function RecordsListTable({ data, initialColumnVisibility }: DataTablePro
                           }
                         >
                           {row.getVisibleCells().map((cell) => {
+                            const isStatusColumn = cell.column.id === 'status' || cell.column.id === 'status2';
                             return (
                               <TableCell
                                 key={cell.id}
-                                className={`border-x border-neutral-50/50 first:border-l-0 last:border-r-0`}
+                                className={`border-x border-neutral-50/50 first:border-l-0 last:border-r-0 ${isStatusColumn ? 'overflow-visible!' : ''}`}
                                 style={{
                                   width: `${cell.column.columnDef.size}px`,
                                 }}
                               >
-                                <div className="truncate">
-                                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </div>
+                                {isStatusColumn ? (
+                                  flexRender(cell.column.columnDef.cell, cell.getContext())
+                                ) : (
+                                  <div className="truncate">
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                  </div>
+                                )}
                               </TableCell>
                             );
                           })}
