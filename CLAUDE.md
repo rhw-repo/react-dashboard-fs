@@ -4,14 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development environment
 
-This project runs inside a Docker devcontainer. All `pnpm` installs and CLI commands must be run by the user inside the container — do not execute `pnpm add`, `pnpm install`, `npx`, or `tsc` via Bash tools. Write out the commands for the user to run instead.
+The default way to work on this project is opening `frontend/` in VS Code with the Dev Containers extension — config at `.devcontainer/devcontainer.json` (repo root). It builds from the `mcr.microsoft.com/devcontainers/typescript-node` image, runs `pnpm install` on container creation, and auto-starts the dev server (`pnpm run dev -- --host`) on every attach, so the app is usually already running once the container is up. Port 5173 is auto-forwarded and labeled "Vite Dev Server" in VS Code's Ports panel.
+
+**Port forwarding caveat:** if external port 5173 is already claimed (e.g. a stray container/process left over from a previous session), VS Code silently forwards the dev server to a different external port instead (5174, etc.). The container's Vite server is still bound to 5173 internally, but the browser's actual origin will be whatever port got forwarded — if backend requests start failing CORS checks unexpectedly, check VS Code's Ports panel for the actual mapping, and check for stray processes/containers still holding the port you expected.
+
+All `pnpm` installs and CLI commands must be run by the user inside the container — do not execute `pnpm add`, `pnpm install`, `npx`, or `tsc` via Bash tools. Write out the commands for the user to run instead.
 
 All source code lives under `frontend/`. Run commands from that directory inside the container.
 
 ## Commands
 
 ```bash
-pnpm dev          # Start Vite dev server (exposed on port 5173)
+pnpm dev          # Start Vite dev server (exposed on port 5173) — already running via postAttachCommand in most cases
 pnpm build        # tsc -b && vite build
 pnpm lint         # eslint .
 pnpm test         # vitest (watch mode)
@@ -24,11 +28,11 @@ To run a single test file:
 pnpm test tests/unit-tests/RecordsListTable.test.ts
 ```
 
-The dev server is also launchable via Docker Compose from `frontend/`:
+Alternative (not the default): the dev server can also be launched manually via Docker Compose from `frontend/`:
 ```bash
 docker compose up
 ```
-This builds from `Dockerfile.dev` and maps port 5173 on the `dev-bridge-network`.
+This builds from `Dockerfile.dev` and maps port 5173 on the `dev-bridge-network` — the same network the devcontainer itself joins (see `initializeCommand`/`runArgs` in `.devcontainer/devcontainer.json`), so a separately-run backend container on that network is reachable either way.
 
 ## Architecture
 
@@ -83,8 +87,9 @@ Both table files are marked `'use no memo'` to opt out of React Compiler memoisa
 `RecordEditModal` → `RecordEditForm` → `FileUploader` (all in `src/components/ui/record-edit-modal/`)
 
 - `form-context.ts` creates a typed `useAppForm` hook via `createFormHook` / `createFormHookContexts` from TanStack Form.
-- `RecordEditForm` instantiates a bare Uppy instance (no uploader plugin, `autoProceed: false`) via `useState` so it is stable across renders. It's used purely to stage files client-side (`useUppyState` reads file count for the submit-button guard). On submit, staged files are pulled with `uppy.getFiles()` and appended directly to a native `FormData` alongside the form fields; there is no separate upload step. The combined `FormData` is POSTed with `useMutation`/`mutateAsync` to `${API_ENDPOINTS.people}/${person._id}`, and on success the `people` query is invalidated.
-- Files already attached to the record (`person.notes`) are rendered above the dropzone (name + formatted size) with a "remove" button. The remove is a soft/archive delete handled by the backend — the file is never erased from the S3 bucket or its name from the database, so from the frontend's perspective this is just a UI-perceived removal. Client-side state/wiring for this (`RecordEditForm.tsx`) is still in progress (see TODO in source).
+- `RecordEditForm` instantiates a Uppy instance via `useState` (stable across renders) with the `@uppy/xhr-upload` plugin and `autoProceed: true`. Files upload immediately on drop, one request per file, to `POST ${API_ENDPOINTS.people}/${person._id}/files/stage` — the backend stages them server-side without touching S3 yet. Each staging response returns `{ stagingID }`, read off `file.response.body.stagingID` in Uppy's file state. `useUppyState` derives `fileCount` (submit-button guard when only a file was added) and `isStagingFiles` (disables submit while any upload is still in flight).
+- On submit, staged files are **not** re-sent — only their `stagingID`s are collected and included as `stagingIds: string[]` in a plain JSON payload (`UpdatePersonPayload`), POSTed via `useMutation`/`mutateAsync` to `${API_ENDPOINTS.people}/${person._id}` with `Content-Type: application/json`. This request is the commit/confirmation signal: the backend moves the referenced staged files to S3 and attaches them to the record's `notes`; if the form is never submitted, staged files are discarded server-side. On success the `people` query is invalidated.
+- Files already attached to the record (`person.notes`) are rendered above the dropzone (name + formatted size) with a "remove" button, filtered to `visibleNotes = person.notes?.filter((file) => !file.archived)`. The remove is a soft/archive delete handled by the backend (`DELETE .../files/:fileId` sets `notes.$.archived = true`) — the file is never erased from the S3 bucket or the database, so the frontend must filter archived notes out of every place `notes` is rendered (this list, and the `notes` column in `RecordsListColumns.tsx`) rather than relying on the backend to omit them.
 - `FileUploader` is a dumb display component: receives the Uppy instance as a prop and renders `<Dropzone>` + `<FilesList>` from `@uppy/react`.
 - Validation uses `revalidateLogic` with `mode: 'submit'` / `modeAfterSubmission: 'change'`, and a dynamic Zod validator.
 
