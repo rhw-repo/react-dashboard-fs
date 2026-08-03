@@ -93,7 +93,7 @@ describe('createOption', () => {
 
   it('configures tooltips to display Count values at each data point on the line', () => {
     const option = createOption(validData);
-    const tooltip = option.tooltip as { trigger: string };
+    const tooltip = option.tooltip;
     const series = option.series as { encode: { tooltip: string[] } }[];
 
     expect(tooltip.trigger).toBe('axis');
