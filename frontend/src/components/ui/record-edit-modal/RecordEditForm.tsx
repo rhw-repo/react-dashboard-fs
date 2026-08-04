@@ -5,7 +5,7 @@ import { useUppyState } from '@uppy/react';
 import { revalidateLogic } from '@tanstack/react-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppForm } from './form-context';
-import { recordSchema } from '@/schemas/person';
+import { recordSchema, type RecordFormValues } from '@/schemas/person';
 import type { FullPerson } from '@/types/types';
 import { Label } from '@/components/ui/Label';
 import { Input } from '@/components/ui/input';
@@ -72,6 +72,7 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
   const [uppy] = useState(() =>
     new Uppy({
       id: `record-uploader-${person._id}`,
+      // no need to press an 'upload button
       autoProceed: true,
       restrictions: { maxFileSize: 50 * 1024 * 1024 },
     }).use(XHRUpload, {
@@ -120,15 +121,17 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
 
   const [hasRemovedFile, setHasRemovedFile] = useState(false);
 
+  const defaultValues: RecordFormValues = {
+    name: person.name,
+    address: person.address ?? '',
+    postcode: person.postcode ?? '',
+    nextTask: person.nextTask ?? '',
+    taskDeadline: person.taskDeadline ? new Date(person.taskDeadline) : undefined,
+    status2: person.status2 ?? '',
+  };
+
   const form = useAppForm({
-    defaultValues: {
-      name: person.name,
-      address: person.address ?? '',
-      postcode: person.postcode ?? '',
-      nextTask: person.nextTask ?? '',
-      taskDeadline: person.taskDeadline ? new Date(person.taskDeadline as unknown as string) : undefined,
-      status2: person.status2 ?? '',
-    },
+    defaultValues,
     validationLogic: revalidateLogic({
       mode: 'submit',
       modeAfterSubmission: 'change',
@@ -340,8 +343,8 @@ function FieldRow({ id, label, error, children }: Readonly<FieldRowProps>) {
 
 type StatusSelectProps = {
   id: string;
-  value: string;
-  onChange: (selectedValue: string) => void;
+  value: StatusValue | '';
+  onChange: (selectedValue: StatusValue | '') => void;
   onBlur: () => void;
   required?: boolean;
   includeBlank?: boolean;
@@ -363,7 +366,10 @@ function StatusSelect({
     <select
       id={id}
       value={value}
-      onChange={(event) => onChange(event.target.value)}
+      onChange={(event) => {
+        const nextValue: StatusValue | '' = event.target.value as StatusValue | '';
+        onChange(nextValue);
+      }}
       onBlur={onBlur}
       required={required}
       aria-invalid={invalid ? true : undefined}

@@ -10,3 +10,10 @@ export const recordSchema = z.object({
   taskDeadline: z.union([z.date(), z.undefined()]),
   status2: z.union([z.literal(''), statusEnum]),
 });
+
+/**
+ * Shape of RecordEditForm's values — a coerced subset of FullPerson
+ * (optional fields defaulted to '' / undefined) that satisfies recordSchema.
+ * Not interchangeable with Person/FullPerson.
+ */
+export type RecordFormValues = z.infer<typeof recordSchema>;
