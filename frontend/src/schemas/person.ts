@@ -9,6 +9,8 @@ export const recordSchema = z.object({
   nextTask: z.string(),
   taskDeadline: z.union([z.date(), z.undefined()]),
   status2: z.union([z.literal(''), statusEnum]),
+  // Wills/codicils are stored as parallel arrays (index N of datesOfWills
+  // corresponds to index N of willIds), not as an array of {date, id} objects.
   otherData: z.object({
     datesOfWills: z.array(z.date()),
     willIds: z.array(z.string()),
