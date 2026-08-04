@@ -47,7 +47,7 @@ function getOnDynamicError(fieldErrorMap: Record<string, unknown>): string | und
 function dateToInputValue(date: Date | string | undefined): string {
   if (!date) return '';
   const dateObject = date instanceof Date ? date : new Date(date);
-  return isNaN(dateObject.getTime()) ? '' : dateObject.toISOString().split('T')[0];
+  return Number.isNaN(dateObject.getTime()) ? '' : dateObject.toISOString().split('T')[0];
 }
 
 function formatFileSize(bytes: number): string {
@@ -57,19 +57,29 @@ function formatFileSize(bytes: number): string {
   return `${(kilobytes / 1024).toFixed(1)} MB`;
 }
 
-export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
-  const [uppy] = useState(
-    () =>
-      new Uppy({
-        id: `record-uploader-${person._id}`,
-        autoProceed: true,
-        restrictions: { maxFileSize: 50 * 1024 * 1024 },
-      }).use(XHRUpload, {
-        endpoint: `${API_ENDPOINTS.people}/${person._id}/files/stage`,
-        fieldName: 'file',
-        formData: true,
-        bundle: false,
-      }),
+function getSubmitButtonLabel(isStagingFiles: boolean, isSubmitting: boolean): string {
+  switch (true) {
+    case isStagingFiles:
+      return 'Uploading…';
+    case isSubmitting:
+      return 'Saving…';
+    default:
+      return 'Save changes';
+  }
+}
+
+export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormProps>) {
+  const [uppy] = useState(() =>
+    new Uppy({
+      id: `record-uploader-${person._id}`,
+      autoProceed: true,
+      restrictions: { maxFileSize: 50 * 1024 * 1024 },
+    }).use(XHRUpload, {
+      endpoint: `${API_ENDPOINTS.people}/${person._id}/files/stage`,
+      fieldName: 'file',
+      formData: true,
+      bundle: false,
+    }),
   );
 
   const { fileCount, isStagingFiles } = useUppyState(uppy, (state) => ({
@@ -295,7 +305,7 @@ export function RecordEditForm({ person, onSuccess }: RecordEditFormProps) {
             disabled={!canSubmit || isSubmitting || isStagingFiles || (!isDirty && fileCount === 0 && !hasRemovedFile)}
             className="w-full sm:w-auto"
           >
-            {isStagingFiles ? 'Uploading…' : isSubmitting ? 'Saving…' : 'Save changes'}
+            {getSubmitButtonLabel(isStagingFiles, isSubmitting)}
           </Button>
         )}
       </form.Subscribe>
@@ -312,7 +322,7 @@ type FieldRowProps = {
   children: React.ReactNode;
 };
 
-function FieldRow({ id, label, error, children }: FieldRowProps) {
+function FieldRow({ id, label, error, children }: Readonly<FieldRowProps>) {
   return (
     <div className="grid gap-1.5">
       <Label htmlFor={id}>{label}</Label>
@@ -348,7 +358,7 @@ function StatusSelect({
   includeBlank,
   invalid,
   'aria-describedby': describedBy,
-}: StatusSelectProps) {
+}: Readonly<StatusSelectProps>) {
   return (
     <select
       id={id}
