@@ -51,7 +51,7 @@ describe('TaskTimelineTable - Data Transformation', () => {
     });
 
     it('returns a "do not contact" radial gradient and text-purple-400 Tailwind utility classes', () => {
-      expect(statusSquareClass('do not contact')).toContain('bg-radial from-red-600/30 to-red-950/40');
+      expect(statusSquareClass('do not contact')).toContain('bg-radial from-red-200 to-red-600');
       expect(statusSquareClass('do not contact')).toContain('text-purple-400');
     });
 

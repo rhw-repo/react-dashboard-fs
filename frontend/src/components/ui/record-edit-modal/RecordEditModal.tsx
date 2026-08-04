@@ -21,10 +21,12 @@ export const RecordEditModal = ({ person, onClose }: RecordEditModalProps) => {
   // Keep rendering the last-opened person while the sheet slides closed,
   // so the content doesn't flash blank mid-animation once `person` goes back to null.
   const [displayPerson, setDisplayPerson] = React.useState<FullPerson | null>(person);
+  const [prevPerson, setPrevPerson] = React.useState<FullPerson | null>(person);
 
-  React.useEffect(() => {
+  if (person !== prevPerson) {
+    setPrevPerson(person);
     if (person) setDisplayPerson(person);
-  }, [person]);
+  }
 
   // TEMP DIAGNOSTIC — remove once the refactor is confirmed working
   console.log('[RecordEditModal] render, open =', person !== null, 'person =', person?._id ?? null);
