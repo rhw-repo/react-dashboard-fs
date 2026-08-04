@@ -45,7 +45,7 @@ export const RecordEditModal = ({ person, onClose }: RecordEditModalProps) => {
     >
       <SheetContent
         side="top"
-        className="flex place-content-center mx-auto my-60 max-w-200 overflow-auto dark:shadow-xl/50 dark:shadow-indigo-500/50"
+        className="flex max-h-[90vh] place-content-center mx-auto mt-8 mb-8 max-w-280 overflow-auto dark:shadow-xl/50 dark:shadow-indigo-500/50"
       >
         {displayPerson && (
           <>

@@ -216,6 +216,7 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
             <FieldRow id={field.name} label="Name" error={error}>
               <Input
                 id={field.name}
+                className="w-1/2"
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
@@ -228,33 +229,36 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
         }}
       </form.AppField>
 
-      <form.AppField name="address">
-        {(field) => (
-          <FieldRow id={field.name} label="Address">
-            <Input
-              id={field.name}
-              value={field.state.value}
-              onChange={(event) => field.handleChange(event.target.value)}
-              onBlur={field.handleBlur}
-              placeholder="Street address"
-            />
-          </FieldRow>
-        )}
-      </form.AppField>
+      <div className="flex gap-4">
+        <form.AppField name="address">
+          {(field) => (
+            <FieldRow id={field.name} label="Address" className="flex-1">
+              <Input
+                id={field.name}
+                value={field.state.value}
+                onChange={(event) => field.handleChange(event.target.value)}
+                onBlur={field.handleBlur}
+                placeholder="Street address"
+              />
+            </FieldRow>
+          )}
+        </form.AppField>
 
-      <form.AppField name="postcode">
-        {(field) => (
-          <FieldRow id={field.name} label="Postcode">
-            <Input
-              id={field.name}
-              value={field.state.value}
-              onChange={(event) => field.handleChange(event.target.value)}
-              onBlur={field.handleBlur}
-              placeholder="Postcode"
-            />
-          </FieldRow>
-        )}
-      </form.AppField>
+        <form.AppField name="postcode">
+          {(field) => (
+            <FieldRow id={field.name} label="Postcode">
+              <Input
+                id={field.name}
+                className="w-40"
+                value={field.state.value}
+                onChange={(event) => field.handleChange(event.target.value)}
+                onBlur={field.handleBlur}
+                placeholder="Postcode"
+              />
+            </FieldRow>
+          )}
+        </form.AppField>
+      </div>
 
       <form.AppField name="nextTask">
         {(field) => (
@@ -270,41 +274,47 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
         )}
       </form.AppField>
 
-      <form.AppField name="taskDeadline">
-        {(field) => {
-          const error = getOnDynamicError(field.state.meta.errorMap);
-          return (
-            <FieldRow id={field.name} label="Deadline" error={error}>
-              <Input
+      <div className="flex gap-4">
+        <form.AppField name="taskDeadline">
+          {(field) => {
+            const error = getOnDynamicError(field.state.meta.errorMap);
+            return (
+              <FieldRow id={field.name} label="Deadline" error={error}>
+                <Input
+                  id={field.name}
+                  type="date"
+                  className="w-40"
+                  value={dateToInputValue(field.state.value)}
+                  onChange={(event) =>
+                    field.handleChange(event.target.value ? new Date(event.target.value) : undefined)
+                  }
+                  onBlur={field.handleBlur}
+                  aria-invalid={error ? true : undefined}
+                  aria-describedby={error ? `${field.name}-error` : undefined}
+                />
+              </FieldRow>
+            );
+          }}
+        </form.AppField>
+
+        <form.AppField name="status2">
+          {(field) => (
+            <FieldRow id={field.name} label="Status 2">
+              <StatusSelect
                 id={field.name}
-                type="date"
-                value={dateToInputValue(field.state.value)}
-                onChange={(event) => field.handleChange(event.target.value ? new Date(event.target.value) : undefined)}
+                className="w-40"
+                value={field.state.value}
+                onChange={(selectedValue) => field.handleChange(selectedValue)}
                 onBlur={field.handleBlur}
-                aria-invalid={error ? true : undefined}
-                aria-describedby={error ? `${field.name}-error` : undefined}
+                includeBlank
               />
             </FieldRow>
-          );
-        }}
-      </form.AppField>
+          )}
+        </form.AppField>
+      </div>
 
-      <form.AppField name="status2">
-        {(field) => (
-          <FieldRow id={field.name} label="Status 2">
-            <StatusSelect
-              id={field.name}
-              value={field.state.value}
-              onChange={(selectedValue) => field.handleChange(selectedValue)}
-              onBlur={field.handleBlur}
-              includeBlank
-            />
-          </FieldRow>
-        )}
-      </form.AppField>
-
-      <div className="grid gap-5 border-t border-input pt-5">
-        <p className="text-sm font-semibold">Other data</p>
+      <div className="grid grid-cols-1 gap-x-6 gap-y-5 border-t border-input pt-5 sm:grid-cols-2">
+        <p className="text-sm font-semibold sm:col-span-2">Other data</p>
 
         <form.AppField name="otherData.dob">
           {(field) => (
@@ -312,6 +322,7 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
               <Input
                 id={field.name}
                 type="date"
+                className="w-40"
                 value={dateToInputValue(field.state.value)}
                 onChange={(event) =>
                   field.handleChange(event.target.value ? new Date(event.target.value) : undefined)
@@ -469,12 +480,13 @@ type FieldRowProps = {
   id: string;
   label: string;
   error?: string;
+  className?: string;
   children: React.ReactNode;
 };
 
-function FieldRow({ id, label, error, children }: Readonly<FieldRowProps>) {
+function FieldRow({ id, label, error, className, children }: Readonly<FieldRowProps>) {
   return (
-    <div className="grid gap-1.5">
+    <div className={cn('grid gap-1.5', className)}>
       <Label htmlFor={id}>{label}</Label>
       {children}
       {error && (
@@ -496,6 +508,7 @@ type StatusSelectProps = {
   required?: boolean;
   includeBlank?: boolean;
   invalid?: boolean;
+  className?: string;
   'aria-describedby'?: string;
 };
 
@@ -507,6 +520,7 @@ function StatusSelect({
   required,
   includeBlank,
   invalid,
+  className,
   'aria-describedby': describedBy,
 }: Readonly<StatusSelectProps>) {
   return (
@@ -526,6 +540,7 @@ function StatusSelect({
         'focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
         invalid && 'border-destructive ring-[3px] ring-destructive/20',
         'disabled:cursor-not-allowed disabled:opacity-50',
+        className,
       )}
     >
       {includeBlank && <option value="">— none —</option>}
@@ -604,7 +619,7 @@ function PairedDateIdListField({ label, dates, ids, idPlaceholder, onChange }: R
           <div key={index} className="flex items-center gap-2">
             <Input
               type="date"
-              className="w-40"
+              className="w-44 shrink-0"
               value={dateToInputValue(dates[index])}
               onChange={(event) => {
                 if (!event.target.value) return;
