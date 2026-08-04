@@ -569,6 +569,7 @@ function StringListField({ label, values, onChange, placeholder, inputType = 'te
       <Label>{label}</Label>
       <div className="grid gap-2">
         {values.map((value, index) => (
+          //TODO FIX PROPER KEY VALUE 
           <div key={index} className="flex items-center gap-2">
             <Input
               type={inputType}
