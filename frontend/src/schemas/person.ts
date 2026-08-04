@@ -9,6 +9,18 @@ export const recordSchema = z.object({
   nextTask: z.string(),
   taskDeadline: z.union([z.date(), z.undefined()]),
   status2: z.union([z.literal(''), statusEnum]),
+  otherData: z.object({
+    datesOfWills: z.array(z.date()),
+    willIds: z.array(z.string()),
+    datesOfCodicils: z.array(z.date()),
+    codicilIds: z.array(z.string()),
+    dob: z.union([z.date(), z.undefined()]),
+    executorIds: z.array(z.string()),
+    beneficiaryIds: z.array(z.string()),
+    contactNumbers: z.array(z.string()),
+    emailAddresses: z.array(z.string()),
+    previousAddresses: z.array(z.string()),
+  }),
 });
 
 /**

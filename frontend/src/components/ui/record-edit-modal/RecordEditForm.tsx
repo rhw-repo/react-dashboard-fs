@@ -31,6 +31,18 @@ type UpdatePersonPayload = {
   taskDeadline?: string;
   status2: string;
   stagingIds: string[];
+  otherData: {
+    datesOfWills: string[];
+    willIds: string[];
+    datesOfCodicils: string[];
+    codicilIds: string[];
+    dob?: string;
+    executorIds: string[];
+    beneficiaryIds: string[];
+    contactNumbers: string[];
+    emailAddresses: string[];
+    previousAddresses: string[];
+  };
 };
 
 function getOnDynamicError(fieldErrorMap: Record<string, unknown>): string | undefined {
@@ -128,6 +140,18 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
     nextTask: person.nextTask ?? '',
     taskDeadline: person.taskDeadline ? new Date(person.taskDeadline) : undefined,
     status2: person.status2 ?? '',
+    otherData: {
+      datesOfWills: (person.otherData?.datesOfWills ?? []).map((date) => new Date(date)),
+      willIds: person.otherData?.willIds ?? [],
+      datesOfCodicils: (person.otherData?.datesOfCodicils ?? []).map((date) => new Date(date)),
+      codicilIds: person.otherData?.codicilIds ?? [],
+      dob: person.otherData?.dob ? new Date(person.otherData.dob) : undefined,
+      executorIds: person.otherData?.executorIds ?? [],
+      beneficiaryIds: person.otherData?.beneficiaryIds ?? [],
+      contactNumbers: person.otherData?.contactNumbers ?? [],
+      emailAddresses: person.otherData?.emailAddresses ?? [],
+      previousAddresses: person.otherData?.previousAddresses ?? [],
+    },
   };
 
   const form = useAppForm({
@@ -151,6 +175,18 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
         taskDeadline: value.taskDeadline ? value.taskDeadline.toISOString() : undefined,
         status2: value.status2,
         stagingIds,
+        otherData: {
+          datesOfWills: value.otherData.datesOfWills.map((date) => date.toISOString()),
+          willIds: value.otherData.willIds,
+          datesOfCodicils: value.otherData.datesOfCodicils.map((date) => date.toISOString()),
+          codicilIds: value.otherData.codicilIds,
+          dob: value.otherData.dob ? value.otherData.dob.toISOString() : undefined,
+          executorIds: value.otherData.executorIds,
+          beneficiaryIds: value.otherData.beneficiaryIds,
+          contactNumbers: value.otherData.contactNumbers,
+          emailAddresses: value.otherData.emailAddresses,
+          previousAddresses: value.otherData.previousAddresses,
+        },
       };
 
       try {
@@ -266,6 +302,117 @@ export function RecordEditForm({ person, onSuccess }: Readonly<RecordEditFormPro
           </FieldRow>
         )}
       </form.AppField>
+
+      <div className="grid gap-5 border-t border-input pt-5">
+        <p className="text-sm font-semibold">Other data</p>
+
+        <form.AppField name="otherData.dob">
+          {(field) => (
+            <FieldRow id={field.name} label="Date of birth">
+              <Input
+                id={field.name}
+                type="date"
+                value={dateToInputValue(field.state.value)}
+                onChange={(event) =>
+                  field.handleChange(event.target.value ? new Date(event.target.value) : undefined)
+                }
+                onBlur={field.handleBlur}
+              />
+            </FieldRow>
+          )}
+        </form.AppField>
+
+        <form.AppField name="otherData.contactNumbers">
+          {(field) => (
+            <StringListField
+              label="Contact numbers"
+              values={field.state.value}
+              onChange={field.handleChange}
+              placeholder="Phone number"
+            />
+          )}
+        </form.AppField>
+
+        <form.AppField name="otherData.emailAddresses">
+          {(field) => (
+            <StringListField
+              label="Email addresses"
+              values={field.state.value}
+              onChange={field.handleChange}
+              placeholder="name@example.com"
+              inputType="email"
+            />
+          )}
+        </form.AppField>
+
+        <form.AppField name="otherData.previousAddresses">
+          {(field) => (
+            <StringListField
+              label="Previous addresses"
+              values={field.state.value}
+              onChange={field.handleChange}
+              placeholder="Previous address"
+            />
+          )}
+        </form.AppField>
+
+        {/* Wills: datesOfWills/willIds are parallel arrays — edited as paired date+id rows, split back into
+            the two arrays on change so the wire shape (see recordSchema) stays flat. */}
+        <form.Subscribe selector={(formState) => ({ dates: formState.values.otherData.datesOfWills, ids: formState.values.otherData.willIds })}>
+          {({ dates, ids }) => (
+            <PairedDateIdListField
+              label="Wills"
+              dates={dates}
+              ids={ids}
+              idPlaceholder="Will ID"
+              onChange={(nextDates, nextIds) => {
+                form.setFieldValue('otherData.datesOfWills', nextDates);
+                form.setFieldValue('otherData.willIds', nextIds);
+              }}
+            />
+          )}
+        </form.Subscribe>
+
+        {/* Codicils: same parallel-array pattern as Wills above. */}
+        <form.Subscribe
+          selector={(formState) => ({ dates: formState.values.otherData.datesOfCodicils, ids: formState.values.otherData.codicilIds })}
+        >
+          {({ dates, ids }) => (
+            <PairedDateIdListField
+              label="Codicils"
+              dates={dates}
+              ids={ids}
+              idPlaceholder="Codicil ID"
+              onChange={(nextDates, nextIds) => {
+                form.setFieldValue('otherData.datesOfCodicils', nextDates);
+                form.setFieldValue('otherData.codicilIds', nextIds);
+              }}
+            />
+          )}
+        </form.Subscribe>
+
+        <form.AppField name="otherData.executorIds">
+          {(field) => (
+            <StringListField
+              label="Executor IDs"
+              values={field.state.value}
+              onChange={field.handleChange}
+              placeholder="Executor ID"
+            />
+          )}
+        </form.AppField>
+
+        <form.AppField name="otherData.beneficiaryIds">
+          {(field) => (
+            <StringListField
+              label="Beneficiary IDs"
+              values={field.state.value}
+              onChange={field.handleChange}
+              placeholder="Beneficiary ID"
+            />
+          )}
+        </form.AppField>
+      </div>
 
       {visibleNotes.length > 0 && (
         <div className="grid gap-1.5">
@@ -388,5 +535,117 @@ function StatusSelect({
         </option>
       ))}
     </select>
+  );
+}
+
+// ── String list field (contactNumbers, emailAddresses, previousAddresses, executorIds, beneficiaryIds) ────
+
+type StringListFieldProps = {
+  label: string;
+  values: string[];
+  onChange: (next: string[]) => void;
+  placeholder?: string;
+  inputType?: 'text' | 'email';
+};
+
+function StringListField({ label, values, onChange, placeholder, inputType = 'text' }: Readonly<StringListFieldProps>) {
+  return (
+    <div className="grid gap-1.5">
+      <Label>{label}</Label>
+      <div className="grid gap-2">
+        {values.map((value, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <Input
+              type={inputType}
+              value={value}
+              onChange={(event) => {
+                const next = [...values];
+                next[index] = event.target.value;
+                onChange(next);
+              }}
+              placeholder={placeholder}
+            />
+            <Button variant="remove" type="button" onClick={() => onChange(values.filter((_, i) => i !== index))}>
+              remove
+            </Button>
+          </div>
+        ))}
+      </div>
+      <Button variant="outline" size="sm" type="button" onClick={() => onChange([...values, ''])} className="w-fit">
+        + Add
+      </Button>
+    </div>
+  );
+}
+
+// ── Paired date+id list field (wills, codicils) ──────────────────────────────
+//
+// datesOfWills/willIds (and datesOfCodicils/codicilIds) are stored as parallel
+// arrays in the payload, but edited as paired date+id rows here; onChange
+// receives both arrays back in sync. New rows default to today's date rather
+// than leaving it unset, since the wire schema treats dates as always-present.
+
+type PairedDateIdListFieldProps = {
+  label: string;
+  dates: Date[];
+  ids: string[];
+  idPlaceholder?: string;
+  onChange: (nextDates: Date[], nextIds: string[]) => void;
+};
+
+function PairedDateIdListField({ label, dates, ids, idPlaceholder, onChange }: Readonly<PairedDateIdListFieldProps>) {
+  const rowCount = Math.max(dates.length, ids.length);
+
+  return (
+    <div className="grid gap-1.5">
+      <Label>{label}</Label>
+      <div className="grid gap-2">
+        {Array.from({ length: rowCount }, (_, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <Input
+              type="date"
+              className="w-40"
+              value={dateToInputValue(dates[index])}
+              onChange={(event) => {
+                if (!event.target.value) return;
+                const nextDates = [...dates];
+                nextDates[index] = new Date(event.target.value);
+                onChange(nextDates, ids);
+              }}
+            />
+            <Input
+              value={ids[index] ?? ''}
+              onChange={(event) => {
+                const nextIds = [...ids];
+                nextIds[index] = event.target.value;
+                onChange(dates, nextIds);
+              }}
+              placeholder={idPlaceholder}
+            />
+            <Button
+              variant="remove"
+              type="button"
+              onClick={() =>
+                onChange(
+                  dates.filter((_, i) => i !== index),
+                  ids.filter((_, i) => i !== index),
+                )
+              }
+            >
+              remove
+            </Button>
+          </div>
+        ))}
+      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        type="button"
+        onClick={() => onChange([...dates, new Date()], [...ids, ''])}
+        className="w-fit"
+      >
+        + Add
+      </Button>
+    </div>
   );
 }
