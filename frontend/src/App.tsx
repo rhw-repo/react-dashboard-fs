@@ -25,11 +25,9 @@ window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 // Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {
   return (
-    <>
-      <div className="w-full">
-        <Outlet />
-      </div>
-    </>
+    <div className="w-full">
+      <Outlet />
+    </div>
   );
 };
 
