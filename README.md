@@ -2,11 +2,11 @@
 
 Work In Progress:
 
-Dashboard app to handle Create, Read & Update with a large data set plus progress chart & Kanban board.
+Dashboard app to integrate with an existing CRM. Displays tables, progress chart & Kanban board. One workspace to provide priorty ordered daily task lists, editable client records and progress tracking.
 
 For a Financial Consultancy.
 
-### Technologies
+### Technologies & Tools
 
 - `React`
 - `TypeScript`
@@ -21,29 +21,7 @@ For a Financial Consultancy.
 - `Docker`
 - `React Testing Library`
 - `Playwright`
-
----
-
-### Challenges:
-
-- Time required to implement and style a React component library table
-- Any potential effects on performance using CSS-in-JS to style it whilst handling larger data sets
-
-### Solutions:
-
-1. Implementing `shadcn/ui` Data Table
-
-- Faster table generation whilst retaining control over all code, fully modifiable
-- Uses TanStack Table (robust, tested solution)
-- Using other `shadcn/ui` components for faster templating
-
-2. `Tailwind CSS` for quicker uniform & polished UI styling
-
-- Blend with modular vanilla CSS if required to retain full control over the design
-
-3. Implementing `TanStack Query` (React Query)
-
-- Automate data fetching, caching and error / loading state
+- `Knip.dev`
 
 ---
 
@@ -81,8 +59,7 @@ Staging:
 
 ### Next sprints
 
-- Completion of form component
-- Archive feature
+- Completion of archive feature
 
 Research & Team Discussion:
 
@@ -93,7 +70,7 @@ Research & Team Discussion:
 Implementation:
 
 - Kanban board
-- Integration with server (Postgres + PHP)
+- Integration with existing CRM
 - Possiblity to DRY Tailwind utility classes with Taiwind Variants (TBC)
 
 Testing:
