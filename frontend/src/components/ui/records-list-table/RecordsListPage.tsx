@@ -5,7 +5,6 @@ import { fetchData } from '../utils/fetchData';
 import { API_ENDPOINTS } from '../utils/endpoints';
 //import { person } from '../../../data/data';
 import { RecordsListTable } from './RecordsListTable';
-import Navbar from '../navbar/Navbar';
 import EmptyLoadingSpinner from '../loading-fallback-ui/EmptyLoadingSpinner';
 import { Button } from '../Button';
 
@@ -34,7 +33,7 @@ export default function RecordsListTablePage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex items-center justify-center py-20">
         <EmptyLoadingSpinner />
       </div>
     );
@@ -47,14 +46,11 @@ export default function RecordsListTablePage() {
   const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
-    <div className="mx-auto min-h-screen grid max-w-550 grid-cols-[1fr_9fr] overflow-auto">
-      <aside className="justify-self-start">
-        <Navbar />
-      </aside>
-      <main className="col-start-2 place-content-center justify-self-center">
-        <Button variant="outline" className="mx-4">Archive</Button>
-        <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
-      </main>
-    </div>
+    <>
+      <Button variant="outline" className="mx-4">
+        Archive
+      </Button>
+      <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
+    </>
   );
 }

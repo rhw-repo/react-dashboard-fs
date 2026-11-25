@@ -3,13 +3,6 @@ import '@uppy/react/css/style.css';
 import type Uppy from '@uppy/core';
 import { UppyContextProvider, Dropzone, FilesList } from '@uppy/react';
 
-export type UploadedFile = {
-  uploadURL: string;
-  fileName: string;
-  fileType: string;
-  fileSize: number;
-};
-
 type FileUploaderProps = {
   readonly uppy: Uppy;
 };

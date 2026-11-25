@@ -5,6 +5,7 @@ import BuzzerButton from './components/ui/buzzer-button/BuzzerButton';
 import { LoginCard } from './components/ui/login-card/LoginCard';
 import SignUpCard from './components/ui/signup-card/SignUpCard';
 import RecordsListTablePage from './components/ui/records-list-table/RecordsListPage';
+import Navbar from './components/ui/navbar/Navbar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import RouteErrorFallback from './components/ui/error-fallback-ui/RouteErrorFallback';
@@ -25,11 +26,17 @@ window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 // Layout is going to be the parent of all routes rendering at '/'
 const Layout = (): React.JSX.Element => {
   return (
-    <>
-      <div className="w-full">
-        <Outlet />
+    <div className="h-screen w-full overflow-auto">
+      <div className="mx-auto grid h-max min-h-full w-full max-w-550 grid-cols-[9rem_1fr] border-x-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
+        <aside className="justify-self-end">
+          <Navbar />
+        </aside>
+
+        <main className="col-start-2 min-h-full min-w-0 max-w-full py-1 px-4">
+          <Outlet />
+        </main>
       </div>
-    </>
+    </div>
   );
 };
 

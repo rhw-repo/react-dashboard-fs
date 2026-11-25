@@ -10,7 +10,7 @@ import { API_ENDPOINTS } from '../utils/endpoints';
 
 const EMPTY_DATA: Person[] = [];
 
-export function TaskTimelineSection() {
+function TaskTimelineSection() {
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['people'],
     queryFn: ({ signal }) => fetchData<Person[]>(API_ENDPOINTS.people, signal),
@@ -53,7 +53,7 @@ export function TaskTimelineSection() {
   }
 
   return (
-    <article className="flex w-full gap-4 overflow-x-auto">
+    <article className="flex w-full justify-center gap-4 overflow-x-auto px-4">
       <TaskTimelineTable data={safeData} initialColumnVisibility={todoVisibility} />
       <TaskTimelineTable data={safeData} initialColumnVisibility={inProgressVisibility} />
       <TaskTimelineTable data={safeData} initialColumnVisibility={doneVisibility} />
