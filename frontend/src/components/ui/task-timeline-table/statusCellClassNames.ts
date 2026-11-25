@@ -17,17 +17,17 @@ export function statusPillClass(status: unknown): string {
 
 export function statusSquareClass(status: unknown): string {
   if (typeof status !== 'string')
-    return 'flex items-center justify-center w-8 h-8 rounded-sm bg-slate-600/10 text-slate-200';
+    return 'flex items-center justify-center w-8 h-8 rounded-sm bg-slate-600/20 text-slate-200';
   switch (status) {
     case 'bronze':
-      return 'flex items-center justify-center w-8 h-8 rounded-full bg-radial from-yellow-700 to-yellow-950 dark:shadow-l/50 dark:shadow-indigo-500/50';
+      return 'flex items-center justify-center w-8 h-8 rounded-full bg-amber-700/40 dark:shadow-l/50 dark:shadow-indigo-500/50';
     case 'silver':
-      return 'flex items-center justify-center w-8 h-8 rounded-full bg-radial from-slate-300 to-slate-600 dark:shadow-l/50 dark:shadow-indigo-500/50';
+      return 'flex items-center justify-center w-8 h-8 rounded-full bg-slate-300/40 dark:shadow-l/50 dark:shadow-indigo-500/50';
     case 'gold':
-      return 'flex items-center justify-center w-8 h-8 rounded-full bg-radial from-amber-200 to-amber-600 dark:shadow-l/50 dark:shadow-indigo-500/50';
+      return 'flex items-center justify-center w-8 h-8 rounded-full bg-amber-400/40 dark:shadow-l/50 dark:shadow-indigo-500/50';
     case 'do not contact':
-      return 'flex items-center justify-center w-8 h-8 rounded-full bg-radial from-red-200 to-red-600 text-purple-400 dark:shadow-l/50 dark:shadow-indigo-500/50';
+      return 'flex items-center justify-center w-8 h-8 rounded-full bg-red-600/25 text-purple-400 dark:shadow-l/50 dark:shadow-indigo-500/50';
     default:
-      return 'flex items-center justify-center w-8 h-8 rounded-sm bg-slate-600/10 text-slate-200';
+      return 'flex items-center justify-center w-8 h-8 rounded-sm bg-slate-600/20 text-slate-200';
   }
 }
