@@ -33,7 +33,7 @@ export default function RecordsListTablePage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-20">
+      <div className="flex h-full items-center justify-center">
         <EmptyLoadingSpinner />
       </div>
     );
@@ -46,11 +46,12 @@ export default function RecordsListTablePage() {
   const safeData = fetchedData ?? EMPTY_DATA;
 
   return (
-    <>
-      <Button variant="outline" className="mx-4">
-        Archive
-      </Button>
-      <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
-    </>
+    <article className="flex h-full w-full flex-col items-center justify-center overflow-x-auto px-4">
+      {/* w-fit shrinks this column to the table's width, so items-start aligns the button with the table's left edge */}
+      <div className="flex w-fit flex-col items-start gap-4">
+        <Button variant="outline">Archive</Button>
+        <RecordsListTable data={safeData} initialColumnVisibility={visibility} />
+      </div>
+    </article>
   );
 }

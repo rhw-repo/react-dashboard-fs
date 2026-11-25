@@ -122,7 +122,10 @@ Components in `src/components/ui/` at the flat level (Button, Table, Label, Inpu
 
 Unit tests live in `frontend/tests/unit-tests/` and use Vitest with `globals: true` and `environment: 'node'`. Tests cover pure utility functions and column-definition factories — no DOM rendering. The `@` alias works in tests via the Vite config.
 
-**Known test drift:** `RecordsListTable.test.ts` was written against an earlier version of `RecordsListColumns.tsx`. The current column list (select, edit, status, name, address, postcode, notes, nextTask, taskDeadline, status2 = 10 columns) differs from what several test assertions expect — column count, sizes, and index-based positions are stale. Update the tests when modifying column definitions.
+`RecordsListTable.test.ts` is tightly coupled to two source files and goes stale easily — it was out of sync with both until 2026-11-25. Keep it in step when changing either:
+
+- **`RecordsListColumns.tsx`** — assertions cover the column count (10), the exact index of every column (select, edit, status, name, address, postcode, notes, nextTask, taskDeadline, status2), each column's size/minSize/maxSize, and their sum (1775px). Adding, removing or reordering a column, or changing one size, breaks several tests at once. The whole file routes through one `columns()` helper, so a signature change to `getColumns` is a single edit there.
+- **`statusCellClassNames.ts`** — assertions match exact Tailwind class strings returned by `statusPillClass` and `statusSquareClass`, including opacity suffixes (`bg-amber-700/40`) and rounding (`rounded-full` for known statuses, `rounded-sm` for the fallback). Any palette or shape change needs the matching assertion updated.
 
 ## Branch and deployment structure
 
