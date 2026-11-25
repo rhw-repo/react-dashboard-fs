@@ -1,24 +1,29 @@
-# yaml-language-server: $schema=./node_modules/lefthook/schema.json
+# yaml-language-server: $schema=./frontend/node_modules/lefthook/schema.json
 
 pre-commit:
   parallel: true
   commands:
     lint:
+      root: frontend/
       glob: '*.{ts,tsx}'
       run: pnpm exec eslint --max-warnings=0 {staged_files}
     typecheck:
+      root: frontend/
       glob: '*.{ts,tsx}'
       run: pnpm exec tsc -b
     test:
+      root: frontend/
       glob: '*.{ts,tsx}'
       run: pnpm exec vitest related --run {staged_files}
 
 post-merge:
   commands:
     install:
+      root: frontend/
       run: git diff --quiet ORIG_HEAD HEAD -- pnpm-lock.yaml || pnpm install --frozen-lockfile
 
 post-checkout:
   commands:
     install:
+      root: frontend/
       run: '[ "{3}" = 0 ] || git diff --quiet {1} {2} -- pnpm-lock.yaml || pnpm install --frozen-lockfile'
