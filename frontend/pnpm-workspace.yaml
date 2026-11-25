@@ -19,3 +19,4 @@ overrides:
 allowBuilds:
   '@swc/core': true
   esbuild: true
+  lefthook: true
