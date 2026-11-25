@@ -63,7 +63,7 @@ Routes:
 `src/types/types.ts`:
 - `Person` — `_id` (MongoDB ObjectId string, used as the row/selection key), name, optional nextTask/taskDeadline, status (`'bronze' | 'silver' | 'gold' | 'do not contact'`), optional status2
 - `FullPerson extends Person` — adds address, email, postcode, optional `notes: PersonFile[]` (files attached to the record); used for the detail/edit view
-- `PersonFile` — fileName, fileType, fileSize; metadata for files already attached to a record
+- `PersonFile` — `_id`, fileName, fileType, fileSize, optional `archived`; metadata for files already attached to a record
 
 `src/schemas/person.ts` — Zod schema (`recordSchema`) used for TanStack Form validation.
 
@@ -89,7 +89,7 @@ Both table files are marked `'use no memo'` to opt out of React Compiler memoisa
 - `form-context.ts` creates a typed `useAppForm` hook via `createFormHook` / `createFormHookContexts` from TanStack Form.
 - `RecordEditForm` instantiates a Uppy instance via `useState` (stable across renders) with the `@uppy/xhr-upload` plugin and `autoProceed: true`. Files upload immediately on drop, one request per file, to `POST ${API_ENDPOINTS.people}/${person._id}/files/stage` — the backend stages them server-side without touching S3 yet. Each staging response returns `{ stagingID }`, read off `file.response.body.stagingID` in Uppy's file state. `useUppyState` derives `fileCount` (submit-button guard when only a file was added) and `isStagingFiles` (disables submit while any upload is still in flight).
 - On submit, staged files are **not** re-sent — only their `stagingID`s are collected and included as `stagingIds: string[]` in a plain JSON payload (`UpdatePersonPayload`), POSTed via `useMutation`/`mutateAsync` to `${API_ENDPOINTS.people}/${person._id}` with `Content-Type: application/json`. This request is the commit/confirmation signal: the backend moves the referenced staged files to S3 and attaches them to the record's `notes`; if the form is never submitted, staged files are discarded server-side. On success the `people` query is invalidated.
-- Files already attached to the record (`person.notes`) are rendered above the dropzone (name + formatted size) with a "remove" button, filtered to `visibleNotes = person.notes?.filter((file) => !file.archived)`. The remove is a soft/archive delete handled by the backend (`DELETE .../files/:fileId` sets `notes.$.archived = true`) — the file is never erased from the S3 bucket or the database, so the frontend must filter archived notes out of every place `notes` is rendered (this list, and the `notes` column in `RecordsListColumns.tsx`) rather than relying on the backend to omit them.
+- Files already attached to the record (`person.notes`) are rendered above the dropzone (name + formatted size) with a "remove" button, filtered to `visibleNotes = person.notes?.filter((file) => !file.archived)`. The remove button triggers a `useMutation` that calls `DELETE .../files/:fileId` — a soft/archive delete (sets `notes.$.archived = true`) — the file is never erased from the S3 bucket or the database, so the frontend must filter archived notes out of every place `notes` is rendered (this list, and the `notes` column in `RecordsListColumns.tsx`) rather than relying on the backend to omit them.
 - `FileUploader` is a dumb display component: receives the Uppy instance as a prop and renders `<Dropzone>` + `<FilesList>` from `@uppy/react`.
 - Validation uses `revalidateLogic` with `mode: 'submit'` / `modeAfterSubmission: 'change'`, and a dynamic Zod validator.
 
