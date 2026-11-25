@@ -4,31 +4,31 @@ import { getColumns } from '@/components/ui/task-timeline-table/TaskTimelineColu
 
 describe('TaskTimelineTable - Data Transformation', () => {
   describe('statusPillClass', () => {
-    it('returns bg-yellow-950 Tailwind utility class for status of bronze', () => {
-      expect(statusPillClass('bronze')).toContain('bg-yellow-950');
+    it('returns bg-amber-700/40 Tailwind utility class for status of bronze', () => {
+      expect(statusPillClass('bronze')).toContain('bg-amber-700/40');
     });
 
-    it('returns bg-mist-500 Tailwind utility class for status of silver', () => {
-      expect(statusPillClass('silver')).toContain('bg-mist-500');
+    it('returns bg-slate-300/40 Tailwind utility class for status of silver', () => {
+      expect(statusPillClass('silver')).toContain('bg-slate-300/40');
     });
 
-    it('returns bg-amber-400 Tailwind utility class for status of gold', () => {
-      expect(statusPillClass('gold')).toContain('bg-amber-400');
+    it('returns bg-amber-400/40 Tailwind utility class for status of gold', () => {
+      expect(statusPillClass('gold')).toContain('bg-amber-400/40');
     });
 
-    it('returns bg-red-600/20 and text-purple-400 Tailwind utility classes for status of "do not contact"', () => {
-      expect(statusPillClass('do not contact')).toContain('bg-red-600/20');
+    it('returns bg-red-600/25 and text-purple-400 Tailwind utility classes for status of "do not contact"', () => {
+      expect(statusPillClass('do not contact')).toContain('bg-red-600/25');
       expect(statusPillClass('do not contact')).toContain('text-purple-400');
     });
 
-    it('returns bg-slate-600/10 Tailwind utility class for status of unknown values', () => {
-      expect(statusPillClass('unknown')).toContain('bg-slate-600/10');
+    it('returns bg-slate-600/20 Tailwind utility class for status of unknown values', () => {
+      expect(statusPillClass('unknown')).toContain('bg-slate-600/20');
     });
 
-    it('returns bg-slate-600/10 Tailwind utility class for status of non-string input', () => {
-      expect(statusPillClass(null)).toContain('bg-slate-600/10');
-      expect(statusPillClass(undefined)).toContain('bg-slate-600/10');
-      expect(statusPillClass(123)).toContain('bg-slate-600/10');
+    it('returns bg-slate-600/20 Tailwind utility class for status of non-string input', () => {
+      expect(statusPillClass(null)).toContain('bg-slate-600/20');
+      expect(statusPillClass(undefined)).toContain('bg-slate-600/20');
+      expect(statusPillClass(123)).toContain('bg-slate-600/20');
     });
 
     it('returns style rules for pill shape', () => {
@@ -38,31 +38,38 @@ describe('TaskTimelineTable - Data Transformation', () => {
   });
 
   describe('statusSquareClass', () => {
-    it('returns a bronze radial gradient Tailwind utility class for status of bronze', () => {
-      expect(statusSquareClass('bronze')).toContain('bg-radial from-yellow-700 to-yellow-950');
+    // Shares its background colours with statusPillClass; shape is what differs,
+    // so each case asserts the rounding too.
+    it('returns bg-amber-700/40 and rounded-full Tailwind utility classes for status of bronze', () => {
+      expect(statusSquareClass('bronze')).toContain('bg-amber-700/40');
+      expect(statusSquareClass('bronze')).toContain('rounded-full');
     });
 
-    it('returns a silver radial gradient Tailwind utility class for status of silver', () => {
-      expect(statusSquareClass('silver')).toContain('bg-radial from-slate-300 to-slate-600');
+    it('returns bg-slate-300/40 and rounded-full Tailwind utility classes for status of silver', () => {
+      expect(statusSquareClass('silver')).toContain('bg-slate-300/40');
+      expect(statusSquareClass('silver')).toContain('rounded-full');
     });
 
-    it('returns a gold radial gradient Tailwind utility class for status of gold', () => {
-      expect(statusSquareClass('gold')).toContain('bg-radial from-amber-200 to-amber-600');
+    it('returns bg-amber-400/40 and rounded-full Tailwind utility classes for status of gold', () => {
+      expect(statusSquareClass('gold')).toContain('bg-amber-400/40');
+      expect(statusSquareClass('gold')).toContain('rounded-full');
     });
 
-    it('returns a "do not contact" radial gradient and text-purple-400 Tailwind utility classes', () => {
-      expect(statusSquareClass('do not contact')).toContain('bg-radial from-red-200 to-red-600');
+    it('returns bg-red-600/25, text-purple-400 and rounded-full Tailwind utility classes for status of "do not contact"', () => {
+      expect(statusSquareClass('do not contact')).toContain('bg-red-600/25');
       expect(statusSquareClass('do not contact')).toContain('text-purple-400');
+      expect(statusSquareClass('do not contact')).toContain('rounded-full');
     });
 
-    it('returns bg-slate-600/10 Tailwind utility class for status of unknown values', () => {
-      expect(statusSquareClass('unknown')).toContain('bg-slate-600/10');
+    it('returns bg-slate-600/20 and rounded-sm Tailwind utility classes for status of unknown values', () => {
+      expect(statusSquareClass('unknown')).toContain('bg-slate-600/20');
+      expect(statusSquareClass('unknown')).toContain('rounded-sm');
     });
 
-    it('returns bg-slate-600/10 Tailwind utility class for status of non-string input', () => {
-      expect(statusSquareClass(null)).toContain('bg-slate-600/10');
-      expect(statusSquareClass(undefined)).toContain('bg-slate-600/10');
-      expect(statusSquareClass(456)).toContain('bg-slate-600/10');
+    it('returns bg-slate-600/20 Tailwind utility class for status of non-string input', () => {
+      expect(statusSquareClass(null)).toContain('bg-slate-600/20');
+      expect(statusSquareClass(undefined)).toContain('bg-slate-600/20');
+      expect(statusSquareClass(456)).toContain('bg-slate-600/20');
     });
 
     it('returns square sizing', () => {

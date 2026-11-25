@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { EChart } from '../EChart';
 import { createOption, type RawData } from './burn-up-chart-options';
+import { fetchData } from '../utils/fetchData';
 import type { EChartsOption } from 'echarts';
 import EmptyLoadingSpinner from '@/components/ui/loading-fallback-ui/EmptyLoadingSpinner';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -37,11 +38,7 @@ function BurnUpChartContent () {
     data: fetchedMockData,
   } = useQuery<RawData>({
     queryKey: ['burnupChartData'],
-    queryFn: () => fetch('/data/asset/data/mock-burnup-chart-data.json').then((res) => {
-      if (!res.ok) throw new Error("Network response error")
-      return res.json();
-    }
-    )
+    queryFn: ({ signal }) => fetchData<RawData>('/data/asset/data/mock-burnup-chart-data.json', signal)
    // TEMP to display Spinner & Badge followed by ErrorBoundaryFallbackUI 
 /*queryFn: async () => {
 

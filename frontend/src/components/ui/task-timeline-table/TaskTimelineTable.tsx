@@ -123,7 +123,6 @@ export function TaskTimelineTable({ data, initialColumnVisibility }: DataTablePr
       </div>
 
       <div className="flex items-center justify-center space-x-2 py-4">
-        <p className="text-center">Temp display: pagination server side</p>
         <Button variant="outline" onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
           {'<<'}
         </Button>
