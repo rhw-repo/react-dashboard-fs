@@ -10,7 +10,7 @@ import { API_ENDPOINTS } from '../utils/endpoints';
 
 const EMPTY_DATA: Person[] = [];
 
-export function TaskTimelineSection() {
+function TaskTimelineSection() {
   const { data: fetchedData, isLoading } = useQuery({
     queryKey: ['people'],
     queryFn: ({ signal }) => fetchData<Person[]>(API_ENDPOINTS.people, signal),
