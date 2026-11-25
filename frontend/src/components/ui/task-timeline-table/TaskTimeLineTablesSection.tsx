@@ -53,7 +53,7 @@ export function TaskTimelineSection() {
   }
 
   return (
-    <article className="flex w-max gap-4">
+    <article className="flex w-full gap-4 overflow-x-auto">
       <TaskTimelineTable data={safeData} initialColumnVisibility={todoVisibility} />
       <TaskTimelineTable data={safeData} initialColumnVisibility={inProgressVisibility} />
       <TaskTimelineTable data={safeData} initialColumnVisibility={doneVisibility} />
