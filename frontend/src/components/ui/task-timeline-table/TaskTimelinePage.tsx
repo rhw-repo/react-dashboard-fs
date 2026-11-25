@@ -7,7 +7,7 @@ export default function TaskTimeLinePage() {
   'use no memo';
   return (
     <div className="h-screen w-full overflow-auto">
-    <div className="mx-auto grid h-max min-h-full w-full max-w-550 grid-cols-[9rem_1fr] border-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
+    <div className="mx-auto grid h-max min-h-full w-full max-w-550 grid-cols-[9rem_1fr] border-x-2 border-transparent [border-image:linear-gradient(to_top,#4f46e5,#18181b)_1]">
       <aside className="justify-self-start">
         <Navbar />{' '}
       </aside>
