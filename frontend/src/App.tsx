@@ -25,7 +25,9 @@ window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 
 const Layout = (): React.JSX.Element => {
   return (
-    <div className="h-screen w-full overflow-auto">
+    // scrollbar-gutter: stable reserves the scrollbar's width even on pages too short to scroll,
+    // so the centred grid doesn't shift sideways when navigating between short and tall pages.
+    <div className="h-screen w-full overflow-auto [scrollbar-gutter:stable]">
       <div className="mx-auto grid h-max min-h-full w-full max-w-550 grid-cols-[9rem_1fr]">
         <aside className="justify-self-end">
           <Navbar />

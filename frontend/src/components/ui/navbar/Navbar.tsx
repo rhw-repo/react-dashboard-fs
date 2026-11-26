@@ -44,7 +44,15 @@ function Navbar() {
           <NavigationMenuItem key={to}>
             <NavigationMenuLink asChild className={LINK_STYLES}>
               <NavLink to={to} end={end}>
-                {label}
+                {/* The navbar is w-fit and end-aligned in Layout, so a label growing when it turns
+                    bold (active) would resize the navbar and shift it. An invisible bold copy
+                    stacked in the same grid cell reserves the bold width at all times. */}
+                <span className="grid">
+                  <span className="col-start-1 row-start-1">{label}</span>
+                  <span aria-hidden="true" className="invisible col-start-1 row-start-1 font-semibold">
+                    {label}
+                  </span>
+                </span>
               </NavLink>
             </NavigationMenuLink>
           </NavigationMenuItem>
