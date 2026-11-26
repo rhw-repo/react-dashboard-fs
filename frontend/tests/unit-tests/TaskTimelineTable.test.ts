@@ -1,6 +1,32 @@
 import { describe, it, expect } from 'vitest';
 import { statusPillClass, statusSquareClass } from '@/components/ui/task-timeline-table/statusCellClassNames';
 import { getColumns } from '@/components/ui/task-timeline-table/TaskTimelineColumns';
+import { StatusCell } from '@/components/ui/task-timeline-table/StatusCell';
+import type { CellContext } from '@tanstack/react-table';
+import type { Person } from '@/types/types';
+import type { ReactElement } from 'react';
+
+// The props these tests read off StatusCell's elements. JSX elements are typed with `any` props,
+// so the tree is cast to this shape to keep the assertions type-safe.
+type MarkerElement = ReactElement<{
+  className?: string;
+  role?: string;
+  title?: string;
+  'aria-label'?: string;
+  children?: unknown;
+}>;
+
+// Narrows an element's single child to an element (or text) for the next lookup.
+const childOf = (el: MarkerElement) => el.props.children as MarkerElement;
+const textOf = (el: MarkerElement) => el.props.children as string;
+
+// StatusCell only reads info.getValue(), so a stub context is enough. Tests run without a DOM,
+// so instead of rendering, this unwraps the returned element tree
+// (<div> → <span> → marker) and returns the marker element for inspection.
+function statusMarker(value: unknown): MarkerElement {
+  const cell = StatusCell({ getValue: () => value } as unknown as CellContext<Person, unknown>) as MarkerElement;
+  return childOf(childOf(cell));
+}
 
 describe('TaskTimelineTable - Data Transformation', () => {
   describe('statusPillClass', () => {
@@ -40,25 +66,25 @@ describe('TaskTimelineTable - Data Transformation', () => {
   describe('statusSquareClass', () => {
     // Shares its background colours with statusPillClass; shape is what differs,
     // so each case asserts the rounding too.
-    it('returns bg-amber-700/40 and rounded-full Tailwind utility classes for status of bronze', () => {
+    it('returns bg-amber-700/40 and squircle Tailwind utility classes for status of bronze', () => {
       expect(statusSquareClass('bronze')).toContain('bg-amber-700/40');
-      expect(statusSquareClass('bronze')).toContain('rounded-full');
+      expect(statusSquareClass('bronze')).toContain('rounded-xl [corner-shape:squircle]');
     });
 
-    it('returns bg-slate-300/40 and rounded-full Tailwind utility classes for status of silver', () => {
+    it('returns bg-slate-300/40 and squircle Tailwind utility classes for status of silver', () => {
       expect(statusSquareClass('silver')).toContain('bg-slate-300/40');
-      expect(statusSquareClass('silver')).toContain('rounded-full');
+      expect(statusSquareClass('silver')).toContain('rounded-xl [corner-shape:squircle]');
     });
 
-    it('returns bg-amber-400/40 and rounded-full Tailwind utility classes for status of gold', () => {
+    it('returns bg-amber-400/40 and squircle Tailwind utility classes for status of gold', () => {
       expect(statusSquareClass('gold')).toContain('bg-amber-400/40');
-      expect(statusSquareClass('gold')).toContain('rounded-full');
+      expect(statusSquareClass('gold')).toContain('rounded-xl [corner-shape:squircle]');
     });
 
-    it('returns bg-red-600/25, text-purple-400 and rounded-full Tailwind utility classes for status of "do not contact"', () => {
+    it('returns bg-red-600/25, text-purple-400 and squircle Tailwind utility classes for status of "do not contact"', () => {
       expect(statusSquareClass('do not contact')).toContain('bg-red-600/25');
       expect(statusSquareClass('do not contact')).toContain('text-purple-400');
-      expect(statusSquareClass('do not contact')).toContain('rounded-full');
+      expect(statusSquareClass('do not contact')).toContain('rounded-xl [corner-shape:squircle]');
     });
 
     it('returns bg-slate-600/20 and rounded-sm Tailwind utility classes for status of unknown values', () => {
@@ -82,6 +108,34 @@ describe('TaskTimelineTable - Data Transformation', () => {
       expect(result).not.toContain('px-4');
       expect(result).not.toContain('py-2');
       expect(result).not.toContain('max-w-14');
+    });
+  });
+
+  describe('StatusCell (status2 marker)', () => {
+    it('renders the phone-slash icon instead of a squircle for "do not contact"', () => {
+      const marker = statusMarker('do not contact');
+      expect(marker.props.role).toBe('img');
+      expect(marker.props['aria-label']).toBe('Do not contact');
+      expect(marker.props.className).not.toContain('[corner-shape:squircle]');
+      expect(childOf(marker).props.className).toContain('/images/phone-slash-solid-full.svg');
+    });
+
+    it('keeps the icon in the same 32px footprint as the squircles', () => {
+      expect(statusMarker('do not contact').props.className).toContain('h-8 w-8');
+    });
+
+    it('renders a squircle for other known statuses', () => {
+      for (const status of ['bronze', 'silver', 'gold']) {
+        const marker = statusMarker(status);
+        expect(marker.props.className).toBe(statusSquareClass(status));
+        expect(marker.props.className).toContain('[corner-shape:squircle]');
+      }
+    });
+
+    it('renders an N/A marker when no status is assigned', () => {
+      const marker = statusMarker('');
+      expect(marker.props.title).toBe('Not Assigned');
+      expect(textOf(childOf(marker))).toBe('N/A');
     });
   });
 

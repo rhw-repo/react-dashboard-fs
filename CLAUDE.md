@@ -125,7 +125,7 @@ Unit tests live in `frontend/tests/unit-tests/` and use Vitest with `globals: tr
 `RecordsListTable.test.ts` is tightly coupled to two source files and goes stale easily — it was out of sync with both until 2026-11-25. Keep it in step when changing either:
 
 - **`RecordsListColumns.tsx`** — assertions cover the column count (10), the exact index of every column (select, edit, status, name, address, postcode, notes, nextTask, taskDeadline, status2), each column's size/minSize/maxSize, and their sum (1775px). Adding, removing or reordering a column, or changing one size, breaks several tests at once. The whole file routes through one `columns()` helper, so a signature change to `getColumns` is a single edit there.
-- **`statusCellClassNames.ts`** — assertions match exact Tailwind class strings returned by `statusPillClass` and `statusSquareClass`, including opacity suffixes (`bg-amber-700/40`) and rounding (`rounded-full` for known statuses, `rounded-sm` for the fallback). Any palette or shape change needs the matching assertion updated.
+- **`statusCellClassNames.ts`** — assertions match exact Tailwind class strings returned by `statusPillClass` and `statusSquareClass`, including opacity suffixes (`bg-amber-700/40`) and rounding (`statusSquareClass` uses `rounded-xl [corner-shape:squircle]` for known statuses, `rounded-sm` for the fallback). Any palette or shape change needs the matching assertion updated.
 
 ## Branch and deployment structure
 
