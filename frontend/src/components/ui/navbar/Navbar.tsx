@@ -26,14 +26,14 @@ const LINK_STYLES = [
   // clear it, and highlight only for keyboard focus.
   'focus:before:bg-transparent focus-visible:before:bg-violet-300/30',
   // The active state deliberately avoids a background tint: any tint reads as a stuck
-  // hover. Indicator rails on the `after` layer (`before` is the primitive's background)
+  // hover. An underline on the `after` layer (`before` is the primitive's background)
   // plus bolder text are a different kind of cue, so they can't be mistaken for hover —
   // and the two compose, leaving the active link still hoverable.
-  // One pseudo-element carries both rails: inset to the link's edges with only its x
-  // borders painted, so there is no need for a second layer.
+  // The underline is a zero-height pseudo-element pinned to the link's bottom edge, spanning
+  // its full width, with only its bottom border painted.
   'aria-[current=page]:font-semibold aria-[current=page]:text-violet-100',
-  'aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-0 aria-[current=page]:after:inset-y-1',
-  'aria-[current=page]:after:border-x-2 aria-[current=page]:after:border-violet-200',
+  'aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-0 aria-[current=page]:after:bottom-1',
+  'aria-[current=page]:after:border-b-2 aria-[current=page]:after:border-violet-200',
 ].join(' ');
 
 function Navbar() {
